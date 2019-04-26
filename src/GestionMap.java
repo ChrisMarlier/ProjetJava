@@ -45,7 +45,7 @@ public class GestionMap {
 				ListInt.add(0);
 			}
 			test.add(ListInt);
-		}
+		}//création d'un tableau analogue a la map rempli de 0
 		Héxagone héxagone=new Héxagone(unité.getCoordonnéeI(),unité.getCoordonnééJ());
 		test=calcule(test,unité.getPtDep()+1,héxagone);
 
@@ -54,17 +54,19 @@ public class GestionMap {
 		}
 
 	}
+
+
 	private ArrayList<ArrayList<Integer>> calcule(ArrayList<ArrayList<Integer>> test, int ptDep, Héxagone héxagone){
+		// fonction récursive mettant un a 1 un case du tableau teste si une unité à assez de point de dépl	cement pour y aller
 
-
-		if( ptDep>0){
+		if( ptDep>0){// premierement on me a 1 la case courante
 			test.get(héxagone.getI()).remove(héxagone.getJ());
 			test.get(héxagone.getI()).add(héxagone.getJ(),1);
-			ptDep-=map.get(héxagone.getI()).get(héxagone.getJ());
-			System.out.println(ptDep+""+héxagone.getI()+""+héxagone.getJ()+"\n");
+			ptDep-=map.get(héxagone.getI()).get(héxagone.getJ());// on enlever les point de deplacement corepondant a la case
 
 
 
+			// puis on remance l'algo sur les héxagone voisin
 			if(héxagone.getI()>0){
 				test=calcule(test, ptDep,héxagone.voisinHaut());
 			}

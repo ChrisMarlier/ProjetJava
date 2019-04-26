@@ -6,7 +6,7 @@ public class Héxagone {
         this.i=i;
         this.j=j;
     }
-
+    //Méthodes permetant de renvoyer les hexagone voisin
     public Héxagone voisinHaut(){
         Héxagone héxagone=new Héxagone(this.i,this.j);
         héxagone.i--;
