@@ -1,4 +1,5 @@
-# ProjetJava
+# Graphique
+# News :
 *Séparation package Modèle/Visuel/Contrôleur pour plus de visibilité
 
 *Grille hexagonale + charge d'une map avec les Tiles données 
