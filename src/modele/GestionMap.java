@@ -7,41 +7,41 @@ import java.util.Arrays;
 public class GestionMap {
 
 	private static ArrayList<ArrayList<Integer>> map = new ArrayList<ArrayList<Integer>>();
-	
-	
+
+
 	public void chargementMap() {
 
-		String file = "./Maps/test.txt"; //Chemin de la map à modifier. A CHANGER plus tard
+		String file = "./Maps/test.txt"; //Chemin de la map e modifier. A CHANGER plus tard
 
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 		    String line;
 		    while ((line = br.readLine()) != null) {
 
-		    	ArrayList<String> ListString = new ArrayList<String>(Arrays.asList(line.split(" ")));//On insert notre ligne dans une liste de String en séparant par un espace
-		    
+		    	ArrayList<String> ListString = new ArrayList<String>(Arrays.asList(line.split(" ")));//On insert notre ligne dans une liste de String en separant par un espace
+
 		    	ArrayList<Integer> ListInt = new ArrayList<Integer>();
-		    	
+
 		    	for(int i=0;i<ListString.size();i++) { //On parcourt toute la liste de String pour parser en int et ajouter a notre liste de int
 		    		ListInt.add(Integer.parseInt(ListString.get(i)));
-		    		
+
 		    	}
 		    	//System.out.println(ListInt); //DEBOGAGE
 		    	getMap().add(ListInt); //Et on ajoute la liste a notre map
 		    }
 		    System.out.println(getMap());
-		    
-		  
-		    		
-		    		 		
-		    			
-		    			 
-		    		 
-		    	
-			       
-		    
-		    
-		      
-		    
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		}
 	      catch (Exception e) {
@@ -51,7 +51,7 @@ public class GestionMap {
 	}
 
 
-	public void calculeDéplacementValide(Unité unité){
+	public void calculeDeplacementValide(Unite unite){
 
 		ArrayList<ArrayList<Integer>> test = new ArrayList<ArrayList<Integer>>();
 
@@ -62,9 +62,9 @@ public class GestionMap {
 				ListInt.add(0);
 			}
 			test.add(ListInt);
-		}//création d'un tableau analogue a la map rempli de 0
-		Héxagone héxagone=new Héxagone(unité.getCoordonnéeI(),unité.getCoordonnééJ());
-		test=calcule(test,unité.getPtDep()+1,héxagone);
+		}//creation d'un tableau analogue a la map rempli de 0
+		Hexagone hexagone=new Hexagone(unite.getCoordonneeI(),unite.getCoordonneeJ());
+		test=calcule(test,unite.getPtDep()+1,hexagone);
 
 		for(int i=0;i<20;i++){
 			System.out.println("Test2:"+test.get(i));
@@ -73,38 +73,38 @@ public class GestionMap {
 	}
 
 
-	private ArrayList<ArrayList<Integer>> calcule(ArrayList<ArrayList<Integer>> test, int ptDep, Héxagone héxagone){
-		// fonction récursive mettant un a 1 un case du tableau teste si une unité à assez de point de dépl	cement pour y aller
+	private ArrayList<ArrayList<Integer>> calcule(ArrayList<ArrayList<Integer>> test, int ptDep, Hexagone hexagone){
+		// fonction recursive mettant un a 1 un case du tableau teste si une unite e assez de point de depl	cement pour y aller
 
 		if( ptDep>0){// premierement on me a 1 la case courante
-			test.get(héxagone.getI()).remove(héxagone.getJ());
-			test.get(héxagone.getI()).add(héxagone.getJ(),1);
-			ptDep-=getMap().get(héxagone.getI()).get(héxagone.getJ());// on enlever les point de deplacement corepondant a la case
+			test.get(hexagone.getI()).remove(hexagone.getJ());
+			test.get(hexagone.getI()).add(hexagone.getJ(),1);
+			ptDep-=getMap().get(hexagone.getI()).get(hexagone.getJ());// on enlever les point de deplacement corepondant a la case
 
 
 
-			// puis on remance l'algo sur les héxagone voisin
-			if(héxagone.getI()>0){
-				test=calcule(test, ptDep,héxagone.voisinHaut());
+			// puis on remance l'algo sur les hexagone voisin
+			if(hexagone.getI()>0){
+				test=calcule(test, ptDep,hexagone.voisinHaut());
 			}
-			if(héxagone.getI()<19){
-				test=calcule(test, ptDep,héxagone.voisinBah());
+			if(hexagone.getI()<19){
+				test=calcule(test, ptDep,hexagone.voisinBah());
 			}
 
 
 //
-			if (héxagone.getJ() > 0 && héxagone.getI() > 0) {
-				test = calcule(test, ptDep,héxagone.voisinHautGauche());
+			if (hexagone.getJ() > 0 && hexagone.getI() > 0) {
+				test = calcule(test, ptDep,hexagone.voisinHautGauche());
 			}
-			if (héxagone.getJ() < 24 && héxagone.getI() > 0) {
-				test = calcule(test, ptDep, héxagone.voisinHautdroit());
+			if (hexagone.getJ() < 24 && hexagone.getI() > 0) {
+				test = calcule(test, ptDep, hexagone.voisinHautdroit());
 			}
 
-			if ((héxagone.getJ() > 0 && héxagone.getI() < 19) || (héxagone.getI() == 19)) {
-				test = calcule(test, ptDep,héxagone.voisinBahGauche());
+			if ((hexagone.getJ() > 0 && hexagone.getI() < 19) || (hexagone.getI() == 19)) {
+				test = calcule(test, ptDep,hexagone.voisinBahGauche());
 			}
-			if ((héxagone.getJ() < 24 && héxagone.getI() < 19) || (héxagone.getI() == 19 )) {
-				test = calcule(test, ptDep, héxagone.voisinBahDroit());
+			if ((hexagone.getJ() < 24 && hexagone.getI() < 19) || (hexagone.getI() == 19 )) {
+				test = calcule(test, ptDep, hexagone.voisinBahDroit());
 			}
 			}
 

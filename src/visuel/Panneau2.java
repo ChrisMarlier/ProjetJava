@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
 import modele.GestionMap;
-  
+
 @SuppressWarnings("serial")
 public class Panneau2 extends JPanel{
     private static final int tW = 32; // tile width
@@ -23,8 +23,8 @@ public class Panneau2 extends JPanel{
     private final int rows, columns, side;
     private Point mousePosition;
     private int number;
-    
-    //TODO JavBar , GameUI, Prévisualisation de l'unité ...
+
+    //TODO JavBar , GameUI, Previsualisation de l'unite ...
     public Panneau2(final int rows, final int columns, final int side) {
     	this.rows=rows;
     	this.columns=columns;
@@ -37,7 +37,7 @@ public class Panneau2 extends JPanel{
                 repaint();
             }
             @Override
-            //Donne le num de l'héxagone quand on clique dessus
+            //Donne le num de l'hexagone quand on clique dessus
             public void mousePressed(final MouseEvent e) {
                 if (number != -1) {
                     System.out.println("Hexagon " + (number + 1));
@@ -46,7 +46,7 @@ public class Panneau2 extends JPanel{
         };
         addMouseMotionListener(mouseHandler);
         addMouseListener(mouseHandler);
-        
+
     	//Charge l'image Tileset qui contient tous les tiles
     	try {
     		tileset = ImageIO.read(new File("src/resources/fantasyhextiles_v3_borderless.png"));
@@ -61,51 +61,51 @@ public class Panneau2 extends JPanel{
     	super.paintComponent(g);
     	//conversion du graphic g en graphique 2D
     	 Graphics2D g2 = (Graphics2D) g;
-    	 
-    	//efface l'écran
+
+    	//efface l'ecran
     	 g2.clearRect(0, 0, getWidth(), getHeight());
     	 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                  RenderingHints.VALUE_ANTIALIAS_ON);
          g2.setStroke(bs1);
          number = -1;
-         
-         //Schema type even-q : 
+
+         //Schema type even-q :
          for (int column = 0; column < columns; column++) {
              for (int row = 1; row < rows; row += 2) {
-            	 
+
                  getHexagon((int) (row * side * 1.5), ((int)(column * (dimension.width-5))));
-                 
-                 //Délimite un hexagone
+
+                 //Delimite un hexagone
                  if (mousePosition !=null && hexagon.contains(mousePosition)){
                      focusedHexagonLocation.y = column * (dimension.width-5);
                      focusedHexagonLocation.x= (int) (row * side * 1.5);
                      number = row * columns + column;
                  }
-               //Dessine les images données par la map
+               //Dessine les images donnees par la map
                  drawTile(g2,modele.GestionMap.getMap().get(column).get(row),(int)(hexagon.getBounds().x ),
                          (int) (hexagon.getBounds().y-20));
              // Dessine une grille :  g2.draw(hexagon);
-              
+
              }
          }
-         
+
          for (int column = 0; column < columns; column++) {
              for (int row = 0; row < rows; row += 2) {
-            	 
+
                  getHexagon((int) (row * side * 1.5 + 0.5),column * (dimension.width-5) + dimension.width / 2
                          );
-                 //Délimite un hexagone :
+                 //Delimite un hexagone :
                  if (mousePosition!= null && hexagon.contains(mousePosition)){
                      focusedHexagonLocation.y = column * (dimension.width-5)
                              + dimension.width / 2;
                      focusedHexagonLocation.x =(int) (row * side * 1.5 + 0.5);
                      number = row * columns + column;
                  }
-                 //Dessine les images données par la map
+                 //Dessine les images donnees par la map
                  drawTile(g2,GestionMap.getMap().get(column).get(row),(int)(hexagon.getBounds().x ),
                          (int) (hexagon.getBounds().y-20));
            //   Dessine une grille : g2.draw(hexagon);
-             
+
              }
          }
          //surbrillance case
@@ -116,9 +116,9 @@ public class Panneau2 extends JPanel{
                      focusedHexagonLocation.y);
              g2.draw(focusedHexagon);
          }
-         
+
     }
-    //Définit les coordonnées des 6 points d'un hexagone
+    //Definit les coordonnees des 6 points d'un hexagone
     public Polygon getHexagon(final int x, final int y) {
         hexagon.reset();
         int h = side / 2;
@@ -131,8 +131,8 @@ public class Panneau2 extends JPanel{
         hexagon.addPoint(x + (int) (1.5 * side), y );//6
         return hexagon;
     }
-    
-    //decoupe le "Tile" demandé du Tileset
+
+    //decoupe le "Tile" demande du Tileset
     protected void drawTile(Graphics g, int t, int x, int y){
     	 Graphics2D g2 = (Graphics2D) g;
         //
@@ -140,6 +140,6 @@ public class Panneau2 extends JPanel{
         int my = t/8;
         g2.drawImage(tileset, x, y, x+tW, y+tH,
                 mx*tW, my*tH,  mx*tW+tW, my*tH+tH, this);
-        
+
     }
 }
