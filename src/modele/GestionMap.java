@@ -4,10 +4,34 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import Unite.*;
+
 public class GestionMap {
 
-	private static ArrayList<ArrayList<Integer>> map = new ArrayList<ArrayList<Integer>>();
+	private static ArrayList<ArrayList<Integer>> map;
+	private static ArrayList<Unite> uniteJ1;
+	private static ArrayList<Unite> uniteJ2;
 
+	
+	public GestionMap() {
+		//Initialisation et boucle principale du jeu
+		
+		map = new ArrayList<ArrayList<Integer>>();
+		uniteJ1 = new ArrayList<Unite>();
+		uniteJ2 = new ArrayList<Unite>();
+		
+		
+		uniteJ1.add(new Jeep(4,5));
+		uniteJ1.add(new Tank(5,6));
+		uniteJ1.add(new Jeep(6,4));
+		uniteJ1.add(new Tank(3,4));
+		
+		uniteJ2.add(new Jeep(10,10));
+		uniteJ2.add(new Tank(11,11));
+		uniteJ2.add(new InfanterieLegere(10,11));
+		
+	}
+	
 
 	public void chargementMap() {
 
@@ -53,7 +77,7 @@ public class GestionMap {
 
 	public void calculeDeplacementValide(Unite unite){
 
-		ArrayList<ArrayList<Integer>> test = new ArrayList<ArrayList<Integer>>();
+		ArrayList<ArrayList<Integer>> listDeplacement = new ArrayList<ArrayList<Integer>>();
 
 
 		for(int i=0;i<20;i++){
@@ -61,13 +85,13 @@ public class GestionMap {
 			for(int j=0;j<24;j++){
 				ListInt.add(0);
 			}
-			test.add(ListInt);
+			listDeplacement.add(ListInt);
 		}//creation d'un tableau analogue a la map rempli de 0
 		Hexagone hexagone=new Hexagone(unite.getCoordonneeI(),unite.getCoordonneeJ());
-		test=calcule(test,unite.getPtDep()+1,hexagone);
+		listDeplacement=calcule(listDeplacement,unite.getPtDep()+1,hexagone);
 
 		for(int i=0;i<20;i++){
-			System.out.println("Test2:"+test.get(i));
+			System.out.println("Test2:"+listDeplacement.get(i));
 		}
 
 	}

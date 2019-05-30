@@ -10,10 +10,10 @@ public class Unite {
     private  int CoordonneeI;
     private  int CoordonneeJ;
 
-    public Unite(int PV,int pvMax,int  ptDep,int ptDepMax,int atk,int porteeAtk,int def,int CoordonneeI, int CoordonneeJ){
-        this.PV=PV;
+    public Unite(int pvMax,int ptDepMax,int atk,int porteeAtk,int def,int CoordonneeI, int CoordonneeJ){
+        this.PV=pvMax;
         this.pvMax=pvMax;
-        this.ptDep=ptDep;
+        this.ptDep=ptDepMax;
         this.ptDepMax=ptDepMax;
         this.atk=atk;
         this.porteeAtk=porteeAtk;
@@ -21,17 +21,6 @@ public class Unite {
         this.CoordonneeI=CoordonneeI;
         this.CoordonneeJ=CoordonneeJ;
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
