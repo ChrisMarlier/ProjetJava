@@ -25,7 +25,7 @@ public class Panneau2 extends JPanel{
 	private Graphics2D g3;
 	private int dim1;
 	private int dim2;
-    //TODO JavBar , GameUI, Prévisualisation de l'unité ...
+    //TODO JavBar , GameUI, Prï¿½visualisation de l'unitï¿½ ...
     public Panneau2(final int rows, final int columns, final int side) {
     	this.rows=rows;
     	this.columns=columns;
@@ -38,13 +38,29 @@ public class Panneau2 extends JPanel{
                 repaint();
             }
             @Override
-            //Donne le num de l'héxagone quand on clique dessus
+            //Donne le num de l'hï¿½xagone quand on clique dessus
             public void mousePressed(final MouseEvent e) {
+                int x= e.getX();
+                int y=e.getY();
+                if (x <= 465 && y <= 510) {
+                
+              
                 if (number != -1) {
                     System.out.println("Hexagon " + (number + 1));
+                    
+                }
+                System.out.println("XX="+ x + "YY=" + y);
+                }
+                else {
+                System.out.println("Clic en dehors de la map");
                 }
             }
+
+                private void and(boolean b) {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
         };
+        //addMouseListener(new GestionClic());
         addMouseMotionListener(mouseHandler);
         addMouseListener(mouseHandler);
         
@@ -70,7 +86,7 @@ public class Panneau2 extends JPanel{
     	//conversion du graphic g en graphique 2D
     	 Graphics2D g2 = (Graphics2D) g;
     	 
-    	//efface l'écran
+    	//efface l'ï¿½cran
     	 g2.clearRect(0, 0, getWidth(), getHeight());
     	 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                  RenderingHints.VALUE_ANTIALIAS_ON);
@@ -83,14 +99,14 @@ public class Panneau2 extends JPanel{
             	 System.out.println("x:"+(int) (column * side * 1.5 )+"y:"+ row * (dimension.height));
                  getHexagon((int) (column * side * 1.5), (row * (dimension.height)));
                  
-                 //Délimite un hexagone
+                 //Dï¿½limite un hexagone
                  if (mousePosition !=null && hexagone.contains(mousePosition)){
                      focusedHexagonLocation.y = row * (dimension.height);
                      focusedHexagonLocation.x= (int) (column * side*1.5 );
                      number = column * rows + row;
                  }
                 
-               //Dessine les images données par la map
+               //Dessine les images donnï¿½es par la map
              /* 
                  drawTile(g2,modele.GestionMap.getMap().get(row).get(column),(int)(hexagone.getBounds().x ),
                        (int) (hexagone.getBounds().y-20));
@@ -108,14 +124,14 @@ public class Panneau2 extends JPanel{
             	 
                  getHexagon((int) (column * side * 1.5 ),row * (dimension.height) + dimension.height/ 2
                          );
-                 //Délimite un hexagone :
+                 //Dï¿½limite un hexagone :
                  if (mousePosition!= null && hexagone.contains(mousePosition)){
                      focusedHexagonLocation.y = row * (dimension.height)
                              + dimension.height / 2;
                      focusedHexagonLocation.x =(int) (column * side * 1.5 );
                      number = column * rows + row;
                  }
-                 //Dessine les images données par la map
+                 //Dessine les images donnï¿½es par la map
                /*
                  drawTile(g2,GestionMap.getMap().get(row).get(column),(int)(hexagone.getBounds().x ),
                        (int) (hexagone.getBounds().y-20)); 
@@ -126,7 +142,7 @@ public class Panneau2 extends JPanel{
              }
          }
          
-         //Affichage UnitésJ1 : 
+         //Affichage Unitï¿½sJ1 : 
          g3=(Graphics2D) g;
          for(int i = 0; i < GestionMap.getUniteJ1().size() ; i++) {
     
@@ -153,7 +169,7 @@ public class Panneau2 extends JPanel{
         	
         	 }
          }
-         //Affichage Unités J2 :
+         //Affichage Unitï¿½s J2 :
          for(int i = 0; i < GestionMap.getUniteJ2().size() ; i++) {
         	 
         	 int dim1;
@@ -192,7 +208,7 @@ public class Panneau2 extends JPanel{
          }
        
     }
-    //Définit les coordonnées des 6 points d'un hexagone
+    //Dï¿½finit les coordonnï¿½es des 6 points d'un hexagone
     public Polygon getHexagon(final int x, final int y) {
         hexagone.reset();
         int h = side / 2;
@@ -206,7 +222,7 @@ public class Panneau2 extends JPanel{
         return hexagone;
     }
     
-    //decoupe le "Tile" demandé du Tileset
+    //decoupe le "Tile" demandï¿½ du Tileset
     protected void drawTile(Graphics g, int t, int x, int y){
     	 Graphics2D g2 = (Graphics2D) g;
         //
