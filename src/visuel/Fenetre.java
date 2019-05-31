@@ -7,9 +7,9 @@ public class Fenetre extends JFrame{
 	
 	private JPanel container = new JPanel();
 	public Fenetre(String ptitre,int columns, int rows,int side) {
-		Panneau2 panneau = new Panneau2(columns,rows,side);
+		Panneau panneau = new Panneau(columns,rows,side);
 		this.setTitle(ptitre);
-		this.setSize(800,600);
+		this.setSize(900,700);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		container.setBackground(Color.white);
