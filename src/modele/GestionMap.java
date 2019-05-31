@@ -6,12 +6,14 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import Unite.*;
+import controleur.Coord;
 
 
 public class GestionMap {
 
 	private static ArrayList<ArrayList<Integer>> map;
 	private static Joueur joueur1, joueur2;
+	public static Coord caseCliquee = new Coord();
 	
 
 

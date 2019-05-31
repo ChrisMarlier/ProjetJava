@@ -47,9 +47,10 @@ public class Panneau2 extends JPanel{
               
                 if (number != -1) {
                     System.out.println("Hexagon " + (number + 1));
+                    GestionMap.caseCliquee.numHexagoneToCoord(number);
                     
                 }
-                System.out.println("XX="+ x + "YY=" + y);
+                //System.out.println("XX="+ x + "YY=" + y);
                 }
                 else {
                 System.out.println("Clic en dehors de la map");
@@ -96,7 +97,7 @@ public class Panneau2 extends JPanel{
          //Schema type even-q : 
          for (int row = 0; row < rows; row++) {
              for (int column = 1; column < columns; column += 2) {
-            	 System.out.println("x:"+(int) (column * side * 1.5 )+"y:"+ row * (dimension.height));
+            	 //System.out.println("x:"+(int) (column * side * 1.5 )+"y:"+ row * (dimension.height));
                  getHexagon((int) (column * side * 1.5), (row * (dimension.height)));
                  
                  //D�limite un hexagone
