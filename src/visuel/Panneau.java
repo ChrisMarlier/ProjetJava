@@ -13,16 +13,17 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 public class Panneau extends JPanel {
-	public static JLabel lblNewLabel = new JLabel("New label"); // Nom unité à set 
-	public static JLabel lblNewLabel_1 = new JLabel("New label");// pt de vie à set
-	public static JLabel lblNewLabel_2 = new JLabel("New label");// attaque à set
-	public static JLabel lblNewLabel_3 = new JLabel("New label");//Déplacement à set 
-	public static JLabel lblNewLabel_4 = new JLabel("New label");//vision à set
+	//Voir exemple dans actionIU
+	public static JLabel lblNewLabel = new JLabel(""); // Nom unité à set 
+	public static JLabel lblNewLabel_1 = new JLabel("");// pt de vie à set
+	public static JLabel lblNewLabel_2 = new JLabel("");// attaque à set
+	public static JLabel lblNewLabel_3 = new JLabel("");//Déplacement à set 
+	public static JLabel lblNewLabel_4 = new JLabel("");//vision à set
 	public static JButton btnPasserLeTour = new JButton("Passer le tour"); //bouton à set (ActionListener)
-	public static JLabel lblNewLabel_6 = new JLabel("New label"); // pts de déplacement restant à set
-	public static JLabel lblNewLabel_7 = new JLabel("New label"); // pts d'action restant à set
-	public static JLabel lblNewLabel_8 = new JLabel("New label"); // nbr de tour à set
-	public static JLabel lblNewLabel_9 = new JLabel("New label"); // nom du joueur à set
+	public static JLabel lblNewLabel_6 = new JLabel(""); // pts de déplacement restant à set
+	public static JLabel lblNewLabel_7 = new JLabel(""); // pts d'action restant à set
+	public static JLabel lblNewLabel_8 = new JLabel(""); // nbr de tour à set
+	public static JLabel lblNewLabel_9 = new JLabel(""); // nom du joueur à set
 	
 	public Panneau(final int rows, final int columns, final int side) {
 		SpringLayout springLayout = new SpringLayout();
