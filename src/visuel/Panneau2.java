@@ -25,7 +25,7 @@ public class Panneau2 extends JPanel{
 	private Graphics2D g3;
 	private int dim1;
 	private int dim2;
-    //TODO JavBar , GameUI, Pr�visualisation de l'unit� ...
+    //TODO JavBar , GameUI, Previsualisation de l'unite ...
     public Panneau2(final int rows, final int columns, final int side) {
     	this.rows=rows;
     	this.columns=columns;
