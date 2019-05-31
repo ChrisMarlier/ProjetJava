@@ -144,19 +144,20 @@ public class Panneau2 extends JPanel{
          
          //Affichage Unit�sJ1 : 
          g3=(Graphics2D) g;
-         for(int i = 0; i < GestionMap.getUniteJ1().size() ; i++) {
+
+         for(int i = 0; i < GestionMap.getJoueur1().getUnites().size() ; i++) {
     
         	 
-        	 dim1 = (int) ((GestionMap.getUniteJ1().get(i).getCoordonneeI()*side*1.5)+8);
-        	 dim2 = ((GestionMap.getUniteJ1().get(i).getCoordonneeJ()* (dimension.height))+7);
+        	 dim1 = (int) ((GestionMap.getJoueur1().getUnites().get(i).getCoordonneeI()*side*1.5)+8);
+        	 dim2 = ((GestionMap.getJoueur1().getUnites().get(i).getCoordonneeJ()* (dimension.height))+7);
         	 
-        	 if(GestionMap.getUniteJ1().get(i).getCoordonneeI()%2 == 0) {
-        		 dim1 = (int) ((GestionMap.getUniteJ1().get(i).getCoordonneeI()*side*1.5)+8);
-        		 dim2 = ((GestionMap.getUniteJ1().get(i).getCoordonneeJ()*(dimension.height)
+        	 if(GestionMap.getJoueur1().getUnites().get(i).getCoordonneeI()%2 == 0) {
+        		 dim1 = (int) ((GestionMap.getJoueur1().getUnites().get(i).getCoordonneeI()*side*1.5)+8);
+        		 dim2 = ((GestionMap.getJoueur1().getUnites().get(i).getCoordonneeJ()*(dimension.height)
                      + dimension.height / 2 )+7);
         		 }
         	 
-        	 switch(GestionMap.getUniteJ1().get(i).getClass().getCanonicalName()) {
+        	 switch(GestionMap.getJoueur1().getUnites().get(i).getClass().getCanonicalName()) {
         	 	case "Unite.Tank" :
         	 		g3.drawImage(tank, dim1,dim2,this);
         	 		break;
@@ -170,22 +171,22 @@ public class Panneau2 extends JPanel{
         	 }
          }
          //Affichage Unit�s J2 :
-         for(int i = 0; i < GestionMap.getUniteJ2().size() ; i++) {
+         for(int i = 0; i < GestionMap.getJoueur2().getUnites().size() ; i++) {
         	 
         	 int dim1;
         	 int dim2;
         	 
         	 
-        	 dim1 = (int) ((GestionMap.getUniteJ2().get(i).getCoordonneeI()*side*1.5)+8);
-        	 dim2 = ((GestionMap.getUniteJ2().get(i).getCoordonneeJ()* (dimension.height))+7);
+        	 dim1 = (int) ((GestionMap.getJoueur2().getUnites().get(i).getCoordonneeI()*side*1.5)+8);
+        	 dim2 = ((GestionMap.getJoueur2().getUnites().get(i).getCoordonneeJ()* (dimension.height))+7);
         	 
-        	 if(GestionMap.getUniteJ2().get(i).getCoordonneeI()%2 == 0) {
-        		 dim1 = (int) ((GestionMap.getUniteJ2().get(i).getCoordonneeI()*side*1.5)+8);
-        		 dim2 = ((GestionMap.getUniteJ2().get(i).getCoordonneeJ()*(dimension.height)
+        	 if(GestionMap.getJoueur2().getUnites().get(i).getCoordonneeI()%2 == 0) {
+        		 dim1 = (int) ((GestionMap.getJoueur2().getUnites().get(i).getCoordonneeI()*side*1.5)+8);
+        		 dim2 = ((GestionMap.getJoueur2().getUnites().get(i).getCoordonneeJ()*(dimension.height)
                      + dimension.height / 2 )+7);
         		 }
         	 
-        	 switch(GestionMap.getUniteJ2().get(i).getClass().getCanonicalName()) {
+        	 switch(GestionMap.getJoueur2().getUnites().get(i).getClass().getCanonicalName()) {
         	 	case "Unite.Tank" :
         	 		g3.drawImage(tank2, dim1,dim2,this);
         	 		break;

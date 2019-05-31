@@ -5,32 +5,27 @@ import java.util.ArrayList;
 
 public class Joueur {
     private String nom;
-    private ArrayList<Unite> unites = new ArrayList<Unite>();
+    private ArrayList<Unite> listeUnites = new ArrayList<Unite>();
     private int PA;
     private int PM;
 
     public Joueur(String nom) {
         this.nom = nom;
-        unites.add(new Jeep(4,5));
-        unites.add(new Tank(0,18));
-        unites.add(new Jeep(6,4));
-        unites.add(new Tank(0,0));
-        unites.add(new Tank(1,0));
-        unites.add(new Tank(1,18));
-        unites.add(new Tank(2,0));
-        unites.add(new Tank(3,0));
-        unites.add(new Tank(4,0));
-        unites.add(new Tank(5,0));
-        unites.add(new Tank(6,0));
+        
 
+    }
+    
+    public void ajouterUnite(Unite unite) {
+    	listeUnites.add(unite);
     }
     
     
     public int piecedanstableau(int i, int j){
         
-        for(int x=0;x<unites.size();x++){
+        for(int x=0;x<listeUnites.size();x++){
             
-            if(unites.get(x).getCoordonneeI()==i && unites.get(x).getCoordonneeJ()==j){
+            if(listeUnites.get(x).getCoordonneeI()==i && listeUnites.get(x).getCoordonneeJ()==j){
+            	System.out.println("Unité selectionné");
                 return x;
             }
             
@@ -52,11 +47,11 @@ public class Joueur {
     }
 
     public ArrayList<Unite> getUnites() {
-        return unites;
+        return listeUnites;
     }
 
     public void setUnites(ArrayList<Unite> unites) {
-        this.unites = unites;
+        this.listeUnites = unites;
     }
 
     public int getPA() {

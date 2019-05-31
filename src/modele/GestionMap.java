@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import Unite.*;
+
 
 public class GestionMap {
 
 	private static ArrayList<ArrayList<Integer>> map;
-
+	private static Joueur joueur1, joueur2;
+	
 
 
 	public GestionMap() {
@@ -17,10 +20,26 @@ public class GestionMap {
 		
 		map = new ArrayList<ArrayList<Integer>>();
 		this.chargementMap();
-		Joueur joueur1=new Joueur("joueur1");
+		joueur1=new Joueur("joueur1");
+		joueur2=new Joueur("joueur2");
+
 		int i,j;
 		int coordonnePieceSelected;
 		Scanner sc;
+		
+		joueur1.ajouterUnite(new Jeep(0,0));
+		joueur1.ajouterUnite(new Tank(0,18));
+        joueur1.ajouterUnite(new Jeep(6,4));
+        joueur1.ajouterUnite(new Tank(0,0));
+        joueur1.ajouterUnite(new Tank(1,0));
+        joueur2.ajouterUnite(new Tank(1,18));
+        joueur2.ajouterUnite(new Tank(2,0));
+        joueur2.ajouterUnite(new Tank(3,0));
+        joueur2.ajouterUnite(new Tank(4,0));
+        joueur2.ajouterUnite(new Tank(5,0));
+        joueur2.ajouterUnite(new Tank(6,0));
+		
+		
 		do{
 			System.out.println("que voulez vous faire 1)action  3)fin du tour");
 			sc = new Scanner(System.in);
@@ -48,6 +67,8 @@ public class GestionMap {
 				joueur1.fintour();
 			}
 		}while(i==2);
+
+        
 
 
 	}
@@ -181,6 +202,12 @@ public class GestionMap {
 
 	public static void setMap(ArrayList<ArrayList<Integer>> map) {
 		GestionMap.map = map;
+	}
+	public static Joueur getJoueur1() {
+		return joueur1;
+	}
+	public static Joueur getJoueur2() {
+		return joueur2;
 	}
 
 }
