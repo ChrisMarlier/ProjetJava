@@ -3,43 +3,52 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
-import Unite.*;
 
 public class GestionMap {
 
 	private static ArrayList<ArrayList<Integer>> map;
-	private static ArrayList<Unite> uniteJ1;
 
 
 
-	private static ArrayList<Unite> uniteJ2;
-	
-	
 	public GestionMap() {
 		//Initialisation et boucle principale du jeu
 		
 		map = new ArrayList<ArrayList<Integer>>();
-		uniteJ1 = new ArrayList<Unite>();
-		uniteJ2 = new ArrayList<Unite>();
-		
-		
-		uniteJ1.add(new Jeep(4,5));
-		uniteJ1.add(new Tank(0,18));
-		uniteJ1.add(new Jeep(6,4));
-		uniteJ1.add(new Tank(0,0));
-		uniteJ1.add(new Tank(1,0));
-		uniteJ1.add(new Tank(1,18));
-		uniteJ1.add(new Tank(2,0));
-		uniteJ1.add(new Tank(3,0));
-		uniteJ1.add(new Tank(4,0));
-		uniteJ1.add(new Tank(5,0));
-		uniteJ1.add(new Tank(6,0));
-		uniteJ1.add(new InfanterieLegere(0,11));
-		
-		uniteJ2.add(new Jeep(10,10));
-		uniteJ2.add(new Tank(11,11));
-		uniteJ2.add(new InfanterieLegere(10,11));
+		this.chargementMap();
+		Joueur joueur1=new Joueur("joueur1");
+		int i,j;
+		int coordonnePieceSelected;
+		Scanner sc;
+		do{
+			System.out.println("que voulez vous faire 1)action  3)fin du tour");
+			sc = new Scanner(System.in);
+			i = sc.nextInt();
+			if (i==1) {
+				do {
+					System.out.println("entrez coodonée uniter::\nI:");
+					sc = new Scanner(System.in);
+					i = sc.nextInt();
+					System.out.println("j:");
+					sc = new Scanner(System.in);
+					j = sc.nextInt();
+					coordonnePieceSelected=joueur1.piecedanstableau(i,j);
+				}while(coordonnePieceSelected!=-1);
+				System.out.println("que voulez vous faire 1)deplacemen  3)attaque");
+				sc = new Scanner(System.in);
+				i = sc.nextInt();
+				if(i==1)
+				{
+					this.Deplacement(joueur1,coordonnePieceSelected);
+				}
+				
+			}
+			else if(i==2){
+				joueur1.fintour();
+			}
+		}while(i==2);
+
 
 	}
 	public void chargementMap() {
@@ -47,44 +56,30 @@ public class GestionMap {
 		String file = "./Maps/test.txt"; //Chemin de la map e modifier. A CHANGER plus tard
 
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-		    String line;
-		    while ((line = br.readLine()) != null) {
+			String line;
+			while ((line = br.readLine()) != null) {
 
-		    	ArrayList<String> ListString = new ArrayList<String>(Arrays.asList(line.split(" ")));//On insert notre ligne dans une liste de String en separant par un espace
+				ArrayList<String> ListString = new ArrayList<String>(Arrays.asList(line.split(" ")));//On insert notre ligne dans une liste de String en separant par un espace
 
-		    	ArrayList<Integer> ListInt = new ArrayList<Integer>();
+				ArrayList<Integer> ListInt = new ArrayList<Integer>();
 
-		    	for(int i=0;i<ListString.size();i++) { //On parcourt toute la liste de String pour parser en int et ajouter a notre liste de int
-		    		ListInt.add(Integer.parseInt(ListString.get(i)));
+				for(int i=0;i<ListString.size();i++) { //On parcourt toute la liste de String pour parser en int et ajouter a notre liste de int
+					ListInt.add(Integer.parseInt(ListString.get(i)));
 
-		    	}
-		    	//System.out.println(ListInt); //DEBOGAGE
-		    	getMap().add(ListInt); //Et on ajoute la liste a notre map
-		    }
-		    System.out.println(getMap());
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+				}
+				//System.out.println(ListInt); //DEBOGAGE
+				getMap().add(ListInt); //Et on ajoute la liste a notre map
+			}
+			//System.out.println(getMap());
 		}
-	      catch (Exception e) {
-	            e.printStackTrace();
-	        }
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
 
-	public void calculeDeplacementValide(Unite unite){
+	public ArrayList<ArrayList<Integer>> calculeDeplacementValide(Unite unite,int pointD){
 
 		ArrayList<ArrayList<Integer>> listDeplacement = new ArrayList<ArrayList<Integer>>();
 
@@ -97,49 +92,81 @@ public class GestionMap {
 			listDeplacement.add(ListInt);
 		}//creation d'un tableau analogue a la map rempli de 0
 		Hexagone hexagone=new Hexagone(unite.getCoordonneeI(),unite.getCoordonneeJ());
-		listDeplacement=calcule(listDeplacement,unite.getPtDep()+1,hexagone);
 
+		listDeplacement=calcule(listDeplacement,Math.min(unite.getPvMax(),pointD)+1,hexagone,0);
+		listDeplacement.get(hexagone.getI()).remove(hexagone.getJ());
+		listDeplacement.get(hexagone.getI()).add(hexagone.getJ(),0);
 		for(int i=0;i<20;i++){
 			System.out.println("Test2:"+listDeplacement.get(i));
 		}
-
+		return listDeplacement;
 	}
 
+	public void gestiondeplacement(ArrayList<ArrayList<Integer>> listDeplacement,Joueur joueur,int indicec,int i, int j){
+		if(listDeplacement.get(i).get(j)!=0){
+			joueur.getUnites().get(indicec).setCoordonneeI(i);
+			joueur.getUnites().get(indicec).setCoordonneeJ(j);
+			joueur.setPM(joueur.getPM()-listDeplacement.get(i).get(j));
+			System.out.println("PM restant : "+joueur.getPM());
+		}
+	
 
-	private ArrayList<ArrayList<Integer>> calcule(ArrayList<ArrayList<Integer>> test, int ptDep, Hexagone hexagone){
+	}
+	
+	public void Deplacement(Joueur joueur,int indiceC){
+		int i,j;
+		ArrayList<ArrayList<Integer>> listedeplacement;
+		Scanner sc;
+		do{
+			System.out.println("entrez coodonée case cible:\nI:");
+			sc = new Scanner(System.in);
+			i = sc.nextInt();
+			System.out.println("j:");
+			sc = new Scanner(System.in);
+			j = sc.nextInt();
+			 listedeplacement=this.calculeDeplacementValide(joueur.getUnites().get(indiceC),joueur.getPM());
+		}while(listedeplacement.get(i).get(j)==0);
+		System.out.println("PM restant : "+joueur.getPM());
+	}
+
+	private ArrayList<ArrayList<Integer>> calcule(ArrayList<ArrayList<Integer>> test, int ptDep, Hexagone hexagone,int pointautiliser){
 		// fonction recursive mettant un a 1 un case du tableau teste si une unite e assez de point de depl	cement pour y aller
 
-		if( ptDep>0){// premierement on me a 1 la case courante
-			test.get(hexagone.getI()).remove(hexagone.getJ());
-			test.get(hexagone.getI()).add(hexagone.getJ(),1);
+		if( ptDep>0 ){// premierement on me a 1 la case courante
+
+			if(test.get(hexagone.getI()).get(hexagone.getJ())==0 || test.get(hexagone.getI()).get(hexagone.getJ())>pointautiliser ){
+				test.get(hexagone.getI()).remove(hexagone.getJ());
+				test.get(hexagone.getI()).add(hexagone.getJ(),pointautiliser);
+			}
+			pointautiliser+=getMap().get(hexagone.getI()).get(hexagone.getJ());
 			ptDep-=getMap().get(hexagone.getI()).get(hexagone.getJ());// on enlever les point de deplacement corepondant a la case
 
 
 
 			// puis on remance l'algo sur les hexagone voisin
 			if(hexagone.getI()>0){
-				test=calcule(test, ptDep,hexagone.voisinHaut());
+				test=calcule(test, ptDep,hexagone.voisinHaut(),pointautiliser);
 			}
 			if(hexagone.getI()<19){
-				test=calcule(test, ptDep,hexagone.voisinBah());
+				test=calcule(test, ptDep,hexagone.voisinBah(),pointautiliser);
 			}
 
 
 //
 			if (hexagone.getJ() > 0 && hexagone.getI() > 0) {
-				test = calcule(test, ptDep,hexagone.voisinHautGauche());
+				test = calcule(test, ptDep,hexagone.voisinHautGauche(),pointautiliser);
 			}
 			if (hexagone.getJ() < 24 && hexagone.getI() > 0) {
-				test = calcule(test, ptDep, hexagone.voisinHautdroit());
+				test = calcule(test, ptDep, hexagone.voisinHautdroit(),pointautiliser);
 			}
 
 			if ((hexagone.getJ() > 0 && hexagone.getI() < 19) || (hexagone.getI() == 19)) {
-				test = calcule(test, ptDep,hexagone.voisinBahGauche());
+				test = calcule(test, ptDep,hexagone.voisinBahGauche(),pointautiliser);
 			}
 			if ((hexagone.getJ() < 24 && hexagone.getI() < 19) || (hexagone.getI() == 19 )) {
-				test = calcule(test, ptDep, hexagone.voisinBahDroit());
+				test = calcule(test, ptDep, hexagone.voisinBahDroit(),pointautiliser);
 			}
-			}
+		}
 
 
 
@@ -155,16 +182,5 @@ public class GestionMap {
 	public static void setMap(ArrayList<ArrayList<Integer>> map) {
 		GestionMap.map = map;
 	}
-	public static ArrayList<Unite> getUniteJ1() {
-		return uniteJ1;
-	}
-	public static void setUniteJ1(ArrayList<Unite> uniteJ1) {
-		GestionMap.uniteJ1 = uniteJ1;
-	}
-	public static ArrayList<Unite> getUniteJ2() {
-		return uniteJ2;
-	}
-	public static void setUniteJ2(ArrayList<Unite> uniteJ2) {
-		GestionMap.uniteJ2 = uniteJ2;
-	}
+
 }
