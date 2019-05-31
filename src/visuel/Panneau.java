@@ -2,6 +2,9 @@ package visuel;
 
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+
+import controleur.actionIU;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -10,16 +13,16 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 public class Panneau extends JPanel {
-	public 	JLabel lblNewLabel = new JLabel("New label"); // Nom unité à set 
-	public JLabel lblNewLabel_1 = new JLabel("New label");// pt de vie à set
-	public JLabel lblNewLabel_2 = new JLabel("New label");// attaque à set
-	public JLabel lblNewLabel_3 = new JLabel("New label");//Déplacement à set 
-	public JLabel lblNewLabel_4 = new JLabel("New label");//vision à set
-	public JButton btnPasserLeTour = new JButton("Passer le tour"); //bouton à set (ActionListener)
-	public JLabel lblNewLabel_6 = new JLabel("New label"); // pts de déplacement restant à set
-	public JLabel lblNewLabel_7 = new JLabel("New label"); // pts d'action restant à set
-	public JLabel lblNewLabel_8 = new JLabel("New label"); // nbr de tour à set
-	public JLabel lblNewLabel_9 = new JLabel("New label"); // nom du joueur à set
+	public static JLabel lblNewLabel = new JLabel("New label"); // Nom unité à set 
+	public static JLabel lblNewLabel_1 = new JLabel("New label");// pt de vie à set
+	public static JLabel lblNewLabel_2 = new JLabel("New label");// attaque à set
+	public static JLabel lblNewLabel_3 = new JLabel("New label");//Déplacement à set 
+	public static JLabel lblNewLabel_4 = new JLabel("New label");//vision à set
+	public static JButton btnPasserLeTour = new JButton("Passer le tour"); //bouton à set (ActionListener)
+	public static JLabel lblNewLabel_6 = new JLabel("New label"); // pts de déplacement restant à set
+	public static JLabel lblNewLabel_7 = new JLabel("New label"); // pts d'action restant à set
+	public static JLabel lblNewLabel_8 = new JLabel("New label"); // nbr de tour à set
+	public static JLabel lblNewLabel_9 = new JLabel("New label"); // nom du joueur à set
 	
 	public Panneau(final int rows, final int columns, final int side) {
 		SpringLayout springLayout = new SpringLayout();
@@ -106,7 +109,7 @@ public class Panneau extends JPanel {
 		
 		
 		add(btnPasserLeTour);
-		
+		btnPasserLeTour.addActionListener(new actionIU());
 		JLabel lblCaractristiques = new JLabel("Caract\u00E9ristiques :");
 		springLayout.putConstraint(SpringLayout.SOUTH, panel, -6, SpringLayout.NORTH, lblCaractristiques);
 		springLayout.putConstraint(SpringLayout.SOUTH, lblCaractristiques, -461, SpringLayout.SOUTH, this);
