@@ -10,8 +10,11 @@ public class GestionMap {
 
 	private static ArrayList<ArrayList<Integer>> map;
 	private static ArrayList<Unite> uniteJ1;
-	private static ArrayList<Unite> uniteJ2;
 
+
+
+	private static ArrayList<Unite> uniteJ2;
+	
 	
 	public GestionMap() {
 		//Initialisation et boucle principale du jeu
@@ -22,17 +25,23 @@ public class GestionMap {
 		
 		
 		uniteJ1.add(new Jeep(4,5));
-		uniteJ1.add(new Tank(5,6));
+		uniteJ1.add(new Tank(0,18));
 		uniteJ1.add(new Jeep(6,4));
-		uniteJ1.add(new Tank(3,4));
+		uniteJ1.add(new Tank(0,0));
+		uniteJ1.add(new Tank(1,0));
+		uniteJ1.add(new Tank(1,18));
+		uniteJ1.add(new Tank(2,0));
+		uniteJ1.add(new Tank(3,0));
+		uniteJ1.add(new Tank(4,0));
+		uniteJ1.add(new Tank(5,0));
+		uniteJ1.add(new Tank(6,0));
+		uniteJ1.add(new InfanterieLegere(0,11));
 		
 		uniteJ2.add(new Jeep(10,10));
 		uniteJ2.add(new Tank(11,11));
 		uniteJ2.add(new InfanterieLegere(10,11));
-		
-	}
-	
 
+	}
 	public void chargementMap() {
 
 		String file = "./Maps/test.txt"; //Chemin de la map e modifier. A CHANGER plus tard
@@ -145,5 +154,17 @@ public class GestionMap {
 
 	public static void setMap(ArrayList<ArrayList<Integer>> map) {
 		GestionMap.map = map;
+	}
+	public static ArrayList<Unite> getUniteJ1() {
+		return uniteJ1;
+	}
+	public static void setUniteJ1(ArrayList<Unite> uniteJ1) {
+		GestionMap.uniteJ1 = uniteJ1;
+	}
+	public static ArrayList<Unite> getUniteJ2() {
+		return uniteJ2;
+	}
+	public static void setUniteJ2(ArrayList<Unite> uniteJ2) {
+		GestionMap.uniteJ2 = uniteJ2;
 	}
 }
