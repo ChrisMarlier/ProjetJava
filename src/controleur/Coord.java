@@ -9,9 +9,17 @@ public class Coord {
 	public void numHexagoneToCoord(int hexagone) {
 		
 		this.j = hexagone%19;
-		System.out.println(j);
+		this.i = (hexagone/19)%100;
+		System.out.println("i: "+i+" j: "+j);
 		
-		
+	}
+
+	public int getI() {
+		return i;
+	}
+
+	public int getJ() {
+		return j;
 	}
 
 }

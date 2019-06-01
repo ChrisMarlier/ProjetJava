@@ -21,6 +21,7 @@ public class Joueur {
     
     
     public int piecedanstableau(int i, int j){
+    	//Retourne l'indice du tableau d'unité de la piece selectionnée
         
         for(int x=0;x<listeUnites.size();x++){
             

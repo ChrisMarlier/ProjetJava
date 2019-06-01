@@ -14,8 +14,9 @@ public class GestionMap {
 	private static ArrayList<ArrayList<Integer>> map;
 	private static Joueur joueur1, joueur2;
 	public static Coord caseCliquee = new Coord();
-	
+	static int indicePieceSelected;
 
+	static int numeroClic=0;
 
 	public GestionMap() {
 		//Initialisation et boucle principale du jeu
@@ -26,7 +27,6 @@ public class GestionMap {
 		joueur2=new Joueur("joueur2");
 
 		int i,j;
-		int coordonnePieceSelected;
 		Scanner sc;
 		
 		joueur1.ajouterUnite(new Jeep(0,0));
@@ -42,7 +42,7 @@ public class GestionMap {
         joueur2.ajouterUnite(new Tank(6,0));
 		
 		
-		do{
+		/*do{
 			System.out.println("que voulez vous faire 1)action  3)fin du tour");
 			sc = new Scanner(System.in);
 			i = sc.nextInt();
@@ -54,26 +54,44 @@ public class GestionMap {
 					System.out.println("j:");
 					sc = new Scanner(System.in);
 					j = sc.nextInt();
-					coordonnePieceSelected=joueur1.piecedanstableau(i,j);
-				}while(coordonnePieceSelected!=-1);
+					indicePieceSelected=joueur1.piecedanstableau(i,j);
+				}while(indicePieceSelected!=-1);
 				System.out.println("que voulez vous faire 1)deplacemen  3)attaque");
 				sc = new Scanner(System.in);
 				i = sc.nextInt();
 				if(i==1)
 				{
-					this.Deplacement(joueur1,coordonnePieceSelected);
+					this.Deplacement(joueur1,indicePieceSelected);
 				}
 				
 			}
 			else if(i==2){
 				joueur1.fintour();
 			}
-		}while(i==2);
+		}while(i==2);*/
 
         
 
 
 	}
+	
+	public static void tourJeu() {
+		
+		if(numeroClic==0)//Le joueur selectionne son unité
+		{
+			indicePieceSelected=joueur1.piecedanstableau(caseCliquee.getI(), caseCliquee.getJ());
+			numeroClic++;
+		}
+		else if(numeroClic ==1) {//Le joueur sélectionne sa case de déplacement
+			Deplacement(joueur1, indicePieceSelected, caseCliquee);
+			numeroClic++;
+		}
+			
+			
+			
+		
+	}
+	
 	public void chargementMap() {
 
 		String file = "./Maps/test.txt"; //Chemin de la map e modifier. A CHANGER plus tard
@@ -102,7 +120,7 @@ public class GestionMap {
 	}
 
 
-	public ArrayList<ArrayList<Integer>> calculeDeplacementValide(Unite unite,int pointD){
+	public static ArrayList<ArrayList<Integer>> calculeDeplacementValide(Unite unite,int pointD){
 
 		ArrayList<ArrayList<Integer>> listDeplacement = new ArrayList<ArrayList<Integer>>();
 
@@ -136,23 +154,25 @@ public class GestionMap {
 
 	}
 	
-	public void Deplacement(Joueur joueur,int indiceC){
-		int i,j;
+	public static void Deplacement(Joueur joueur,int indiceC, Coord coord){
+		int i = coord.getI();
+		int j = coord.getJ();
+		
 		ArrayList<ArrayList<Integer>> listedeplacement;
 		Scanner sc;
-		do{
-			System.out.println("entrez coodonée case cible:\nI:");
+		//do{
+			/*System.out.println("entrez coodonée case cible:\nI:");
 			sc = new Scanner(System.in);
 			i = sc.nextInt();
 			System.out.println("j:");
 			sc = new Scanner(System.in);
-			j = sc.nextInt();
-			 listedeplacement=this.calculeDeplacementValide(joueur.getUnites().get(indiceC),joueur.getPM());
-		}while(listedeplacement.get(i).get(j)==0);
+			j = sc.nextInt();*/
+			 listedeplacement=calculeDeplacementValide(joueur.getUnites().get(indiceC),joueur.getPM());
+		//}while(listedeplacement.get(i).get(j)==0);
 		System.out.println("PM restant : "+joueur.getPM());
 	}
 
-	private ArrayList<ArrayList<Integer>> calcule(ArrayList<ArrayList<Integer>> test, int ptDep, Hexagone hexagone,int pointautiliser){
+	private static ArrayList<ArrayList<Integer>> calcule(ArrayList<ArrayList<Integer>> test, int ptDep, Hexagone hexagone,int pointautiliser){
 		// fonction recursive mettant un a 1 un case du tableau teste si une unite e assez de point de depl	cement pour y aller
 
 		if( ptDep>0 ){// premierement on me a 1 la case courante

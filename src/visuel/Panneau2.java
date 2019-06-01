@@ -46,8 +46,9 @@ public class Panneau2 extends JPanel{
                 
               
                 if (number != -1) {
-                    System.out.println("Hexagon " + (number + 1));
+                    //System.out.println("Hexagon " + (number + 1));
                     GestionMap.caseCliquee.numHexagoneToCoord(number);
+                    GestionMap.tourJeu();
                     
                 }
                 //System.out.println("XX="+ x + "YY=" + y);
