@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import Unite.*;
+import modele.GestionMap;
 import visuel.Panneau;
 
 public class actionIU implements ActionListener{
@@ -13,7 +14,9 @@ public class actionIU implements ActionListener{
 		//Exemple :
 			Tank tanktest = new Tank(0,16);
 			if (arg0.getSource() == Panneau.btnPasserLeTour) {
-				System.out.println("Test");
+				
+				GestionMap.passerTour();
+
 				Panneau.lblNewLabel.setText(tanktest.getClass().getName());
 				Panneau.lblNewLabel_1.setText(tanktest.getPvMax()+"");
 				Panneau.lblNewLabel_2.setText(tanktest.getAtk()+"");

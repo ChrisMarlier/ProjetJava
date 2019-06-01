@@ -9,8 +9,9 @@ public class Unite {
     private  int def;
     private  int CoordonneeI;
     private  int CoordonneeJ;
+    private int ptnActionNecessaire;
 
-    public Unite(int pvMax,int ptDepMax,int atk,int porteeAtk,int def,int CoordonneeI, int CoordonneeJ){
+    public Unite(int pvMax,int ptDepMax,int atk,int porteeAtk,int def,int CoordonneeI, int CoordonneeJ, int ptnActionNecessaire){
         this.PV=pvMax;
         this.pvMax=pvMax;
         this.ptDep=ptDepMax;
@@ -20,6 +21,7 @@ public class Unite {
         this.def=def;
         this.CoordonneeI=CoordonneeI;
         this.CoordonneeJ=CoordonneeJ;
+        this.ptnActionNecessaire = ptnActionNecessaire;
     }
 
 
@@ -74,6 +76,10 @@ public class Unite {
 
     public int getDef() {
         return def;
+    }
+    
+    public int getPtnActionNecessaire() {
+    	return ptnActionNecessaire;
     }
 
     public void setDef(int def) {

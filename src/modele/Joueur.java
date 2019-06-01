@@ -12,6 +12,7 @@ public class Joueur {
     public Joueur(String nom) {
         this.nom = nom;
         this.PM=10;
+        this.PA = 10;
 
     }
     
@@ -26,12 +27,12 @@ public class Joueur {
         for(int x=0;x<listeUnites.size();x++){
             
             if(listeUnites.get(x).getCoordonneeI()==i && listeUnites.get(x).getCoordonneeJ()==j){
-            	System.out.println("Unité selectionné");
+            	//System.out.println("Unité selectionné");
                 return x;
             }
             
         }
-        System.out.println("pas d'uniter s'elextioner");
+        //System.out.println("pas d'uniter selectionnéé");
         return -1;
     }
     
