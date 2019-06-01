@@ -1,7 +1,5 @@
 /Unite/
-/modele/
-/visuel/
-/Controleur/
 /controleur/
-/.gitignore
+/modele/
 /resources/
+/visuel/
