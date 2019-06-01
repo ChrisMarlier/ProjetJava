@@ -76,14 +76,21 @@ public class GestionMap {
 	}
 	
 	public static void tourJeu() {
+		ArrayList<ArrayList<Integer>> listedeplacement = new ArrayList<ArrayList<Integer>>();
 		
 		if(numeroClic==0)//Le joueur selectionne son unité
 		{
 			indicePieceSelected=joueur1.piecedanstableau(caseCliquee.getI(), caseCliquee.getJ());
+			listedeplacement=calculeDeplacementValide(joueur1.getUnites().get(indicePieceSelected),joueur1.getPM());
+
 			numeroClic++;
 		}
 		else if(numeroClic ==1) {//Le joueur sélectionne sa case de déplacement
-			Deplacement(joueur1, indicePieceSelected, caseCliquee);
+			for(int i=0; i<listedeplacement.size();i++)
+				System.out.println(listedeplacement.get(i));
+				
+			Deplacement(joueur1, indicePieceSelected, caseCliquee, listedeplacement);
+			System.out.println(joueur1.getUnites().get(2).getCoordonneeI() + " " + joueur1.getUnites().get(2).getCoordonneeJ());
 			numeroClic++;
 		}
 			
@@ -108,7 +115,7 @@ public class GestionMap {
 					ListInt.add(Integer.parseInt(ListString.get(i)));
 
 				}
-				//System.out.println(ListInt); //DEBOGAGE
+				System.out.println(ListInt); //DEBOGAGE
 				getMap().add(ListInt); //Et on ajoute la liste a notre map
 			}
 			//System.out.println(getMap());
@@ -125,40 +132,29 @@ public class GestionMap {
 		ArrayList<ArrayList<Integer>> listDeplacement = new ArrayList<ArrayList<Integer>>();
 
 
-		for(int i=0;i<20;i++){
+		for(int i=0;i<19;i++){
 			ArrayList<Integer> ListInt = new ArrayList<Integer>();
-			for(int j=0;j<24;j++){
+			for(int j=0;j<19;j++){
 				ListInt.add(0);
 			}
 			listDeplacement.add(ListInt);
 		}//creation d'un tableau analogue a la map rempli de 0
 		Hexagone hexagone=new Hexagone(unite.getCoordonneeI(),unite.getCoordonneeJ());
-
-		listDeplacement=calcule(listDeplacement,Math.min(unite.getPvMax(),pointD)+1,hexagone,0);
-		listDeplacement.get(hexagone.getI()).remove(hexagone.getJ());
-		listDeplacement.get(hexagone.getI()).add(hexagone.getJ(),0);
-		for(int i=0;i<20;i++){
+		listDeplacement=calculeD(listDeplacement,Math.min(unite.getPtDepMax(),pointD)+1,hexagone,unite,0);
+		listDeplacement.get(hexagone.getJ()).remove(hexagone.getI());
+		listDeplacement.get(hexagone.getJ()).add(hexagone.getI(),0);
+		for(int i=0;i<19;i++){
 			System.out.println("Test2:"+listDeplacement.get(i));
 		}
 		return listDeplacement;
 	}
 
-	public void gestiondeplacement(ArrayList<ArrayList<Integer>> listDeplacement,Joueur joueur,int indicec,int i, int j){
-		if(listDeplacement.get(i).get(j)!=0){
-			joueur.getUnites().get(indicec).setCoordonneeI(i);
-			joueur.getUnites().get(indicec).setCoordonneeJ(j);
-			joueur.setPM(joueur.getPM()-listDeplacement.get(i).get(j));
-			System.out.println("PM restant : "+joueur.getPM());
-		}
-	
 
-	}
 	
-	public static void Deplacement(Joueur joueur,int indiceC, Coord coord){
-		int i = coord.getI();
-		int j = coord.getJ();
+	public static void Deplacement(Joueur joueur,int indiceC, Coord coord, ArrayList<ArrayList<Integer>> listedeplacement){
+		int i = coord.getJ();
+		int j = coord.getI();
 		
-		ArrayList<ArrayList<Integer>> listedeplacement;
 		Scanner sc;
 		//do{
 			/*System.out.println("entrez coodonée case cible:\nI:");
@@ -167,53 +163,139 @@ public class GestionMap {
 			System.out.println("j:");
 			sc = new Scanner(System.in);
 			j = sc.nextInt();*/
-			 listedeplacement=calculeDeplacementValide(joueur.getUnites().get(indiceC),joueur.getPM());
+			//listedeplacement=calculeDeplacementValide(joueur.getUnites().get(indiceC),joueur.getPM());
 		//}while(listedeplacement.get(i).get(j)==0);
+		
+		//joueur.setPM(joueur.getPM()-listedeplacement.get(i).get(j)); SET DES PM A FAIRE !!!
+		
+		joueur.getUnites().get(indiceC).setCoordonneeI(coord.getI());//On set l'unité a sa nouvelle position
+		joueur.getUnites().get(indiceC).setCoordonneeJ(coord.getJ());
 		System.out.println("PM restant : "+joueur.getPM());
 	}
 
-	private static ArrayList<ArrayList<Integer>> calcule(ArrayList<ArrayList<Integer>> test, int ptDep, Hexagone hexagone,int pointautiliser){
+	private static ArrayList<ArrayList<Integer>> calculeD(ArrayList<ArrayList<Integer>> test, int ptDep, Hexagone hexagone,Unite unite,int pointautiliser){
 		// fonction recursive mettant un a 1 un case du tableau teste si une unite e assez de point de depl	cement pour y aller
 
-		if( ptDep>0 ){// premierement on me a 1 la case courante
-
-			if(test.get(hexagone.getI()).get(hexagone.getJ())==0 || test.get(hexagone.getI()).get(hexagone.getJ())>pointautiliser ){
-				test.get(hexagone.getI()).remove(hexagone.getJ());
-				test.get(hexagone.getI()).add(hexagone.getJ(),pointautiliser);
+		if( ptDep>0 && (joueur1.piecedanstableau(hexagone.getI(),hexagone.getJ())==-1 || joueur1.piecedanstableau(hexagone.getI(),hexagone.getJ())==joueur1.piecedanstableau(unite.getCoordonneeI(),unite.getCoordonneeJ()))
+				&& (joueur2.piecedanstableau(hexagone.getI(),hexagone.getJ())==-1 || joueur1.piecedanstableau(hexagone.getI(),hexagone.getJ())==joueur1.piecedanstableau(unite.getCoordonneeI(),unite.getCoordonneeJ()))){
+		// premierement on me a 1 la case courante
+//
+			if(test.get(hexagone.getJ()).get(hexagone.getI())==0 || test.get(hexagone.getJ()).get(hexagone.getI())>pointautiliser ){
+				test.get(hexagone.getJ()).remove(hexagone.getI());
+				test.get(hexagone.getJ()).add(hexagone.getI(),pointautiliser);
 			}
-			pointautiliser+=getMap().get(hexagone.getI()).get(hexagone.getJ());
-			ptDep-=getMap().get(hexagone.getI()).get(hexagone.getJ());// on enlever les point de deplacement corepondant a la case
+			
+			//On envoie la map actuelle pour calculer le nombre de point de deplacement que coute la case
+			int pointDep = calculPointDeplacementNecessaire(getMap().get(hexagone.getJ()).get(hexagone.getI()));
+			pointautiliser+=pointDep;
+			ptDep-=pointDep;// on enlever les point de deplacement corepondant a la case
 
 
 
 			// puis on remance l'algo sur les hexagone voisin
 			if(hexagone.getI()>0){
-				test=calcule(test, ptDep,hexagone.voisinHaut(),pointautiliser);
+				test=calculeD(test, ptDep,hexagone.voisinHaut(),unite,pointautiliser);
 			}
-			if(hexagone.getI()<19){
-				test=calcule(test, ptDep,hexagone.voisinBah(),pointautiliser);
+			if(hexagone.getI()<18){
+				test=calculeD(test, ptDep,hexagone.voisinBah(),unite,pointautiliser);
 			}
 
 
 //
 			if (hexagone.getJ() > 0 && hexagone.getI() > 0) {
-				test = calcule(test, ptDep,hexagone.voisinHautGauche(),pointautiliser);
+				test = calculeD(test, ptDep,hexagone.voisinHautGauche(),unite,pointautiliser);
 			}
-			if (hexagone.getJ() < 24 && hexagone.getI() > 0) {
-				test = calcule(test, ptDep, hexagone.voisinHautdroit(),pointautiliser);
+			if (hexagone.getJ() < 18 && hexagone.getI() > 0) {
+				test = calculeD(test, ptDep, hexagone.voisinHautdroit(),unite,pointautiliser);
 			}
 
-			if ((hexagone.getJ() > 0 && hexagone.getI() < 19) || (hexagone.getI() == 19)) {
-				test = calcule(test, ptDep,hexagone.voisinBahGauche(),pointautiliser);
+			if ((hexagone.getJ() > 0 && hexagone.getI() < 18) || (hexagone.getI() == 18)) {
+				test = calculeD(test, ptDep,hexagone.voisinBahGauche(),unite,pointautiliser);
 			}
-			if ((hexagone.getJ() < 24 && hexagone.getI() < 19) || (hexagone.getI() == 19 )) {
-				test = calcule(test, ptDep, hexagone.voisinBahDroit(),pointautiliser);
+			if ((hexagone.getJ() < 18 && hexagone.getI() < 18) || (hexagone.getI() == 18 )) {
+				test = calculeD(test, ptDep, hexagone.voisinBahDroit(),unite,pointautiliser);
 			}
 		}
-
-
-
 		return test;
+	}
+
+
+
+	public static ArrayList<ArrayList<Integer>> calculeAtaqueValide(Unite unite){
+		//Retourne la map remplit de 0 si il ne peut rien faire et de 1 si il peut attaquer
+		
+		ArrayList<ArrayList<Integer>> listeAttaque = new ArrayList<ArrayList<Integer>>();
+
+
+		for(int i=0;i<19;i++){
+			ArrayList<Integer> ListInt = new ArrayList<Integer>();
+			for(int j=0;j<19;j++){
+				ListInt.add(0);
+			}
+			listeAttaque.add(ListInt);
+		}//creation d'un tableau analogue a la map rempli de 0
+
+		Hexagone hexagone=new Hexagone(unite.getCoordonneeI(),unite.getCoordonneeJ());
+
+		listeAttaque=calculeA(listeAttaque,unite.getPorteeAtk()+1,hexagone,unite,0);
+		listeAttaque.get(hexagone.getJ()).remove(hexagone.getI());
+		listeAttaque.get(hexagone.getJ()).add(hexagone.getI(),0);
+
+		for(int i=0;i<19;i++){
+			System.out.println("Test2:"+listeAttaque.get(i));
+		}
+		return listeAttaque;
+	}
+
+
+	private static ArrayList<ArrayList<Integer>> calculeA(ArrayList<ArrayList<Integer>> test, int porteAtk, Hexagone hexagone,Unite unite,int pointautiliser){
+		// fonction recursive mettant un a 1 un case du tableau teste si une unite e assez de point de depl	cement pour y aller
+
+		if( porteAtk>0 ){
+			// premierement on me a 1 la case courante
+				if(joueur2.piecedanstableau(hexagone.getI(),hexagone.getJ())!=-1){
+				test.get(hexagone.getJ()).remove(hexagone.getI());
+				test.get(hexagone.getJ()).add(hexagone.getI(),1);}
+
+			porteAtk--;
+
+
+
+			// puis on remance l'algo sur les hexagone voisin
+			if(hexagone.getI()>0){
+				test=calculeA(test, porteAtk,hexagone.voisinHaut(),unite,pointautiliser);
+			}
+			if(hexagone.getI()<18){
+				test=calculeA(test, porteAtk,hexagone.voisinBah(),unite,pointautiliser);
+			}
+
+
+//
+			if (hexagone.getJ() > 0 && hexagone.getI() > 0) {
+				test = calculeA(test, porteAtk,hexagone.voisinHautGauche(),unite,pointautiliser);
+			}
+			if (hexagone.getJ() < 18 && hexagone.getI() > 0) {
+				test = calculeA(test, porteAtk, hexagone.voisinHautdroit(),unite,pointautiliser);
+			}
+
+			if ((hexagone.getJ() > 0 && hexagone.getI() < 18) || (hexagone.getI() == 18)) {
+				test = calculeA(test, porteAtk,hexagone.voisinBahGauche(),unite,pointautiliser);
+			}
+			if ((hexagone.getJ() < 18 && hexagone.getI() < 18) || (hexagone.getI() == 18 )) {
+				test = calculeA(test, porteAtk, hexagone.voisinBahDroit(),unite,pointautiliser);
+			}
+		}
+		return test;
+	}
+	
+	public static int calculPointDeplacementNecessaire(int numMap) {
+		//Renvoie le nombre de point de déplacement que coute le numéro de la map envoyé (le numero = le nombre marque dans le fichier map.txt)
+		if(numMap == 1)
+			return 2;
+		else 
+			return 1;
+			
+		
 	}
 
 

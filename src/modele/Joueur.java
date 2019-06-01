@@ -11,7 +11,7 @@ public class Joueur {
 
     public Joueur(String nom) {
         this.nom = nom;
-        
+        this.PM=10;
 
     }
     
