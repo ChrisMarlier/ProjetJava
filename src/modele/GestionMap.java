@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import Unite.*;
 import controleur.Coord;
+import visuel.Panneau2;
 
 
 public class GestionMap {
@@ -77,7 +78,7 @@ public class GestionMap {
 	
 	public static void tourJeu() {
 		ArrayList<ArrayList<Integer>> listedeplacement = new ArrayList<ArrayList<Integer>>();
-		
+		Panneau2 refresh = new Panneau2(GestionMap.getMap().size(),GestionMap.getMap().get(0).size(),16);
 		if(numeroClic==0)//Le joueur selectionne son unité
 		{
 			indicePieceSelected=joueur1.piecedanstableau(caseCliquee.getI(), caseCliquee.getJ());
@@ -92,7 +93,9 @@ public class GestionMap {
 			Deplacement(joueur1, indicePieceSelected, caseCliquee, listedeplacement);
 			System.out.println(joueur1.getUnites().get(2).getCoordonneeI() + " " + joueur1.getUnites().get(2).getCoordonneeJ());
 			numeroClic++;
+			
 		}
+		refresh.repaint();
 			
 			
 			
@@ -242,7 +245,7 @@ public class GestionMap {
 		listeAttaque.get(hexagone.getJ()).add(hexagone.getI(),0);
 
 		for(int i=0;i<19;i++){
-			System.out.println("Test2:"+listeAttaque.get(i));
+//			System.out.println("Test2:"+listeAttaque.get(i));
 		}
 		return listeAttaque;
 	}

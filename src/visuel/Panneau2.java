@@ -235,4 +235,5 @@ public class Panneau2 extends JPanel{
                 mx*tW, my*tH,  mx*tW+tW, my*tH+tH, this);
         
     }
+    
 }
