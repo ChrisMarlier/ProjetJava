@@ -133,7 +133,7 @@ public class GestionMap {
 			listDeplacement.add(ListInt);
 		}//creation d'un tableau analogue a la map rempli de 0
 		Hexagone hexagone=new Hexagone(unite.getCoordonneeI(),unite.getCoordonneeJ());
-		listDeplacement=calcule(listDeplacement,Math.min(unite.getPtDepMax(),pointD)+1,hexagone,unite,0);
+		listDeplacement=calculeD(listDeplacement,Math.min(unite.getPtDepMax(),pointD)+1,hexagone,unite,0);
 		listDeplacement.get(hexagone.getJ()).remove(hexagone.getI());
 		listDeplacement.get(hexagone.getJ()).add(hexagone.getI(),0);
 		for(int i=0;i<19;i++){
@@ -163,7 +163,7 @@ public class GestionMap {
 		System.out.println("PM restant : "+joueur.getPM());
 	}
 
-	private static ArrayList<ArrayList<Integer>> calcule(ArrayList<ArrayList<Integer>> test, int ptDep, Hexagone hexagone,Unite unite,int pointautiliser){
+	private static ArrayList<ArrayList<Integer>> calculeD(ArrayList<ArrayList<Integer>> test, int ptDep, Hexagone hexagone,Unite unite,int pointautiliser){
 		// fonction recursive mettant un a 1 un case du tableau teste si une unite e assez de point de depl	cement pour y aller
 
 		if( ptDep>0 && (joueur1.piecedanstableau(hexagone.getI(),hexagone.getJ())==-1 || joueur1.piecedanstableau(hexagone.getI(),hexagone.getJ())==joueur1.piecedanstableau(unite.getCoordonneeI(),unite.getCoordonneeJ()))
@@ -181,31 +181,96 @@ public class GestionMap {
 
 			// puis on remance l'algo sur les hexagone voisin
 			if(hexagone.getI()>0){
-				test=calcule(test, ptDep,hexagone.voisinHaut(),unite,pointautiliser);
+				test=calculeD(test, ptDep,hexagone.voisinHaut(),unite,pointautiliser);
 			}
 			if(hexagone.getI()<18){
-				test=calcule(test, ptDep,hexagone.voisinBah(),unite,pointautiliser);
+				test=calculeD(test, ptDep,hexagone.voisinBah(),unite,pointautiliser);
 			}
 
 
 //
 			if (hexagone.getJ() > 0 && hexagone.getI() > 0) {
-				test = calcule(test, ptDep,hexagone.voisinHautGauche(),unite,pointautiliser);
+				test = calculeD(test, ptDep,hexagone.voisinHautGauche(),unite,pointautiliser);
 			}
 			if (hexagone.getJ() < 18 && hexagone.getI() > 0) {
-				test = calcule(test, ptDep, hexagone.voisinHautdroit(),unite,pointautiliser);
+				test = calculeD(test, ptDep, hexagone.voisinHautdroit(),unite,pointautiliser);
 			}
 
 			if ((hexagone.getJ() > 0 && hexagone.getI() < 18) || (hexagone.getI() == 18)) {
-				test = calcule(test, ptDep,hexagone.voisinBahGauche(),unite,pointautiliser);
+				test = calculeD(test, ptDep,hexagone.voisinBahGauche(),unite,pointautiliser);
 			}
 			if ((hexagone.getJ() < 18 && hexagone.getI() < 18) || (hexagone.getI() == 18 )) {
-				test = calcule(test, ptDep, hexagone.voisinBahDroit(),unite,pointautiliser);
+				test = calculeD(test, ptDep, hexagone.voisinBahDroit(),unite,pointautiliser);
 			}
 		}
+		return test;
+	}
 
 
 
+	public static ArrayList<ArrayList<Integer>> calculeAtaqueValide(Unite unite){
+
+		ArrayList<ArrayList<Integer>> listeAttaque = new ArrayList<ArrayList<Integer>>();
+
+
+		for(int i=0;i<19;i++){
+			ArrayList<Integer> ListInt = new ArrayList<Integer>();
+			for(int j=0;j<19;j++){
+				ListInt.add(0);
+			}
+			listeAttaque.add(ListInt);
+		}//creation d'un tableau analogue a la map rempli de 0
+
+		Hexagone hexagone=new Hexagone(unite.getCoordonneeI(),unite.getCoordonneeJ());
+
+		listeAttaque=calculeA(listeAttaque,unite.getPorteeAtk()+1,hexagone,unite,0);
+		listeAttaque.get(hexagone.getJ()).remove(hexagone.getI());
+		listeAttaque.get(hexagone.getJ()).add(hexagone.getI(),0);
+
+		for(int i=0;i<19;i++){
+			System.out.println("Test2:"+listeAttaque.get(i));
+		}
+		return listeAttaque;
+	}
+
+
+	private static ArrayList<ArrayList<Integer>> calculeA(ArrayList<ArrayList<Integer>> test, int portéatk, Hexagone hexagone,Unite unite,int pointautiliser){
+		// fonction recursive mettant un a 1 un case du tableau teste si une unite e assez de point de depl	cement pour y aller
+
+		if( portéatk>0 ){
+			// premierement on me a 1 la case courante
+				if(joueur2.piecedanstableau(hexagone.getI(),hexagone.getJ())!=-1){
+				test.get(hexagone.getJ()).remove(hexagone.getI());
+				test.get(hexagone.getJ()).add(hexagone.getI(),1);}
+
+			portéatk--;
+
+
+
+			// puis on remance l'algo sur les hexagone voisin
+			if(hexagone.getI()>0){
+				test=calculeA(test, portéatk,hexagone.voisinHaut(),unite,pointautiliser);
+			}
+			if(hexagone.getI()<18){
+				test=calculeA(test, portéatk,hexagone.voisinBah(),unite,pointautiliser);
+			}
+
+
+//
+			if (hexagone.getJ() > 0 && hexagone.getI() > 0) {
+				test = calculeA(test, portéatk,hexagone.voisinHautGauche(),unite,pointautiliser);
+			}
+			if (hexagone.getJ() < 18 && hexagone.getI() > 0) {
+				test = calculeA(test, portéatk, hexagone.voisinHautdroit(),unite,pointautiliser);
+			}
+
+			if ((hexagone.getJ() > 0 && hexagone.getI() < 18) || (hexagone.getI() == 18)) {
+				test = calculeA(test, portéatk,hexagone.voisinBahGauche(),unite,pointautiliser);
+			}
+			if ((hexagone.getJ() < 18 && hexagone.getI() < 18) || (hexagone.getI() == 18 )) {
+				test = calculeA(test, portéatk, hexagone.voisinBahDroit(),unite,pointautiliser);
+			}
+		}
 		return test;
 	}
 
