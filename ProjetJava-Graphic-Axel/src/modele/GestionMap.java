@@ -125,18 +125,18 @@ public class GestionMap {
 		ArrayList<ArrayList<Integer>> listDeplacement = new ArrayList<ArrayList<Integer>>();
 
 
-		for(int i=0;i<20;i++){
+		for(int i=0;i<19;i++){
 			ArrayList<Integer> ListInt = new ArrayList<Integer>();
-			for(int j=0;j<24;j++){
+			for(int j=0;j<19;j++){
 				ListInt.add(0);
 			}
 			listDeplacement.add(ListInt);
 		}//creation d'un tableau analogue a la map rempli de 0
 		Hexagone hexagone=new Hexagone(unite.getCoordonneeI(),unite.getCoordonneeJ());
 		listDeplacement=calcule(listDeplacement,Math.min(unite.getPtDepMax(),pointD)+1,hexagone,unite,0);
-		listDeplacement.get(hexagone.getI()).remove(hexagone.getJ());
-		listDeplacement.get(hexagone.getI()).add(hexagone.getJ(),0);
-		for(int i=0;i<20;i++){
+		listDeplacement.get(hexagone.getJ()).remove(hexagone.getI());
+		listDeplacement.get(hexagone.getJ()).add(hexagone.getI(),0);
+		for(int i=0;i<19;i++){
 			System.out.println("Test2:"+listDeplacement.get(i));
 		}
 		return listDeplacement;
@@ -169,7 +169,7 @@ public class GestionMap {
 		if( ptDep>0 && (joueur1.piecedanstableau(hexagone.getI(),hexagone.getJ())==-1 || joueur1.piecedanstableau(hexagone.getI(),hexagone.getJ())==joueur1.piecedanstableau(unite.getCoordonneeI(),unite.getCoordonneeJ()))
 				&& (joueur2.piecedanstableau(hexagone.getI(),hexagone.getJ())==-1 || joueur1.piecedanstableau(hexagone.getI(),hexagone.getJ())==joueur1.piecedanstableau(unite.getCoordonneeI(),unite.getCoordonneeJ()))){
 		// premierement on me a 1 la case courante
-
+//
 			if(test.get(hexagone.getJ()).get(hexagone.getI())==0 || test.get(hexagone.getJ()).get(hexagone.getI())>pointautiliser ){
 				test.get(hexagone.getJ()).remove(hexagone.getI());
 				test.get(hexagone.getJ()).add(hexagone.getI(),pointautiliser);
@@ -183,7 +183,7 @@ public class GestionMap {
 			if(hexagone.getI()>0){
 				test=calcule(test, ptDep,hexagone.voisinHaut(),unite,pointautiliser);
 			}
-			if(hexagone.getI()<19){
+			if(hexagone.getI()<18){
 				test=calcule(test, ptDep,hexagone.voisinBah(),unite,pointautiliser);
 			}
 
@@ -192,14 +192,14 @@ public class GestionMap {
 			if (hexagone.getJ() > 0 && hexagone.getI() > 0) {
 				test = calcule(test, ptDep,hexagone.voisinHautGauche(),unite,pointautiliser);
 			}
-			if (hexagone.getJ() < 24 && hexagone.getI() > 0) {
+			if (hexagone.getJ() < 18 && hexagone.getI() > 0) {
 				test = calcule(test, ptDep, hexagone.voisinHautdroit(),unite,pointautiliser);
 			}
 
-			if ((hexagone.getJ() > 0 && hexagone.getI() < 19) || (hexagone.getI() == 19)) {
+			if ((hexagone.getJ() > 0 && hexagone.getI() < 18) || (hexagone.getI() == 18)) {
 				test = calcule(test, ptDep,hexagone.voisinBahGauche(),unite,pointautiliser);
 			}
-			if ((hexagone.getJ() < 24 && hexagone.getI() < 19) || (hexagone.getI() == 19 )) {
+			if ((hexagone.getJ() < 18 && hexagone.getI() < 18) || (hexagone.getI() == 18 )) {
 				test = calcule(test, ptDep, hexagone.voisinBahDroit(),unite,pointautiliser);
 			}
 		}
