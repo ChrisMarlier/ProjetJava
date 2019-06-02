@@ -20,6 +20,10 @@ public class Joueur {
     	listeUnites.add(unite);
     }
     
+    public void supprimerUnite(int indice){
+    	listeUnites.remove(indice);
+    }
+    
     
     public int piecedanstableau(int i, int j){
     	//Retourne l'indice du tableau d'unité de la piece selectionnée

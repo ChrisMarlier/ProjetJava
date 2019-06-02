@@ -44,37 +44,6 @@ public class GestionMap {
         joueur2.ajouterUnite(new Tank(5,0));
         joueur2.ajouterUnite(new Tank(6,0));
 		
-		
-		/*do{
-			System.out.println("que voulez vous faire 1)action  3)fin du tour");
-			sc = new Scanner(System.in);
-			i = sc.nextInt();
-			if (i==1) {
-				do {
-					System.out.println("entrez coodonée uniter::\nI:");
-					sc = new Scanner(System.in);
-					i = sc.nextInt();
-					System.out.println("j:");
-					sc = new Scanner(System.in);
-					j = sc.nextInt();
-					indicePieceSelected=joueur1.piecedanstableau(i,j);
-				}while(indicePieceSelected!=-1);
-				System.out.println("que voulez vous faire 1)deplacemen  3)attaque");
-				sc = new Scanner(System.in);
-				i = sc.nextInt();
-				if(i==1)
-				{
-					this.Deplacement(joueur1,indicePieceSelected);
-				}
-				
-			}
-			else if(i==2){
-				joueur1.fintour();
-			}
-		}while(i==2);*/
-
-        
-
 
 	}
 	
@@ -83,11 +52,16 @@ public class GestionMap {
 		Panneau2 refresh = new Panneau2(GestionMap.getMap().size(),GestionMap.getMap().get(0).size(),16);
 		
 		Joueur joueur = null;
+		Joueur ennemi = null;
 		
-		if(joueurActuel==1)
+		if(joueurActuel==1) {
 			joueur = joueur1;
-		else if(joueurActuel==2)
+			ennemi = joueur2;
+		}
+		else if(joueurActuel==2) {
 			joueur = joueur2;
+			ennemi = joueur1;
+		}
 		
 		//Si le joueur clique sur une de ses unité
 			if( (joueur.piecedanstableau(caseCliquee.getI(), caseCliquee.getJ()) != -1)) {
@@ -111,7 +85,16 @@ public class GestionMap {
 				}
 				else if(listeAttaque.get(caseCliquee.getJ()).get(caseCliquee.getI()) > 0 && joueur.getPA()>=joueur.getUnites().get(indicePieceSelected).getPtnActionNecessaire()) {
 					System.out.println("A LATAKE");
-					joueur1.setPA(joueur.getPA()-joueur.getUnites().get(indicePieceSelected).getPtnActionNecessaire());
+					joueur.setPA(joueur.getPA()-joueur.getUnites().get(indicePieceSelected).getPtnActionNecessaire());
+					
+					int indicePiecAtk = ennemi.piecedanstableau(caseCliquee.getI(), caseCliquee.getJ());
+					joueur.getUnites().get(indicePieceSelected).attaque(ennemi.getUnites().get(indicePiecAtk));
+					
+					if(ennemi.getUnites().get(indicePiecAtk).getPV()<=0) { //Si l'unité est morte
+						ennemi.supprimerUnite(indicePiecAtk);
+					}
+					
+					
 					numeroClic=0;
 					indicePieceSelected = -1;
 				}

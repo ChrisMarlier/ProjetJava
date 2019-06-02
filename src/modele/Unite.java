@@ -23,6 +23,11 @@ public class Unite {
         this.CoordonneeJ=CoordonneeJ;
         this.ptnActionNecessaire = ptnActionNecessaire;
     }
+    
+    public void attaque(Unite unite) {
+    	unite.setPV( unite.getPV() - atk);
+    	System.out.println("Point de vie de l'unité attaqué : " + unite.getPV());
+    }
 
 
 
