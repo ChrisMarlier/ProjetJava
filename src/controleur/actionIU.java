@@ -12,22 +12,50 @@ public class actionIU implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		//Exemple :
-			Tank tanktest = new Tank(0,16);
-			if (arg0.getSource() == Panneau.btnPasserLeTour) {
-				
-				GestionMap.passerTour();
-
-				Panneau.lblNewLabel.setText(tanktest.getClass().getName());
-				Panneau.lblNewLabel_1.setText(tanktest.getPvMax()+"");
-				Panneau.lblNewLabel_2.setText(tanktest.getAtk()+"");
-				Panneau.lblNewLabel_3.setText(tanktest.getPtDepMax()+"");
-				Panneau.lblNewLabel_4.setText(tanktest.getPorteeAtk()+"");
-				Panneau.lblNewLabel_6.setText("5");
-				Panneau.lblNewLabel_7.setText("100");
-				Panneau.lblNewLabel_8.setText("2");
-				Panneau.lblNewLabel_9.setText("Joueur 1 ");
+		if (arg0.getSource() == Panneau.btnPasserLeTour) {
+			GestionMap.passerTour();
+			this.update();
 		}
 		
+	}
+	public void update() {
+		Tank tanktest = new Tank(0,16);
+		int unite = -1;
+		if( (GestionMap.getJoueur1().piecedanstableau(GestionMap.caseCliquee.getI(), GestionMap.caseCliquee.getJ()) != -1)) {
+			unite=GestionMap.getJoueur1().piecedanstableau(GestionMap.caseCliquee.getI(), GestionMap.caseCliquee.getJ());
+			
+			Panneau.lblNewLabel.setText(GestionMap.getJoueur1().getUnites().get(unite).getClass().getName());
+			Panneau.lblNewLabel_1.setText(GestionMap.getJoueur1().getUnites().get(unite).getPV()+"");
+			Panneau.lblNewLabel_2.setText(GestionMap.getJoueur1().getUnites().get(unite).getAtk()+"");
+			Panneau.lblNewLabel_3.setText(GestionMap.getJoueur1().getUnites().get(unite).getPtDepMax()+"");
+			Panneau.lblNewLabel_4.setText(GestionMap.getJoueur1().getUnites().get(unite).getPorteeAtk()+"");
+			
+		}
+		if( (GestionMap.getJoueur2().piecedanstableau(GestionMap.caseCliquee.getI(), GestionMap.caseCliquee.getJ()) != -1)) {
+			unite=GestionMap.getJoueur2().piecedanstableau(GestionMap.caseCliquee.getI(), GestionMap.caseCliquee.getJ());
+			
+			Panneau.lblNewLabel.setText(GestionMap.getJoueur2().getUnites().get(unite).getClass().getName());
+			Panneau.lblNewLabel_1.setText(GestionMap.getJoueur2().getUnites().get(unite).getPV()+"");
+			Panneau.lblNewLabel_2.setText(GestionMap.getJoueur2().getUnites().get(unite).getAtk()+"");
+			Panneau.lblNewLabel_3.setText(GestionMap.getJoueur2().getUnites().get(unite).getPtDepMax()+"");
+			Panneau.lblNewLabel_4.setText(GestionMap.getJoueur2().getUnites().get(unite).getPorteeAtk()+"");
+			
+		}
+			
+			
+			if(GestionMap.getJoueurActuel() == 1 ) {
+				Panneau.lblNewLabel_6.setText(GestionMap.getJoueur1().getPM()+"");
+				Panneau.lblNewLabel_7.setText(GestionMap.getJoueur1().getPA()+"");
+				Panneau.lblNewLabel_8.setText(GestionMap.getNbrTourRestant()+"");
+				Panneau.lblNewLabel_9.setText(GestionMap.getJoueur1().getNom());
+			}
+			else {
+				Panneau.lblNewLabel_6.setText(GestionMap.getJoueur2().getPM()+"");
+				Panneau.lblNewLabel_7.setText(GestionMap.getJoueur2().getPA()+"");
+				Panneau.lblNewLabel_8.setText(GestionMap.getNbrTourRestant()+"");
+				Panneau.lblNewLabel_9.setText(GestionMap.getJoueur2().getNom());
+			}
+
 	}
 
 }

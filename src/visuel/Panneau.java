@@ -163,7 +163,7 @@ public class Panneau extends JPanel {
 		add(lblNewLabel_8);
 		
 		//Nom du joueur : 
-		JLabel lblCestLeTour = new JLabel("C'est le tour de :");
+		JLabel lblCestLeTour = new JLabel("C'est au tour de :");
 		lblCestLeTour.setFont(new Font("Tahoma", Font.BOLD, 13));
 		springLayout.putConstraint(SpringLayout.WEST, lblCestLeTour, 36, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, lblCestLeTour, -28, SpringLayout.SOUTH, this);

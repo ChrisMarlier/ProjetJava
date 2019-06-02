@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 import Unite.*;
 import controleur.Coord;
+import controleur.actionIU;
+import visuel.Panneau;
 import visuel.Panneau2;
 
 
@@ -21,6 +23,9 @@ public class GestionMap {
 
 	static int numeroClic=0;
 	private static int joueurActuel = 1; // !!!!! A CHANGER
+	private static int nbrTourRestant = 0;
+
+
 
 	public GestionMap() {
 		//Initialisation et boucle principale du jeu
@@ -50,7 +55,7 @@ public class GestionMap {
 	public static void tourJeu() {
 
 		Panneau2 refresh = new Panneau2(GestionMap.getMap().size(),GestionMap.getMap().get(0).size(),16);
-		
+		actionIU refresh2 = new actionIU();
 		Joueur joueur = null;
 		Joueur ennemi = null;
 		
@@ -103,7 +108,7 @@ public class GestionMap {
 			}
 		
 		refresh.repaint();
-			
+		refresh2.update();
 			
 			
 		
@@ -328,6 +333,9 @@ public class GestionMap {
 		
 	}
 
+	public static int getJoueurActuel() {
+		return joueurActuel;
+	}
 
 	public static ArrayList<ArrayList<Integer>> getMap() {
 		return map;
@@ -342,6 +350,9 @@ public class GestionMap {
 	}
 	public static Joueur getJoueur2() {
 		return joueur2;
+	}
+	public static int getNbrTourRestant() {
+		return nbrTourRestant;
 	}
 
 }
