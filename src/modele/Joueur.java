@@ -108,10 +108,10 @@ public class Joueur {
                 calculeB(hexagone.voisinHautdroit(),portée);
             }
 
-            if ((hexagone.getJ() > 0 && hexagone.getI() < 18) || (hexagone.getI() == 18)) {
+            if (hexagone.getJ() > 0 && hexagone.getI() < 18)  {
                  calculeB(hexagone.voisinBahGauche(),portée);
             }
-            if ((hexagone.getJ() < 18 && hexagone.getI() < 18) || (hexagone.getI() == 18 )) {
+            if (hexagone.getJ() < 18 && hexagone.getI() < 18) {
                calculeB(hexagone.voisinBahDroit(),portée);
             }
         }
