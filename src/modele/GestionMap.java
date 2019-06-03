@@ -332,22 +332,26 @@ public class GestionMap {
 		for(int i=0; i<joueur2.getUnites().size(); i++) {
 			listeAttaque=calculeAtaqueValide(joueur2.getUnites().get(i));
 			
-			for(int j=0; j<listeAttaque.size(); j++) {
-				for(int k=0; k<listeAttaque.get(j).size(); k++) {
-					if(listeAttaque.get(j).get(k) > 0) {
-						System.out.println("unité " + joueur2.getUnites().get(i).getCoordonneeI() + " " + joueur2.getUnites().get(i).getCoordonneeJ());
-						System.out.println("ATTAQUE EN " + j + " " + k);
-						
-						int indiceEnnemi = joueur1.piecedanstableau(j, k);
-						
-						joueur2.getUnites().get(i).attaque(joueur1.getUnites().get(indiceEnnemi));
-						
-						if(joueur1.getUnites().get(indiceEnnemi).getPV()<=0) { //Si l'unité est morte
-							joueur1.supprimerUnite(indiceEnnemi);
+				for(int j=0; j<listeAttaque.size(); j++) {
+					for(int k=0; k<listeAttaque.get(j).size(); k++) {
+						if(listeAttaque.get(j).get(k) > 0 && joueur2.getPA() - joueur2.getUnites().get(i).getPtnActionNecessaire() >= 0) {
+							//System.out.println("unité " + joueur2.getUnites().get(i).getCoordonneeI() + " " + joueur2.getUnites().get(i).getCoordonneeJ());
+							System.out.println("ATTAQUE EN " + j + " " + k);
+							
+							int indiceEnnemi = joueur1.piecedanstableau(k, j);
+							
+							joueur2.setPA(joueur2.getPA()-joueur2.getUnites().get(i).getPtnActionNecessaire());
+
+							joueur2.getUnites().get(i).attaque(joueur1.getUnites().get(indiceEnnemi));
+							System.out.println(joueur2.getPA());
+							
+							if(joueur1.getUnites().get(indiceEnnemi).getPV()<=0) { //Si l'unité est morte
+								joueur1.supprimerUnite(indiceEnnemi);
+							}
 						}
 					}
 				}
-			}
+			
 		}
 		
 		listedeplacement=calculeDeplacementValide(joueur2.getUnites().get(0), joueur2.getPM());
