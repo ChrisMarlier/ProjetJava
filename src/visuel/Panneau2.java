@@ -109,10 +109,10 @@ public class Panneau2 extends JPanel{
                  }
                 
                //Dessine les images donn�es par la map
-
+             
                  drawTile(g2,modele.GestionMap.getMap().get(row).get(column),(int)(hexagone.getBounds().x ),
                        (int) (hexagone.getBounds().y-20));
-
+             
               
               // DEBUG : Dessine une grille :  
                  g2.draw(hexagone);
@@ -134,14 +134,13 @@ public class Panneau2 extends JPanel{
                      number = column * rows + row;
                  }
                  //Dessine les images donn�es par la map
-
+               
                  drawTile(g2,GestionMap.getMap().get(row).get(column),(int)(hexagone.getBounds().x ),
                        (int) (hexagone.getBounds().y-20)); 
-
+               
            //DEBUG :  Dessine une grille  : 
                 g2.draw(hexagone);
-
-
+             
              }
          }
          

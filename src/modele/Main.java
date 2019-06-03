@@ -9,15 +9,15 @@ public class Main {
 
 		GestionMap test = new GestionMap();
 	//	test.chargementMap();
-		GestionMap.getJoueur1().initbrouilard();
 //
-//		Runnable gui = new Runnable() {
-//			 public void run() {
-//				 @SuppressWarnings("unused")
-//				Fenetre fen = new Fenetre("WarGame",GestionMap.getMap().size(),GestionMap.getMap().get(0).size(),16);
-//			 }
-//		};
-//		 SwingUtilities.invokeLater(gui);
+//
+		Runnable gui = new Runnable() {
+			 public void run() {
+				 @SuppressWarnings("unused")
+				Fenetre fen = new Fenetre("WarGame",GestionMap.getMap().size(),GestionMap.getMap().get(0).size(),16);
+			 }
+		};
+		 SwingUtilities.invokeLater(gui);
 
 	}
 

@@ -14,6 +14,12 @@ public class actionIU implements ActionListener{
 		//Exemple :
 		if (arg0.getSource() == Panneau.btnPasserLeTour) {
 			GestionMap.passerTour();
+			
+			if(GestionMap.getModeJeu() == 1) {
+				System.out.println("C'est à l'ia de jouer");
+				GestionMap.IA();
+			}
+			
 			this.update();
 		}
 		
