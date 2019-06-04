@@ -17,6 +17,7 @@ public class actionIU implements ActionListener{
 		//Exemple :
 		if (arg0.getSource() == Panneau.btnPasserLeTour) {
 			GestionMap.passerTour();
+			GestionMap.effaceListes();
 			this.update();
 		}
 

@@ -13,14 +13,15 @@ import visuel.Panneau2;
 import visuel.Previsualisation;
 
 
+
 public class GestionMap {
 
 	private static ArrayList<ArrayList<Integer>> map;
 	private static Joueur joueur1, joueur2;
 	public static Coord caseCliquee = new Coord();
 	public static int indicePieceSelected = -1;
-	static ArrayList<ArrayList<Integer>> listedeplacement= new ArrayList<ArrayList<Integer>>();
-	static ArrayList<ArrayList<Integer>> listeAttaque= new ArrayList<ArrayList<Integer>>();
+	private static ArrayList<ArrayList<Integer>> listedeplacement= new ArrayList<ArrayList<Integer>>();
+	private static ArrayList<ArrayList<Integer>> listeAttaque= new ArrayList<ArrayList<Integer>>();
 
 	static int numeroClic=0;
 	private static int joueurActuel = 1; // !!!!! A CHANGER
@@ -57,7 +58,6 @@ public class GestionMap {
 
 		Panneau2 refresh = new Panneau2(GestionMap.getMap().size(),GestionMap.getMap().get(0).size(),16);
 		actionIU refresh2 = new actionIU();
-		
 		Joueur joueur = null;
 		Joueur ennemi = null;
 		
@@ -70,11 +70,11 @@ public class GestionMap {
 			ennemi = joueur1;
 		}
 		
-		//Si le joueur clique sur une de ses unitÃ©
+		//Si le joueur clique sur une de ses unites
 			if( (joueur.piecedanstableau(caseCliquee.getI(), caseCliquee.getJ()) != -1)) {
 				indicePieceSelected=joueur.piecedanstableau(caseCliquee.getI(), caseCliquee.getJ());
-				listedeplacement=calculeDeplacementValide(joueur.getUnites().get(indicePieceSelected),joueur.getPM());
-				listeAttaque=calculeAtaqueValide(joueur.getUnites().get(indicePieceSelected));
+				setListedeplacement(calculeDeplacementValide(joueur.getUnites().get(indicePieceSelected),joueur.getPM()));
+				setListeAttaque(calculeAtaqueValide(joueur.getUnites().get(indicePieceSelected)));
 				System.out.println("Piece selectionnee !");
 				System.out.println(indicePieceSelected);
 				Panneau.preview.revalidate();
@@ -82,22 +82,23 @@ public class GestionMap {
 
 				numeroClic=1;
 			}
+			
 
 			//Si une unite select
 			if(numeroClic == 1) {
-				if(listedeplacement.get(caseCliquee.getJ()).get(caseCliquee.getI()) > 0) {
+				if(getListedeplacement().get(caseCliquee.getJ()).get(caseCliquee.getI()) > 0) {
 					
 				//	System.out.println("Deplacement");
-					Deplacement(joueur, indicePieceSelected, caseCliquee, listedeplacement);
+					Deplacement(joueur, indicePieceSelected, caseCliquee, getListedeplacement());
 					//System.out.println(joueur1.getUnites().get(2).getCoordonneeI() + " " + joueur1.getUnites().get(2).getCoordonneeJ());
 					numeroClic=0;
-					
+					listedeplacement.clear();
 					indicePieceSelected = -1;
 					
 					
 				}
 					
-				else if(listeAttaque.get(caseCliquee.getJ()).get(caseCliquee.getI()) > 0 && joueur.getPA()>=joueur.getUnites().get(indicePieceSelected).getPtnActionNecessaire()) {
+				else if(getListeAttaque().get(caseCliquee.getJ()).get(caseCliquee.getI()) > 0 && joueur.getPA()>=joueur.getUnites().get(indicePieceSelected).getPtnActionNecessaire()) {
 					
 					System.out.println("A LATAKE");
 					joueur.setPA(joueur.getPA()-joueur.getUnites().get(indicePieceSelected).getPtnActionNecessaire());
@@ -111,16 +112,21 @@ public class GestionMap {
 					
 					
 					numeroClic=0;
-				
+					listeAttaque.clear();
 					indicePieceSelected = -1;
 				}
 				else
 					System.out.println("Aucun deplacement ou attaque autorisee a  cette case");
 			}
-		System.out.println(listeAttaque);
+			else {
+				effaceListes();
+			}
+	
+
+
 		refresh.repaint();
 		refresh2.update();
-
+		
 			
 		
 	}
@@ -364,6 +370,25 @@ public class GestionMap {
 	}
 	public static int getNbrTourRestant() {
 		return nbrTourRestant;
+	}
+
+	public static ArrayList<ArrayList<Integer>> getListeAttaque() {
+		return listeAttaque;
+	}
+
+	public static void setListeAttaque(ArrayList<ArrayList<Integer>> object) {
+		GestionMap.listeAttaque = object;
+	}
+	public static void effaceListes() {
+		listeAttaque.clear();
+		listedeplacement.clear();
+	}
+	public static ArrayList<ArrayList<Integer>> getListedeplacement() {
+		return listedeplacement;
+	}
+
+	public static void setListedeplacement(ArrayList<ArrayList<Integer>> listedeplacement) {
+		GestionMap.listedeplacement = listedeplacement;
 	}
 
 }

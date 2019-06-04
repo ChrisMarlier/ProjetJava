@@ -2,6 +2,7 @@ package visuel;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import java.awt.event.*;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -18,18 +19,20 @@ public class Panneau2 extends JPanel{
     private final BasicStroke bs1 = new BasicStroke(1);
     private final BasicStroke bs3 = new BasicStroke(3);
     private final Point focusedHexagonLocation = new Point();
-    private final Dimension dimension;
-    private final int rows, columns, side;
+    private static Dimension dimension;
+  
+
+	private final int rows, columns;
+	private static int side;
     private Point mousePosition;
     private int number;
 	private Graphics2D g3;
-	private int dim1;
-	private int dim2;
+	private int dim1,dim2,dimx,dimy;
     //TODO JavBar , GameUI, Previsualisation de l'unite ...
     public Panneau2(final int rows, final int columns, final int side) {
     	this.rows=rows;
     	this.columns=columns;
-    	this.side=side;
+    	Panneau2.side=side;
     	dimension=getHexagon(0,0).getBounds().getSize();
     	MouseInputAdapter mouseHandler = new MouseInputAdapter() {
             @Override
@@ -204,17 +207,61 @@ public class Panneau2 extends JPanel{
          }
 
    //surbrillance case
-         if (number != -1) {
-             g2.setColor(Color.red);
-             g2.setStroke(bs3);
-             Polygon focusedHexagon = getHexagon(focusedHexagonLocation.x,
-                     focusedHexagonLocation.y);
-             g2.draw(focusedHexagon);
-         }
-			Previsualisation prew = new Previsualisation();
-			prew.revalidate();
-			prew.repaint();
-    }
+  
+		
+			//surbrillance case attaque : 
+        
+        	 for (int i=0;i<GestionMap.getListeAttaque().size();i++){
+ 	            for (int j=0; j<(GestionMap.getListeAttaque().get(i).size());j++){
+ 		            if (GestionMap.getListeAttaque().get(i).get(j)!=0){
+ 		            	g2.setColor(Color.red);
+ 		                g2.setStroke(bs3);
+ 		            	dimx= (int) (j * side * 1.5 );
+ 		            	dimy= i* (Panneau2.getDimension().height);
+ 		                if(j%2==0) {
+ 		                	dimx= (int) (j * side * 1.5 );
+ 		                	dimy= i* (Panneau2.getDimension().height)
+ 		                            + Panneau2.getDimension().height / 2;
+ 		                }
+ 		                Polygon focusedHexagon = getHexagon(dimx,dimy);
+ 		                g2.draw(focusedHexagon);
+ 		                
+ 	            	}
+ 	            }
+        	 }
+        	//surbrillance case déplacement : 
+             for (int i1=0; i1<GestionMap.getListedeplacement().size();i1++){
+                 for (int j=0; j<(GestionMap.getListedeplacement().get(i1).size());j++){
+                 if (GestionMap.getListedeplacement().get(i1).get(j)!=0){
+                	 g2.setColor(Color.blue);
+		                g2.setStroke(bs3);
+		            	dimx= (int) (j * side * 1.5 );
+		            	dimy= i1* (Panneau2.getDimension().height);
+		                if(j%2==0) {
+		                	dimx= (int) (j * side * 1.5 );
+		                	dimy= i1* (Panneau2.getDimension().height)
+		                            + Panneau2.getDimension().height / 2;
+		                }
+		                Polygon focusedHexagon = getHexagon(dimx,dimy);
+		                g2.draw(focusedHexagon);
+		                
+		        		}
+	            	}
+                 }
+             
+			
+			//surbrillance selection :
+			 if (number != -1) {
+	             g2.setColor(Color.black);
+	             g2.setStroke(bs3);
+	             Polygon focusedHexagon = getHexagon(focusedHexagonLocation.x,
+	                     focusedHexagonLocation.y);
+	             g2.draw(focusedHexagon);
+	         }
+			
+	   }
+    
+	
     //Dï¿½finit les coordonnï¿½es des 6 points d'un hexagone
     public Polygon getHexagon(final int x, final int y) {
         hexagone.reset();
@@ -239,5 +286,11 @@ public class Panneau2 extends JPanel{
                 mx*tW, my*tH,  mx*tW+tW, my*tH+tH, this);
         
     }
-    
+    public static Dimension getDimension() {
+  		return dimension;
+  	}
+
+  	public static int getSide() {
+  		return side;
+  	}
 }
