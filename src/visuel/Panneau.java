@@ -4,10 +4,19 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
 import controleur.actionIU;
+import modele.GestionMap;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -24,11 +33,15 @@ public class Panneau extends JPanel {
 	public static JLabel lblNewLabel_7 = new JLabel(""); // pts d'action restant à set
 	public static JLabel lblNewLabel_8 = new JLabel(""); // nbr de tour à set
 	public static JLabel lblNewLabel_9 = new JLabel(""); // nom du joueur à set
-	
+	public static JLabel lblNewLabel_11 = new JLabel("");//nbr de pts d'action necessaire pour l'unite
+	public int unite;
+    public static Previsualisation preview = new Previsualisation();
 	public Panneau(final int rows, final int columns, final int side) {
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 	Panneau2 grille = new Panneau2(rows, columns, side);
+	
+	
 	//JPanel pannel = new JPanel();
 		springLayout.putConstraint(SpringLayout.NORTH,grille , 36, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, grille, 10, SpringLayout.WEST, this);
@@ -42,11 +55,12 @@ public class Panneau extends JPanel {
 		lblPrvisualisation.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(lblPrvisualisation);
 		//Panel pour la preview : 
-		JPanel panel = new JPanel();
-		springLayout.putConstraint(SpringLayout.NORTH, panel, 18, SpringLayout.SOUTH, lblPrvisualisation);
-		springLayout.putConstraint(SpringLayout.WEST, panel, 43, SpringLayout.EAST, grille);
-		springLayout.putConstraint(SpringLayout.EAST, panel, -44, SpringLayout.EAST, this);
-		add(panel);
+		//JPanel panel = new JPanel();
+		springLayout.putConstraint(SpringLayout.NORTH, preview, 18, SpringLayout.SOUTH, lblPrvisualisation);
+		springLayout.putConstraint(SpringLayout.WEST, preview, 43, SpringLayout.EAST, grille);
+		springLayout.putConstraint(SpringLayout.SOUTH, preview, -443, SpringLayout.SOUTH, this);
+		springLayout.putConstraint(SpringLayout.EAST, preview, -44, SpringLayout.EAST, this);
+		add(preview);
 		
 		//Nom unité : 
 		
@@ -112,10 +126,10 @@ public class Panneau extends JPanel {
 		add(btnPasserLeTour);
 		btnPasserLeTour.addActionListener(new actionIU());
 		JLabel lblCaractristiques = new JLabel("Caract\u00E9ristiques :");
-		springLayout.putConstraint(SpringLayout.SOUTH, panel, -6, SpringLayout.NORTH, lblCaractristiques);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblCaractristiques, -461, SpringLayout.SOUTH, this);
-		lblCaractristiques.setFont(new Font("Tahoma", Font.BOLD, 13));
 		springLayout.putConstraint(SpringLayout.WEST, lblCaractristiques, 6, SpringLayout.EAST, grille);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblCaractristiques, -6, SpringLayout.NORTH, lblNomUnit);
+		preview.setLayout(new SpringLayout());
+		lblCaractristiques.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(lblCaractristiques);
 		
 		JLabel lblJoueur = new JLabel("Joueur :");
@@ -192,6 +206,19 @@ public class Panneau extends JPanel {
 		
 		JMenuItem mntmQuittere = new JMenuItem("Quitter");
 		mnFichier.add(mntmQuittere);
-
-	}
+		
+		JLabel lblPointDaction = new JLabel("Points d'action :");
+		springLayout.putConstraint(SpringLayout.WEST, lblPointDaction, 0, SpringLayout.WEST, lblNomUnit);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblPointDaction, -6, SpringLayout.NORTH, lblJoueur);
+		add(lblPointDaction);
+		
+		
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_11, 0, SpringLayout.NORTH, lblPointDaction);
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_11, 6, SpringLayout.WEST, lblNewLabel);
+		add(lblNewLabel_11);
+		
+		
+	
+		
+    }
 }

@@ -1,11 +1,14 @@
 package controleur;
 
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import Unite.*;
 import modele.GestionMap;
+import visuel.Fenetre;
 import visuel.Panneau;
+import visuel.Previsualisation;
 
 public class actionIU implements ActionListener{
 
@@ -16,19 +19,19 @@ public class actionIU implements ActionListener{
 			GestionMap.passerTour();
 			this.update();
 		}
-		
+
 	}
 	public void update() {
-		Tank tanktest = new Tank(0,16);
 		int unite = -1;
 		if( (GestionMap.getJoueur1().piecedanstableau(GestionMap.caseCliquee.getI(), GestionMap.caseCliquee.getJ()) != -1)) {
 			unite=GestionMap.getJoueur1().piecedanstableau(GestionMap.caseCliquee.getI(), GestionMap.caseCliquee.getJ());
-			
 			Panneau.lblNewLabel.setText(GestionMap.getJoueur1().getUnites().get(unite).getClass().getName());
 			Panneau.lblNewLabel_1.setText(GestionMap.getJoueur1().getUnites().get(unite).getPV()+"");
 			Panneau.lblNewLabel_2.setText(GestionMap.getJoueur1().getUnites().get(unite).getAtk()+"");
 			Panneau.lblNewLabel_3.setText(GestionMap.getJoueur1().getUnites().get(unite).getPtDepMax()+"");
 			Panneau.lblNewLabel_4.setText(GestionMap.getJoueur1().getUnites().get(unite).getPorteeAtk()+"");
+			Panneau.lblNewLabel_11.setText(GestionMap.getJoueur1().getUnites().get(unite).getPtnActionNecessaire()+"");
+
 			
 		}
 		if( (GestionMap.getJoueur2().piecedanstableau(GestionMap.caseCliquee.getI(), GestionMap.caseCliquee.getJ()) != -1)) {
@@ -39,6 +42,7 @@ public class actionIU implements ActionListener{
 			Panneau.lblNewLabel_2.setText(GestionMap.getJoueur2().getUnites().get(unite).getAtk()+"");
 			Panneau.lblNewLabel_3.setText(GestionMap.getJoueur2().getUnites().get(unite).getPtDepMax()+"");
 			Panneau.lblNewLabel_4.setText(GestionMap.getJoueur2().getUnites().get(unite).getPorteeAtk()+"");
+			Panneau.lblNewLabel_11.setText(GestionMap.getJoueur2().getUnites().get(unite).getPtnActionNecessaire()+"");
 			
 		}
 			

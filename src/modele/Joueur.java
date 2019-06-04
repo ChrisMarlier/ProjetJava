@@ -31,7 +31,7 @@ public class Joueur {
         for(int x=0;x<listeUnites.size();x++){
             
             if(listeUnites.get(x).getCoordonneeI()==i && listeUnites.get(x).getCoordonneeJ()==j){
-            	//System.out.println("Unité selectionné");
+            //	System.out.println("Unité selectionné");
                 return x;
             }
             

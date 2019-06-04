@@ -10,6 +10,7 @@ import controleur.Coord;
 import controleur.actionIU;
 import visuel.Panneau;
 import visuel.Panneau2;
+import visuel.Previsualisation;
 
 
 public class GestionMap {
@@ -17,7 +18,7 @@ public class GestionMap {
 	private static ArrayList<ArrayList<Integer>> map;
 	private static Joueur joueur1, joueur2;
 	public static Coord caseCliquee = new Coord();
-	static int indicePieceSelected = -1;
+	public static int indicePieceSelected = -1;
 	static ArrayList<ArrayList<Integer>> listedeplacement= new ArrayList<ArrayList<Integer>>();
 	static ArrayList<ArrayList<Integer>> listeAttaque= new ArrayList<ArrayList<Integer>>();
 
@@ -56,6 +57,7 @@ public class GestionMap {
 
 		Panneau2 refresh = new Panneau2(GestionMap.getMap().size(),GestionMap.getMap().get(0).size(),16);
 		actionIU refresh2 = new actionIU();
+		
 		Joueur joueur = null;
 		Joueur ennemi = null;
 		
@@ -73,19 +75,25 @@ public class GestionMap {
 				indicePieceSelected=joueur.piecedanstableau(caseCliquee.getI(), caseCliquee.getJ());
 				listedeplacement=calculeDeplacementValide(joueur.getUnites().get(indicePieceSelected),joueur.getPM());
 				listeAttaque=calculeAtaqueValide(joueur.getUnites().get(indicePieceSelected));
-				System.out.println("Pièce séléctionnée !");
+				System.out.println("Piece selectionnee !");
+				System.out.println(indicePieceSelected);
+				Panneau.preview.revalidate();
+				Panneau.preview.repaint();
+
 				numeroClic=1;
 			}
 
-			//Si une unité a déja été select
+			//Si une unite select
 			if(numeroClic == 1) {
 				if(listedeplacement.get(caseCliquee.getJ()).get(caseCliquee.getI()) > 0) {
 					
-					System.out.println("Déplacement");
+				//	System.out.println("Deplacement");
 					Deplacement(joueur, indicePieceSelected, caseCliquee, listedeplacement);
 					//System.out.println(joueur1.getUnites().get(2).getCoordonneeI() + " " + joueur1.getUnites().get(2).getCoordonneeJ());
 					numeroClic=0;
+					
 					indicePieceSelected = -1;
+					
 					
 				}
 				else if(listeAttaque.get(caseCliquee.getJ()).get(caseCliquee.getI()) > 0 && joueur.getPA()>=joueur.getUnites().get(indicePieceSelected).getPtnActionNecessaire()) {
@@ -101,15 +109,16 @@ public class GestionMap {
 					
 					
 					numeroClic=0;
+				
 					indicePieceSelected = -1;
 				}
 				else
-					System.out.println("Aucun déplacement ou attaque autorisée à cette case");
+					System.out.println("Aucun deplacement ou attaque autorisee a� cette case");
 			}
 		
 		refresh.repaint();
 		refresh2.update();
-			
+
 			
 		
 	}
@@ -160,9 +169,9 @@ public class GestionMap {
 		listDeplacement.get(hexagone.getJ()).add(hexagone.getI(),0);
 		
 		//DEBBOGAGE
-		for(int i=0;i<19;i++){
-			System.out.println("DepAutorisé:"+listDeplacement.get(i));
-		}
+		/*for(int i=0;i<19;i++){
+			System.out.println("DepAutorise:"+listDeplacement.get(i));
+		}*/
 		
 		return listDeplacement;
 	}
@@ -188,7 +197,7 @@ public class GestionMap {
 		
 		joueur.getUnites().get(indiceC).setCoordonneeI(coord.getI());//On set l'unité a sa nouvelle position
 		joueur.getUnites().get(indiceC).setCoordonneeJ(coord.getJ());
-		System.out.println("PM restant : "+joueur.getPM());
+		//System.out.println("PM restant : "+joueur.getPM());
 	}
 
 	private static ArrayList<ArrayList<Integer>> calculeD(ArrayList<ArrayList<Integer>> test, int ptDep, Hexagone hexagone,Unite unite,int pointautiliser){
@@ -259,9 +268,9 @@ public class GestionMap {
 		listeAttaque.get(hexagone.getJ()).remove(hexagone.getI());
 		listeAttaque.get(hexagone.getJ()).add(hexagone.getI(),0);
 
-		for(int i=0;i<19;i++){
-			System.out.println("AtkAutorisé: "+listeAttaque.get(i));
-		}
+		/*for(int i=0;i<19;i++){
+			System.out.println("AtkAutorise: "+listeAttaque.get(i));
+		}*/
 		return listeAttaque;
 	}
 

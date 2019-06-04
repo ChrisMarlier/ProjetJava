@@ -52,6 +52,7 @@ public class Panneau2 extends JPanel{
                     
                 }
                 //System.out.println("XX="+ x + "YY=" + y);
+            	
                 }
                 else {
                 System.out.println("Clic en dehors de la map");
@@ -109,10 +110,10 @@ public class Panneau2 extends JPanel{
                  }
                 
                //Dessine les images donn�es par la map
-             /* 
+              
                  drawTile(g2,modele.GestionMap.getMap().get(row).get(column),(int)(hexagone.getBounds().x ),
                        (int) (hexagone.getBounds().y-20));
-             */
+             
               
               // DEBUG : Dessine une grille :  
                  g2.draw(hexagone);
@@ -134,10 +135,10 @@ public class Panneau2 extends JPanel{
                      number = column * rows + row;
                  }
                  //Dessine les images donn�es par la map
-               /*
+               
                  drawTile(g2,GestionMap.getMap().get(row).get(column),(int)(hexagone.getBounds().x ),
                        (int) (hexagone.getBounds().y-20)); 
-               */
+               
            //DEBUG :  Dessine une grille  : 
                 g2.draw(hexagone);
              
@@ -201,7 +202,8 @@ public class Panneau2 extends JPanel{
         	
         	 }
          }
-         //surbrillance case
+
+   //surbrillance case
          if (number != -1) {
              g2.setColor(Color.red);
              g2.setStroke(bs3);
@@ -209,7 +211,9 @@ public class Panneau2 extends JPanel{
                      focusedHexagonLocation.y);
              g2.draw(focusedHexagon);
          }
-       
+			Previsualisation prew = new Previsualisation();
+			prew.revalidate();
+			prew.repaint();
     }
     //D�finit les coordonn�es des 6 points d'un hexagone
     public Polygon getHexagon(final int x, final int y) {
