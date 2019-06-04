@@ -57,6 +57,13 @@ public class BDD {
                            gestionMap.getJoueur2().ajouterUnite(new Tank(rs2.getInt(1),rs2.getInt(2),rs2.getInt(3)));
 
                    }
+                   Statement stmt3 = conn.createStatement();
+                   ResultSet rs3 = stmt3.executeQuery("DELETE FROM J1");
+                   Statement stmt4 = conn.createStatement();
+                   ResultSet rs4 = stmt4.executeQuery("DELETE FROM J2");
+                   Statement stmt5 = conn.createStatement();
+                   ResultSet rs5 = stmt5.executeQuery("update MAP set id_map=0");
+
 
                }
             }
@@ -69,5 +76,58 @@ public class BDD {
         }
 
     }
+
+    public void sauvegarder(GestionMap gestionMap){
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Driver O.K.");
+
+            Connection conn = DriverManager.getConnection(url, user, passwd);
+            System.out.println("Connexion effective !");
+
+                    Statement stmt1 = conn.createStatement();
+                    ResultSet rs1 = stmt1.executeQuery("DELETE FROM J1");
+                    Statement stmt2 = conn.createStatement();
+                    ResultSet rs2 = stmt2.executeQuery("DELETE FROM J2");
+                    Statement stmt3 = conn.createStatement();
+                    ResultSet rs3 = stmt3.executeQuery("update MAP set id_map=0");
+
+                    for(int i=0;i<gestionMap.getJoueur1().getUnites().size();i++ ){
+
+
+
+                        String requette  ="insert into J1(PV,I,J,uniter"+"values(?,?,?,?)";
+                        PreparedStatement preparedStmt = conn.prepareStatement(requette);
+
+                        preparedStmt.setInt (1, gestionMap.getJoueur1().getUnites().get(i).getPV());
+                        preparedStmt.setInt (2, gestionMap.getJoueur1().getUnites().get(i).getCoordonneeI());
+                        preparedStmt.setInt (3, gestionMap.getJoueur1().getUnites().get(i).getCoordonneeJ());
+                        if( gestionMap.getJoueur1().getUnites().get(i) instanceof InfanterieLegere)
+                             preparedStmt.setInt (4, 1);
+                        else if( gestionMap.getJoueur1().getUnites().get(i) instanceof Jeep)
+                            preparedStmt.setInt (4, 2);
+                        else if( gestionMap.getJoueur1().getUnites().get(i) instanceof Tank)
+                            preparedStmt.setInt (4, 3);
+                        preparedStmt.execute();
+
+
+                    }
+
+
+
+
+            conn.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+
+
 
 }

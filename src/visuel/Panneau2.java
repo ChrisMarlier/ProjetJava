@@ -109,10 +109,10 @@ public class Panneau2 extends JPanel{
                  }
                 
                //Dessine les images donn�es par la map
-             
+
                  drawTile(g2,modele.GestionMap.getMap().get(row).get(column),(int)(hexagone.getBounds().x ),
                        (int) (hexagone.getBounds().y-20));
-             
+
               
               // DEBUG : Dessine une grille :  
                  g2.draw(hexagone);
@@ -134,13 +134,14 @@ public class Panneau2 extends JPanel{
                      number = column * rows + row;
                  }
                  //Dessine les images donn�es par la map
-               
+
                  drawTile(g2,GestionMap.getMap().get(row).get(column),(int)(hexagone.getBounds().x ),
                        (int) (hexagone.getBounds().y-20)); 
-               
+
            //DEBUG :  Dessine une grille  : 
                 g2.draw(hexagone);
-             
+
+
              }
          }
          
@@ -209,6 +210,64 @@ public class Panneau2 extends JPanel{
                      focusedHexagonLocation.y);
              g2.draw(focusedHexagon);
          }
+
+
+
+
+
+
+
+        for (int row = 0; row < rows; row++) {
+            for (int column = 1; column < columns; column += 2) {
+                //System.out.println("x:"+(int) (column * side * 1.5 )+"y:"+ row * (dimension.height));
+                getHexagon((int) (column * side * 1.5), (row * (dimension.height)));
+
+                //D�limite un hexagone
+                if (mousePosition !=null && hexagone.contains(mousePosition)){
+                    focusedHexagonLocation.y = row * (dimension.height);
+                    focusedHexagonLocation.x= (int) (column * side*1.5 );
+                    number = column * rows + row;
+                }
+
+                //Dessine les images donn�es par la map
+                if(GestionMap.getJoueur1().getBrouillard().get(row).get(column)==1){
+                    drawTile(g2,21,(int)(hexagone.getBounds().x ),
+                            (int) (hexagone.getBounds().y-20));
+
+                }
+
+
+
+
+
+            }
+        }
+
+
+        for (int row = 0; row < rows; row++) {
+            for (int column = 0; column < columns; column += 2) {
+
+                getHexagon((int) (column * side * 1.5 ),row * (dimension.height) + dimension.height/ 2
+                );
+                //D�limite un hexagone :
+                if (mousePosition!= null && hexagone.contains(mousePosition)){
+                    focusedHexagonLocation.y = row * (dimension.height)
+                            + dimension.height / 2;
+                    focusedHexagonLocation.x =(int) (column * side * 1.5 );
+                    number = column * rows + row;
+                }
+                //Dessine les images donn�es par la map
+
+                if(GestionMap.getJoueur1().getBrouillard().get(row).get(column)==1){
+                    drawTile(g2,21,(int)(hexagone.getBounds().x ),
+                            (int) (hexagone.getBounds().y-20));
+
+                }
+
+
+
+            }
+        }
        
     }
     //D�finit les coordonn�es des 6 points d'un hexagone

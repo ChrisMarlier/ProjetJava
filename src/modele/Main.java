@@ -9,8 +9,8 @@ public class Main {
 
 		GestionMap test = new GestionMap();
 	//	test.chargementMap();
-//
-//
+//		GestionMap.getJoueur1().initbrouilard();
+////
 		Runnable gui = new Runnable() {
 			 public void run() {
 				 @SuppressWarnings("unused")

@@ -8,5 +8,9 @@ public class InfanterieLegere extends Unite {
 		super(50, 4, 3, 3, 2, CoordonneeI, CoordonneeJ, 1);
 
 	}
+	public InfanterieLegere(int PV, int CoordonneeI, int CoordonneeJ) {
+		super(50, 4, 3, 3, 2, CoordonneeI, CoordonneeJ, 1);
+		this.setPV(PV);
+	}
 
 }

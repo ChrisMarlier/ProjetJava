@@ -1,18 +1,27 @@
 package modele;
 
 import Unite.*;
+import controleur.Coord;
+
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Joueur {
     private String nom;
     private ArrayList<Unite> listeUnites = new ArrayList<Unite>();
     private int PA;
     private int PM;
+
+
+
     private ArrayList<ArrayList<Integer>> brouillard=new ArrayList<>();
+
+
     public Joueur(String nom) {
         this.nom = nom;
         this.PM=10;
         this.PA = 10;
+        initbrouilard();
 
     }
     
@@ -47,8 +56,6 @@ public class Joueur {
 
 
 
-
-
     public void initbrouilard(){
 
         for(int i=0;i<19;i++){
@@ -74,15 +81,15 @@ public class Joueur {
     }
 
 
-    private void calculeB( Hexagone hexagone,int portée ){
+    public void calculeB( Hexagone hexagone,int portée ){
         // fonction recursive mettant un a 1 un case du tableau teste si une unite e assez de point de depl	cement pour y aller
 
         if( portée>0){
             // premierement on me a 1 la case courante
 
-            brouillard.get(hexagone.getJ()).remove(hexagone.getI());
-            brouillard.get(hexagone.getJ()).add(hexagone.getI(),0);
-            portée--;
+                brouillard.get(hexagone.getJ()).remove(hexagone.getI());
+                brouillard.get(hexagone.getJ()).add(hexagone.getI(),0);
+                portée--;
 
 
 
@@ -97,24 +104,22 @@ public class Joueur {
 
 //
             if (hexagone.getJ() > 0 && hexagone.getI() > 0) {
-                calculeB(hexagone.voisinHautGauche(),portée);
+                 calculeB(hexagone.voisinHautGauche(),portée);
             }
             if (hexagone.getJ() < 18 && hexagone.getI() > 0) {
                 calculeB(hexagone.voisinHautdroit(),portée);
             }
 
             if (hexagone.getJ() > 0 && hexagone.getI() < 18)  {
-                calculeB(hexagone.voisinBahGauche(),portée);
+                 calculeB(hexagone.voisinBahGauche(),portée);
             }
             if (hexagone.getJ() < 18 && hexagone.getI() < 18) {
-                calculeB(hexagone.voisinBahDroit(),portée);
+               calculeB(hexagone.voisinBahDroit(),portée);
             }
         }
 
 
     }
-
-
 
 
 
@@ -148,5 +153,13 @@ public class Joueur {
 
     public void setPM(int PM) {
         this.PM = PM;
+    }
+
+    public ArrayList<ArrayList<Integer>> getBrouillard() {
+        return brouillard;
+    }
+
+    public void setBrouillard(ArrayList<ArrayList<Integer>> brouillard) {
+        this.brouillard = brouillard;
     }
 }

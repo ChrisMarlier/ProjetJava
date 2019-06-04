@@ -24,8 +24,6 @@ public class GestionMap {
 	static int numeroClic=0;
 	private static int joueurActuel = 1; // !!!!! A CHANGER
 	private static int nbrTourRestant = 0;
-	
-	private static int modeJeu = 1; // 1 IA / 2 2joueurs
 
 
 
@@ -40,28 +38,19 @@ public class GestionMap {
 		int i,j;
 		Scanner sc;
 		
-
-
-		joueur1.ajouterUnite(new Jeep(2,1));
-		joueur1.ajouterUnite(new Jeep(3,1));
-		joueur1.ajouterUnite(new Jeep(6,1));
-		joueur1.ajouterUnite(new Jeep(6,3));
-		joueur1.ajouterUnite(new Jeep(7,1));
-        joueur1.ajouterUnite(new Jeep(1,1));
-        joueur1.ajouterUnite(new Tank(4,2));
-        joueur1.ajouterUnite(new Tank(6,6));
-        joueur1.ajouterUnite(new Tank(10,1));
-        joueur1.ajouterUnite(new Tank(9,4));
-        
-        joueur2.ajouterUnite(new Jeep(16,15));
-        joueur2.ajouterUnite(new Jeep(16,16));
-        joueur2.ajouterUnite(new Jeep(15,17));
-        joueur2.ajouterUnite(new Jeep(15,16));
-        joueur2.ajouterUnite(new Tank(9,16));
-        joueur2.ajouterUnite(new Tank(10,16));
-        joueur2.ajouterUnite(new Tank(11,16));
-        joueur2.ajouterUnite(new Tank(11,13));
-        joueur2.ajouterUnite(new Tank(16,10));
+		joueur1.ajouterUnite(new Jeep(0,0));
+		joueur1.ajouterUnite(new Tank(0,18));
+        joueur1.ajouterUnite(new Jeep(6,4));
+        joueur1.ajouterUnite(new Tank(1,0));
+        joueur2.ajouterUnite(new Tank(1,18));
+        joueur2.ajouterUnite(new Tank(2,0));
+        joueur2.ajouterUnite(new Tank(3,0));
+        joueur2.ajouterUnite(new Tank(4,0));
+        joueur2.ajouterUnite(new Tank(5,0));
+        joueur2.ajouterUnite(new Tank(6,0));
+        joueur1.initbrouilard();
+        joueur2.getBrouillard();
+		
 
 	}
 	
@@ -81,7 +70,6 @@ public class GestionMap {
 			ennemi = joueur1;
 		}
 		
-		if(modeJeu == 2 || (modeJeu == 1 && joueurActuel ==1)) {
 		//Si le joueur clique sur une de ses unité
 			if( (joueur.piecedanstableau(caseCliquee.getI(), caseCliquee.getJ()) != -1)) {
 				indicePieceSelected=joueur.piecedanstableau(caseCliquee.getI(), caseCliquee.getJ());
@@ -99,8 +87,11 @@ public class GestionMap {
 					Deplacement(joueur, indicePieceSelected, caseCliquee, listedeplacement);
 					//System.out.println(joueur1.getUnites().get(2).getCoordonneeI() + " " + joueur1.getUnites().get(2).getCoordonneeJ());
 					numeroClic=0;
+
+					joueur.calculeB(new Hexagone(joueur.getUnites().get(indicePieceSelected).getCoordonneeI(),
+							joueur.getUnites().get(indicePieceSelected).getCoordonneeJ())
+							,joueur.getUnites().get(indicePieceSelected).getPorteeAtk());
 					indicePieceSelected = -1;
-					
 				}
 				else if(listeAttaque.get(caseCliquee.getJ()).get(caseCliquee.getI()) > 0 && joueur.getPA()>=joueur.getUnites().get(indicePieceSelected).getPtnActionNecessaire()) {
 					System.out.println("A LATAKE");
@@ -119,14 +110,11 @@ public class GestionMap {
 				}
 				else
 					System.out.println("Aucun déplacement ou attaque autorisée à cette case");
-				
-				refresh.repaint();
-				refresh2.update();
 			}
 		
-		}
-
-
+		refresh.repaint();
+		refresh2.update();
+			
 			
 		
 	}
@@ -177,9 +165,9 @@ public class GestionMap {
 		listDeplacement.get(hexagone.getJ()).add(hexagone.getI(),0);
 		
 		//DEBBOGAGE
-		/*for(int i=0;i<19;i++){
+		for(int i=0;i<19;i++){
 			System.out.println("DepAutorisé:"+listDeplacement.get(i));
-		}*/
+		}
 		
 		return listDeplacement;
 	}
@@ -190,14 +178,22 @@ public class GestionMap {
 		int i = coord.getJ();
 		int j = coord.getI();
 		
-		if(joueur.getPM()-listedeplacement.get(i).get(j) >=0) {
-			joueur.setPM(joueur.getPM()-listedeplacement.get(i).get(j));
-			
-			joueur.getUnites().get(indiceC).setCoordonneeI(coord.getI());//On set l'unité a sa nouvelle position
-			joueur.getUnites().get(indiceC).setCoordonneeJ(coord.getJ());
-			System.out.println("PM restant : "+joueur.getPM());
-		}
+		Scanner sc;
+		//do{
+			/*System.out.println("entrez coodonée case cible:\nI:");
+			sc = new Scanner(System.in);
+			i = sc.nextInt();
+			System.out.println("j:");
+			sc = new Scanner(System.in);
+			j = sc.nextInt();*/
+			//listedeplacement=calculeDeplacementValide(joueur.getUnites().get(indiceC),joueur.getPM());
+		//}while(listedeplacement.get(i).get(j)==0);
 		
+		joueur.setPM(joueur.getPM()-listedeplacement.get(i).get(j));
+		
+		joueur.getUnites().get(indiceC).setCoordonneeI(coord.getI());//On set l'unité a sa nouvelle position
+		joueur.getUnites().get(indiceC).setCoordonneeJ(coord.getJ());
+		System.out.println("PM restant : "+joueur.getPM());
 	}
 
 	private static ArrayList<ArrayList<Integer>> calculeD(ArrayList<ArrayList<Integer>> test, int ptDep, Hexagone hexagone,Unite unite,int pointautiliser){
@@ -236,10 +232,10 @@ public class GestionMap {
 				test = calculeD(test, ptDep, hexagone.voisinHautdroit(),unite,pointautiliser);
 			}
 
-			if ((hexagone.getJ() > 0 && hexagone.getI() < 18) ) {
+			if ((hexagone.getJ() > 0 && hexagone.getI() < 18) || (hexagone.getI() == 18)) {
 				test = calculeD(test, ptDep,hexagone.voisinBahGauche(),unite,pointautiliser);
 			}
-			if ((hexagone.getJ() < 18 && hexagone.getI() < 18) ) {
+			if ((hexagone.getJ() < 18 && hexagone.getI() < 18) || (hexagone.getI() == 18 )) {
 				test = calculeD(test, ptDep, hexagone.voisinBahDroit(),unite,pointautiliser);
 			}
 		}
@@ -268,9 +264,9 @@ public class GestionMap {
 		listeAttaque.get(hexagone.getJ()).remove(hexagone.getI());
 		listeAttaque.get(hexagone.getJ()).add(hexagone.getI(),0);
 
-		/*for(int i=0;i<19;i++){
+		for(int i=0;i<19;i++){
 			System.out.println("AtkAutorisé: "+listeAttaque.get(i));
-		}*/
+		}
 		return listeAttaque;
 	}
 
@@ -306,10 +302,10 @@ public class GestionMap {
 				test = calculeA(test, porteAtk, hexagone.voisinHautdroit(),unite,pointautiliser);
 			}
 
-			if ((hexagone.getJ() > 0 && hexagone.getI() < 18)) {
+			if ((hexagone.getJ() > 0 && hexagone.getI() < 18) || (hexagone.getI() == 18)) {
 				test = calculeA(test, porteAtk,hexagone.voisinBahGauche(),unite,pointautiliser);
 			}
-			if ((hexagone.getJ() < 18 && hexagone.getI() < 18) ) {
+			if ((hexagone.getJ() < 18 && hexagone.getI() < 18) || (hexagone.getI() == 18 )) {
 				test = calculeA(test, porteAtk, hexagone.voisinBahDroit(),unite,pointautiliser);
 			}
 		}
@@ -323,59 +319,6 @@ public class GestionMap {
 		else 
 			return 1;
 			
-		
-	}
-	
-	public static void IA() {
-		
-		//Attaque de ce qu'elle peut
-		for(int i=0; i<joueur2.getUnites().size(); i++) {
-			listeAttaque=calculeAtaqueValide(joueur2.getUnites().get(i));
-			
-				for(int j=0; j<listeAttaque.size(); j++) {
-					for(int k=0; k<listeAttaque.get(j).size(); k++) {
-						if(listeAttaque.get(j).get(k) > 0 && joueur2.getPA() - joueur2.getUnites().get(i).getPtnActionNecessaire() >= 0) {
-							//System.out.println("unité " + joueur2.getUnites().get(i).getCoordonneeI() + " " + joueur2.getUnites().get(i).getCoordonneeJ());
-							System.out.println("ATTAQUE EN " + j + " " + k);
-							
-							int indiceEnnemi = joueur1.piecedanstableau(k, j);
-							
-							joueur2.setPA(joueur2.getPA()-joueur2.getUnites().get(i).getPtnActionNecessaire());
-
-							joueur2.getUnites().get(i).attaque(joueur1.getUnites().get(indiceEnnemi));
-							System.out.println(joueur2.getPA());
-							
-							if(joueur1.getUnites().get(indiceEnnemi).getPV()<=0) { //Si l'unité est morte
-								joueur1.supprimerUnite(indiceEnnemi);
-							}
-						}
-					}
-				}
-			
-		}
-		
-		listedeplacement=calculeDeplacementValide(joueur2.getUnites().get(0), joueur2.getPM());
-		int deplacementEffectue = 0;
-		
-		for(int i=0; i<listedeplacement.size(); i++) {
-			for(int j=0; j<listedeplacement.get(i).size(); j++) {
-				
-					if(listedeplacement.get(i).get(j) > 0 && deplacementEffectue ==0) {
-						System.out.println("Déplaccement");
-						caseCliquee.setI(i);
-						caseCliquee.setJ(j);
-						Deplacement(joueur2, 0, caseCliquee, listedeplacement );
-						deplacementEffectue=1;
-					}
-
-			}
-		}
-		
-		Panneau2 refresh = new Panneau2(GestionMap.getMap().size(),GestionMap.getMap().get(0).size(),16);
-		actionIU refresh2 = new actionIU();
-		
-		passerTour();
-
 		
 	}
 	
@@ -415,9 +358,6 @@ public class GestionMap {
 	}
 	public static int getNbrTourRestant() {
 		return nbrTourRestant;
-	}
-	public static int getModeJeu() {
-		return modeJeu;
 	}
 
 }
