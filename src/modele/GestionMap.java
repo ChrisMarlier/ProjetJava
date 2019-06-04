@@ -96,7 +96,9 @@ public class GestionMap {
 					
 					
 				}
+					
 				else if(listeAttaque.get(caseCliquee.getJ()).get(caseCliquee.getI()) > 0 && joueur.getPA()>=joueur.getUnites().get(indicePieceSelected).getPtnActionNecessaire()) {
+					
 					System.out.println("A LATAKE");
 					joueur.setPA(joueur.getPA()-joueur.getUnites().get(indicePieceSelected).getPtnActionNecessaire());
 					
@@ -115,7 +117,7 @@ public class GestionMap {
 				else
 					System.out.println("Aucun deplacement ou attaque autorisee a  cette case");
 			}
-		
+		System.out.println(listeAttaque);
 		refresh.repaint();
 		refresh2.update();
 
