@@ -8,7 +8,7 @@ public class Joueur {
     private ArrayList<Unite> listeUnites = new ArrayList<Unite>();
     private int PA;
     private int PM;
-
+    private ArrayList<ArrayList<Integer>> brouillard=new ArrayList<>();
     public Joueur(String nom) {
         this.nom = nom;
         this.PM=10;
@@ -44,6 +44,80 @@ public class Joueur {
         this.PA=10;
         this.PM=10;
     }
+
+
+
+
+
+    public void initbrouilard(){
+
+        for(int i=0;i<19;i++){
+            ArrayList<Integer> ListInt = new ArrayList<Integer>();
+            for(int j=0;j<19;j++){
+                ListInt.add(1);
+            }
+            brouillard.add(ListInt);
+        }//creation d'un tableau analogue a la map rempli de 0
+
+        for(int i=0;i<this.listeUnites.size();i++) {
+            Hexagone hexagone = new Hexagone(listeUnites.get(i).getCoordonneeI(), listeUnites.get(i).getCoordonneeJ());
+            calculeB(hexagone, listeUnites.get(i).getPorteeAtk());
+
+        }
+        //DEBBOGAGE
+        System.out.println("\n");
+        for(int i=0;i<19;i++){
+
+            System.out.println(brouillard.get(i));
+        }
+
+    }
+
+
+    private void calculeB( Hexagone hexagone,int portée ){
+        // fonction recursive mettant un a 1 un case du tableau teste si une unite e assez de point de depl	cement pour y aller
+
+        if( portée>0){
+            // premierement on me a 1 la case courante
+
+            brouillard.get(hexagone.getJ()).remove(hexagone.getI());
+            brouillard.get(hexagone.getJ()).add(hexagone.getI(),0);
+            portée--;
+
+
+
+            // puis on remance l'algo sur les hexagone voisin
+            if(hexagone.getI()>0){
+                calculeB(hexagone.voisinHaut(),portée);
+            }
+            if(hexagone.getI()<18){
+                calculeB(hexagone.voisinBah(),portée);
+            }
+
+
+//
+            if (hexagone.getJ() > 0 && hexagone.getI() > 0) {
+                calculeB(hexagone.voisinHautGauche(),portée);
+            }
+            if (hexagone.getJ() < 18 && hexagone.getI() > 0) {
+                calculeB(hexagone.voisinHautdroit(),portée);
+            }
+
+            if (hexagone.getJ() > 0 && hexagone.getI() < 18)  {
+                calculeB(hexagone.voisinBahGauche(),portée);
+            }
+            if (hexagone.getJ() < 18 && hexagone.getI() < 18) {
+                calculeB(hexagone.voisinBahDroit(),portée);
+            }
+        }
+
+
+    }
+
+
+
+
+
     public String getNom() {
         return nom;
     }
