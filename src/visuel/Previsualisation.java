@@ -19,13 +19,12 @@ public class Previsualisation extends JPanel{
 
     	//Charge les images : 
     	try {
-    		tileset = ImageIO.read(new File("src/resources/fantasyhextiles_v3_borderless.png"));
-    		tank = ImageIO.read(new File("src/resources/tank_bleu.png"));
-    		jeep = ImageIO.read(new File("src/resources/jeep_bleu.png"));
+    		tank = ImageIO.read(new File("src/resources/tank_bleu._prev.png"));
+    		jeep = ImageIO.read(new File("src/resources/jeep_bleu_prev.png"));
     		inf = ImageIO.read(new File("src/resources/infanterie_bleu.png"));
 
-    		tank2 = ImageIO.read(new File("src/resources/tank_rouge.png"));
-    		jeep2 = ImageIO.read(new File("src/resources/jeep_rouge.png"));
+    		tank2 = ImageIO.read(new File("src/resources/tank_rouge_prev.png"));
+    		jeep2 = ImageIO.read(new File("src/resources/jeep_rouge_prev.png"));
     		inf2 = ImageIO.read(new File("src/resources/infanterie_rouge.png"));
     	}catch(IOException exec) {
     		System.out.println("Erreur source image");
