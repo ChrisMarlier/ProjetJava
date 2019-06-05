@@ -92,7 +92,7 @@ public class GestionMap {
 					Deplacement(joueur, indicePieceSelected, caseCliquee, getListedeplacement());
 					//System.out.println(joueur1.getUnites().get(2).getCoordonneeI() + " " + joueur1.getUnites().get(2).getCoordonneeJ());
 					numeroClic=0;
-					listedeplacement.clear();
+					effaceListes();
 					indicePieceSelected = -1;
 					
 					
@@ -112,7 +112,7 @@ public class GestionMap {
 					
 					
 					numeroClic=0;
-					listeAttaque.clear();
+					effaceListes();
 					indicePieceSelected = -1;
 				}
 				else
