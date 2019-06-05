@@ -20,14 +20,18 @@ public class actionIU implements ActionListener{
 			this.update();
 		}
 		
-	/*	if(arg0.getSource() == Panneau.mntmMenu){
+		if(arg0.getSource() == Panneau.mntmMenu){
 			Jeu.instance.setContentPane(Jeu.instance.getMenuPrincipal());
 			Jeu.instance.setBounds(new Rectangle(new Dimension(800,600)));
-			Jeu.instance.setLocationRelativeTo(null);
-		} */
+			Jeu.instance.dispose();
+			Jeu.instance=null;
+			Jeu jeu = new Jeu("Wargame");
+		} 
 		
 		if(arg0.getSource() == Panneau.mntmSauvegarder) {
 			System.out.println("Sauvegarder");
+			GestionMap.sauv();
+			GestionMap.lire();
 		}
 		if(arg0.getSource()== Panneau.mntmQuittere){
 			System.out.println("GoodBye");

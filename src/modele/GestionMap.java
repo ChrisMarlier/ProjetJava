@@ -1,6 +1,11 @@
 package modele;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -18,7 +23,8 @@ import visuel.Panneau2;
 public class GestionMap {
 
 	private static ArrayList<ArrayList<Integer>> map;
-	private static Joueur joueur1, joueur2;
+	private static ArrayList<ArrayList<Integer>> map2;
+	private static Joueur joueur1, joueur2,joueursauv;
 	public static Coord caseCliquee = new Coord();
 	static int indicePieceSelected = -1;
 	static ArrayList<ArrayList<Integer>> listedeplacement= new ArrayList<ArrayList<Integer>>();
@@ -409,7 +415,8 @@ public class GestionMap {
 		
 		Panneau2 refresh = new Panneau2(GestionMap.getMap().size(),GestionMap.getMap().get(0).size(),16);
 		actionIU refresh2 = new actionIU();
-		
+		refresh.repaint();
+		refresh2.update();
 		passerTour();
 
 		
@@ -430,7 +437,51 @@ public class GestionMap {
 		}
 		
 	}
-
+	public static void sauv() {
+		  try
+	        {
+	            FileOutputStream fos = new FileOutputStream("listData");
+	            ObjectOutputStream oos = new ObjectOutputStream(fos);
+	            oos.writeObject(joueur1);
+	            oos.close();
+	            fos.close();
+	        }
+	        catch (IOException ioe)
+	        {
+	            ioe.printStackTrace();
+	        }
+	}
+	@SuppressWarnings("unchecked")
+	public static void lire() {
+		try
+        {
+            FileInputStream fis = new FileInputStream("listData");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+ 
+           joueursauv= (Joueur) ois.readObject();
+ 
+            ois.close();
+            fis.close();
+        }
+        catch (IOException ioe)
+        {
+            ioe.printStackTrace();
+            return;
+        }
+        catch (ClassNotFoundException c)
+        {
+            System.out.println("Class not found");
+            c.printStackTrace();
+            return;
+        }
+         
+        //Verify list data
+      
+            System.out.println(joueursauv);
+            System.out.println(joueursauv.getNom());
+            System.out.println(joueursauv.getUnites());
+        
+	}
 	public static int getJoueurActuel() {
 		return joueurActuel;
 	}
