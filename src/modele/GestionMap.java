@@ -144,7 +144,7 @@ public class GestionMap {
 					indicePieceSelected = -1;
 				}
 				else
-					System.out.println("Aucun deplacement ou attaque autorisee a  cette case");
+					System.out.println("Aucun deplacement ou attaque autorisee aï¿½ cette case");
 				
 
 			}
@@ -440,48 +440,24 @@ public class GestionMap {
 	public static void sauv() {
 		  try
 	        {
-	            FileOutputStream fos = new FileOutputStream("listData");
+	            FileOutputStream fos = new FileOutputStream("saveJ1");
 	            ObjectOutputStream oos = new ObjectOutputStream(fos);
 	            oos.writeObject(joueur1);
 	            oos.close();
 	            fos.close();
+	            
+	            FileOutputStream fos2 = new FileOutputStream("saveJ2");
+	            ObjectOutputStream oos2 = new ObjectOutputStream(fos2);
+	            oos2.writeObject(joueur2);
+	            oos2.close();
+	            fos2.close();
 	        }
 	        catch (IOException ioe)
 	        {
 	            ioe.printStackTrace();
 	        }
 	}
-	@SuppressWarnings("unchecked")
-	public static void lire() {
-		try
-        {
-            FileInputStream fis = new FileInputStream("listData");
-            ObjectInputStream ois = new ObjectInputStream(fis);
- 
-           joueursauv= (Joueur) ois.readObject();
- 
-            ois.close();
-            fis.close();
-        }
-        catch (IOException ioe)
-        {
-            ioe.printStackTrace();
-            return;
-        }
-        catch (ClassNotFoundException c)
-        {
-            System.out.println("Class not found");
-            c.printStackTrace();
-            return;
-        }
-         
-        //Verify list data
-      
-            System.out.println(joueursauv);
-            System.out.println(joueursauv.getNom());
-            System.out.println(joueursauv.getUnites());
-        
-	}
+
 	public static int getJoueurActuel() {
 		return joueurActuel;
 	}
@@ -520,6 +496,14 @@ public class GestionMap {
 	}
 	public static void setModeJeu(int modeJeu) {
 		GestionMap.modeJeu = modeJeu;
+	}
+
+	public static void setJoueur1(Joueur joueur1) {
+		GestionMap.joueur1 = joueur1;
+	}
+
+	public static void setJoueur2(Joueur joueur2) {
+		GestionMap.joueur2 = joueur2;
 	}
 
 }

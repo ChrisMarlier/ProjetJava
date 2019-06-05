@@ -17,6 +17,14 @@ public class actionIU implements ActionListener{
 		if (arg0.getSource() == Panneau.btnPasserLeTour) {
 			GestionMap.passerTour();
 			GestionMap.effaceListes();
+			
+			if(GestionMap.getModeJeu() == 1) {
+				System.out.println("C'est à l'ia de jouer");
+				GestionMap.IA();
+				GestionMap.effaceListes();
+
+			}
+			
 			this.update();
 		}
 		
@@ -31,7 +39,6 @@ public class actionIU implements ActionListener{
 		if(arg0.getSource() == Panneau.mntmSauvegarder) {
 			System.out.println("Sauvegarder");
 			GestionMap.sauv();
-			GestionMap.lire();
 		}
 		if(arg0.getSource()== Panneau.mntmQuittere){
 			System.out.println("GoodBye");

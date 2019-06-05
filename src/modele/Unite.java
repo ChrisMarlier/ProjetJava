@@ -6,7 +6,6 @@ public class Unite implements Serializable{
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -869172938462934570L;
 	private int PV;
     private  int pvMax;
     private  int ptDep;
