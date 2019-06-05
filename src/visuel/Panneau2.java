@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
 import modele.GestionMap;
+import modele.Joueur;
   
 @SuppressWarnings("serial")
 public class Panneau2 extends JPanel{
@@ -229,7 +230,7 @@ public class Panneau2 extends JPanel{
  	            	}
  	            }
         	 }
-        	//surbrillance case déplacement : 
+        	//surbrillance case d\E9placement : 
              for (int i1=0; i1<GestionMap.getListedeplacement().size();i1++){
                  for (int j=0; j<(GestionMap.getListedeplacement().get(i1).size());j++){
                  if (GestionMap.getListedeplacement().get(i1).get(j)!=0){
@@ -258,6 +259,76 @@ public class Panneau2 extends JPanel{
 	                     focusedHexagonLocation.y);
 	             g2.draw(focusedHexagon);
 	         }
+			 
+	         //BROUILLARD
+	         for (int row = 0; row < rows; row++) {
+	             for (int column = 1; column < columns; column += 2) {
+	                 //System.out.println("x:"+(int) (column * side * 1.5 )+"y:"+ row * (dimension.height));
+	                 getHexagon((int) (column * side * 1.5), (row * (dimension.height)));
+
+	                 //Dï¿½limite un hexagone
+	                 if (mousePosition !=null && hexagone.contains(mousePosition)){
+	                     focusedHexagonLocation.y = row * (dimension.height);
+	                     focusedHexagonLocation.x= (int) (column * side*1.5 );
+	                     number = column * rows + row;
+	                 }
+
+	                 
+	                 Joueur joueur = null; 	
+	                 
+	                 if(GestionMap.getJoueurActuel() == 1)
+	                	 joueur = GestionMap.getJoueur1();
+	                 else if (GestionMap.getJoueurActuel() == 2)
+	                	 joueur = GestionMap.getJoueur2();
+	                 
+	                 //Dessine les images donnï¿½es par la map
+	                 if(joueur.getBrouillard().get(row).get(column)==1){
+	                     drawTile(g2,21,(int)(hexagone.getBounds().x ),
+	                             (int) (hexagone.getBounds().y-20));
+
+	                 }
+
+
+
+
+
+	             }
+	         }
+
+
+	         for (int row = 0; row < rows; row++) {
+	             for (int column = 0; column < columns; column += 2) {
+
+	                 getHexagon((int) (column * side * 1.5 ),row * (dimension.height) + dimension.height/ 2
+	                 );
+	                 //Delimite un hexagone :
+	                 if (mousePosition!= null && hexagone.contains(mousePosition)){
+	                     focusedHexagonLocation.y = row * (dimension.height)
+	                             + dimension.height / 2;
+	                     focusedHexagonLocation.x =(int) (column * side * 1.5 );
+	                     number = column * rows + row;
+	                 }
+	                 //Dessine les images donnees par la map
+
+	                Joueur joueur = null; 	
+	                
+	                 if(GestionMap.getJoueurActuel() == 1)
+	                	 joueur = GestionMap.getJoueur1();
+	                 else if (GestionMap.getJoueurActuel() == 2)
+	                	 joueur = GestionMap.getJoueur2();
+	                 
+	                 
+	                 if(joueur.getBrouillard().get(row).get(column)==1){
+	                     drawTile(g2,21,(int)(hexagone.getBounds().x ),
+	                             (int) (hexagone.getBounds().y-20));
+
+	                 }
+
+
+
+	             }
+	         }
+	         //FIN BROUILLARD
 			
 	   }
     

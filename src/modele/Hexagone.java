@@ -10,49 +10,49 @@ public class Hexagone {
     //Methodes permetant de renvoyer les hexagone voisin
     public Hexagone voisinHaut(){
         Hexagone hexagone=new Hexagone(this.i,this.j);
-        hexagone.i--;
+        hexagone.j--;
 
         return hexagone;
     }
     public Hexagone voisinHautGauche(){
         Hexagone hexagone=new Hexagone(this.i,this.j);
-        if(hexagone.j%2==1){
-            hexagone.i--;
+        if(hexagone.i%2==1){
             hexagone.j--;
+            hexagone.i--;
         }
         else {
 
-            hexagone.j--;
+            hexagone.i--;
         }
         return hexagone;
     }
     public Hexagone voisinHautdroit(){
                 Hexagone hexagone=new Hexagone(this.i,this.j);
-        if(hexagone.j%2==1){
-            hexagone.i--;
-            hexagone.j++;
+        if(hexagone.i%2==1){
+            hexagone.j--;
+            hexagone.i++;
         }
         else {
-            hexagone.j++;
+            hexagone.i++;
         }
 
         return hexagone;
     }
     public Hexagone voisinBah(){
         Hexagone hexagone=new Hexagone(this.i,this.j);
-        hexagone.i++;
+        hexagone.j++;
 
         return hexagone;
     }
     public Hexagone voisinBahGauche(){
         Hexagone hexagone=new Hexagone(this.i,this.j);
-        if(hexagone.j%2==1){
+        if(hexagone.i%2==1){
 
-            hexagone.j--;
+            hexagone.i--;
         }
         else {
-            hexagone.i++;
-            hexagone.j--;
+            hexagone.j++;
+            hexagone.i--;
         }
 
         return hexagone;
@@ -60,13 +60,13 @@ public class Hexagone {
     public Hexagone voisinBahDroit(){
         Hexagone hexagone=new Hexagone(this.i,this.j);
 
-        if(hexagone.j%2==1){
+        if(hexagone.i%2==1){
 
-            hexagone.j++;
+            hexagone.i++;
         }
         else {
-            hexagone.i++;
             hexagone.j++;
+            hexagone.i++;
         }
         return hexagone;
     }

@@ -1,14 +1,13 @@
 package controleur;
 
-import java.awt.EventQueue;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import Unite.*;
+import menu.Jeu;
 import modele.GestionMap;
-import visuel.Fenetre;
 import visuel.Panneau;
-import visuel.Previsualisation;
 
 public class actionIU implements ActionListener{
 
@@ -19,6 +18,20 @@ public class actionIU implements ActionListener{
 			GestionMap.passerTour();
 			GestionMap.effaceListes();
 			this.update();
+		}
+		
+	/*	if(arg0.getSource() == Panneau.mntmMenu){
+			Jeu.instance.setContentPane(Jeu.instance.getMenuPrincipal());
+			Jeu.instance.setBounds(new Rectangle(new Dimension(800,600)));
+			Jeu.instance.setLocationRelativeTo(null);
+		} */
+		
+		if(arg0.getSource() == Panneau.mntmSauvegarder) {
+			System.out.println("Sauvegarder");
+		}
+		if(arg0.getSource()== Panneau.mntmQuittere){
+			System.out.println("GoodBye");
+			System.exit(0);
 		}
 
 	}
