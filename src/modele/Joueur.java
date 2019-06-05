@@ -1,27 +1,19 @@
 package modele;
 
 import Unite.*;
-import controleur.Coord;
-
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Joueur {
     private String nom;
     private ArrayList<Unite> listeUnites = new ArrayList<Unite>();
+    private ArrayList<ArrayList<Integer>> brouillard=new ArrayList<>();
     private int PA;
     private int PM;
-
-
-
-    private ArrayList<ArrayList<Integer>> brouillard=new ArrayList<>();
-
 
     public Joueur(String nom) {
         this.nom = nom;
         this.PM=10;
         this.PA = 10;
-        initbrouilard();
 
     }
     
@@ -49,13 +41,6 @@ public class Joueur {
         return -1;
     }
     
-    public void fintour(){
-        this.PA=10;
-        this.PM=10;
-    }
-
-
-
     public void initbrouilard(){
 
         for(int i=0;i<19;i++){
@@ -68,9 +53,10 @@ public class Joueur {
 
         for(int i=0;i<this.listeUnites.size();i++) {
             Hexagone hexagone = new Hexagone(listeUnites.get(i).getCoordonneeI(), listeUnites.get(i).getCoordonneeJ());
-            calculeB(hexagone, listeUnites.get(i).getPorteeAtk());
+            calculeB(hexagone, listeUnites.get(i).getPorteeAtk()+1);
 
         }
+      ;
         //DEBBOGAGE
         System.out.println("\n");
         for(int i=0;i<19;i++){
@@ -94,35 +80,44 @@ public class Joueur {
 
 
             // puis on remance l'algo sur les hexagone voisin
-            if(hexagone.getI()>0){
+            if(hexagone.getJ()>0){
                 calculeB(hexagone.voisinHaut(),portée);
+
             }
-            if(hexagone.getI()<18){
+            if(hexagone.getJ()<18){
                 calculeB(hexagone.voisinBah(),portée);
+
             }
 
 
 //
             if (hexagone.getJ() > 0 && hexagone.getI() > 0) {
                  calculeB(hexagone.voisinHautGauche(),portée);
-            }
-            if (hexagone.getJ() < 18 && hexagone.getI() > 0) {
-                calculeB(hexagone.voisinHautdroit(),portée);
+
             }
 
-            if (hexagone.getJ() > 0 && hexagone.getI() < 18)  {
+            if (hexagone.getJ() > 0 && hexagone.getI() < 18) {
+               calculeB(hexagone.voisinHautdroit(),portée);
+
+            }
+//
+            if (hexagone.getJ() <18 && hexagone.getI() > 0)  {
                  calculeB(hexagone.voisinBahGauche(),portée);
+
             }
             if (hexagone.getJ() < 18 && hexagone.getI() < 18) {
                calculeB(hexagone.voisinBahDroit(),portée);
+
             }
         }
 
 
     }
-
-
-
+    
+    public void fintour(){
+        this.PA=10;
+        this.PM=10;
+    }
     public String getNom() {
         return nom;
     }
@@ -155,11 +150,11 @@ public class Joueur {
         this.PM = PM;
     }
 
-    public ArrayList<ArrayList<Integer>> getBrouillard() {
-        return brouillard;
-    }
+	public ArrayList<ArrayList<Integer>> getBrouillard() {
+		return brouillard;
+	}
 
-    public void setBrouillard(ArrayList<ArrayList<Integer>> brouillard) {
-        this.brouillard = brouillard;
-    }
+	public void setBrouillard(ArrayList<ArrayList<Integer>> brouillard) {
+		this.brouillard = brouillard;
+	}
 }

@@ -21,5 +21,13 @@ public class Coord {
 	public int getJ() {
 		return j;
 	}
+	
+	public void setI(int I) {
+		this.i = I;
+	}
+	
+	public void setJ(int J) {
+		this.j =J;
+	}
 
 }

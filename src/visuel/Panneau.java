@@ -4,31 +4,44 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
 import controleur.actionIU;
+import modele.GestionMap;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 public class Panneau extends JPanel {
 	//Voir exemple dans actionIU
-	public static JLabel lblNewLabel = new JLabel(""); // Nom unité à set 
-	public static JLabel lblNewLabel_1 = new JLabel("");// pt de vie à set
-	public static JLabel lblNewLabel_2 = new JLabel("");// attaque à set
-	public static JLabel lblNewLabel_3 = new JLabel("");//Déplacement à set 
-	public static JLabel lblNewLabel_4 = new JLabel("");//vision à set
-	public static JButton btnPasserLeTour = new JButton("Passer le tour"); //bouton à set (ActionListener)
-	public static JLabel lblNewLabel_6 = new JLabel(""); // pts de déplacement restant à set
-	public static JLabel lblNewLabel_7 = new JLabel(""); // pts d'action restant à set
-	public static JLabel lblNewLabel_8 = new JLabel(""); // nbr de tour à set
-	public static JLabel lblNewLabel_9 = new JLabel(""); // nom du joueur à set
-	
+	public static JLabel lblNewLabel = new JLabel(""); // Nom unitÃ© Ã  set 
+	public static JLabel lblNewLabel_1 = new JLabel("");// pt de vie Ã  set
+	public static JLabel lblNewLabel_2 = new JLabel("");// attaque Ã  set
+	public static JLabel lblNewLabel_3 = new JLabel("");//DÃ©placement Ã  set 
+	public static JLabel lblNewLabel_4 = new JLabel("");//vision Ã  set
+	public static JButton btnPasserLeTour = new JButton("Passer le tour"); //bouton Ã  set (ActionListener)
+	public static JLabel lblNewLabel_6 = new JLabel(""); // pts de dÃ©placement restant Ã  set
+	public static JLabel lblNewLabel_7 = new JLabel(""); // pts d'action restant Ã  set
+	public static JLabel lblNewLabel_8 = new JLabel(""); // nbr de tour Ã  set
+	public static JLabel lblNewLabel_9 = new JLabel(""); // nom du joueur Ã  set
+	public static JLabel lblNewLabel_11 = new JLabel("");//nbr de pts d'action necessaire pour l'unite
+	public int unite;
+    public static Previsualisation preview = new Previsualisation();
 	public Panneau(final int rows, final int columns, final int side) {
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 	Panneau2 grille = new Panneau2(rows, columns, side);
+	
+	
 	//JPanel pannel = new JPanel();
 		springLayout.putConstraint(SpringLayout.NORTH,grille , 36, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, grille, 10, SpringLayout.WEST, this);
@@ -42,13 +55,14 @@ public class Panneau extends JPanel {
 		lblPrvisualisation.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(lblPrvisualisation);
 		//Panel pour la preview : 
-		JPanel panel = new JPanel();
-		springLayout.putConstraint(SpringLayout.NORTH, panel, 18, SpringLayout.SOUTH, lblPrvisualisation);
-		springLayout.putConstraint(SpringLayout.WEST, panel, 43, SpringLayout.EAST, grille);
-		springLayout.putConstraint(SpringLayout.EAST, panel, -44, SpringLayout.EAST, this);
-		add(panel);
+		//JPanel panel = new JPanel();
+		springLayout.putConstraint(SpringLayout.NORTH, preview, 18, SpringLayout.SOUTH, lblPrvisualisation);
+		springLayout.putConstraint(SpringLayout.WEST, preview, 43, SpringLayout.EAST, grille);
+		springLayout.putConstraint(SpringLayout.SOUTH, preview, -443, SpringLayout.SOUTH, this);
+		springLayout.putConstraint(SpringLayout.EAST, preview, -44, SpringLayout.EAST, this);
+		add(preview);
 		
-		//Nom unité : 
+		//Nom unitÃ© : 
 		
 		JLabel lblNomUnit = new JLabel("Nom unit\u00E9 : ");
 		springLayout.putConstraint(SpringLayout.NORTH, lblNomUnit, 211, SpringLayout.NORTH, this);
@@ -82,7 +96,7 @@ public class Panneau extends JPanel {
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_2, 0, SpringLayout.WEST, lblNewLabel);
 		add(lblNewLabel_2);
 		
-		//Déplacement : 
+		//DÃ©placement : 
 		
 		JLabel lblDplacement = new JLabel("D\u00E9placement :");
 		springLayout.putConstraint(SpringLayout.NORTH, lblDplacement, 19, SpringLayout.SOUTH, lblAttaque);
@@ -112,10 +126,10 @@ public class Panneau extends JPanel {
 		add(btnPasserLeTour);
 		btnPasserLeTour.addActionListener(new actionIU());
 		JLabel lblCaractristiques = new JLabel("Caract\u00E9ristiques :");
-		springLayout.putConstraint(SpringLayout.SOUTH, panel, -6, SpringLayout.NORTH, lblCaractristiques);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblCaractristiques, -461, SpringLayout.SOUTH, this);
-		lblCaractristiques.setFont(new Font("Tahoma", Font.BOLD, 13));
 		springLayout.putConstraint(SpringLayout.WEST, lblCaractristiques, 6, SpringLayout.EAST, grille);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblCaractristiques, -6, SpringLayout.NORTH, lblNomUnit);
+		preview.setLayout(new SpringLayout());
+		lblCaractristiques.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(lblCaractristiques);
 		
 		JLabel lblJoueur = new JLabel("Joueur :");
@@ -124,7 +138,7 @@ public class Panneau extends JPanel {
 		springLayout.putConstraint(SpringLayout.WEST, lblJoueur, 6, SpringLayout.EAST, grille);
 		add(lblJoueur);
 		
-		//Points de déplacement :
+		//Points de dÃ©placement :
  		
 		JLabel lblNewLabel_5 = new JLabel("Points de d\u00E9placement restant :");
 		springLayout.putConstraint(SpringLayout.EAST, btnPasserLeTour, 0, SpringLayout.EAST, lblNewLabel_5);
@@ -192,6 +206,19 @@ public class Panneau extends JPanel {
 		
 		JMenuItem mntmQuittere = new JMenuItem("Quitter");
 		mnFichier.add(mntmQuittere);
-
-	}
+		
+		JLabel lblPointDaction = new JLabel("Points d'action :");
+		springLayout.putConstraint(SpringLayout.WEST, lblPointDaction, 0, SpringLayout.WEST, lblNomUnit);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblPointDaction, -6, SpringLayout.NORTH, lblJoueur);
+		add(lblPointDaction);
+		
+		
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_11, 0, SpringLayout.NORTH, lblPointDaction);
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_11, 6, SpringLayout.WEST, lblNewLabel);
+		add(lblNewLabel_11);
+		
+		
+	
+		
+    }
 }

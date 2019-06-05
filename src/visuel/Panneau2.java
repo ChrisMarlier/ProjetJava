@@ -2,12 +2,14 @@ package visuel;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import java.awt.event.*;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
 import modele.GestionMap;
+import modele.Joueur;
   
 @SuppressWarnings("serial")
 public class Panneau2 extends JPanel{
@@ -18,18 +20,20 @@ public class Panneau2 extends JPanel{
     private final BasicStroke bs1 = new BasicStroke(1);
     private final BasicStroke bs3 = new BasicStroke(3);
     private final Point focusedHexagonLocation = new Point();
-    private final Dimension dimension;
-    private final int rows, columns, side;
+    private static Dimension dimension;
+  
+
+	private final int rows, columns;
+	private static int side;
     private Point mousePosition;
     private int number;
 	private Graphics2D g3;
-	private int dim1;
-	private int dim2;
+	private int dim1,dim2,dimx,dimy;
     //TODO JavBar , GameUI, Previsualisation de l'unite ...
     public Panneau2(final int rows, final int columns, final int side) {
     	this.rows=rows;
     	this.columns=columns;
-    	this.side=side;
+    	Panneau2.side=side;
     	dimension=getHexagon(0,0).getBounds().getSize();
     	MouseInputAdapter mouseHandler = new MouseInputAdapter() {
             @Override
@@ -52,6 +56,7 @@ public class Panneau2 extends JPanel{
                     
                 }
                 //System.out.println("XX="+ x + "YY=" + y);
+            	
                 }
                 else {
                 System.out.println("Clic en dehors de la map");
@@ -109,10 +114,10 @@ public class Panneau2 extends JPanel{
                  }
                 
                //Dessine les images donn�es par la map
-
+              
                  drawTile(g2,modele.GestionMap.getMap().get(row).get(column),(int)(hexagone.getBounds().x ),
                        (int) (hexagone.getBounds().y-20));
-
+             
               
               // DEBUG : Dessine une grille :  
                  g2.draw(hexagone);
@@ -134,14 +139,13 @@ public class Panneau2 extends JPanel{
                      number = column * rows + row;
                  }
                  //Dessine les images donn�es par la map
-
+               
                  drawTile(g2,GestionMap.getMap().get(row).get(column),(int)(hexagone.getBounds().x ),
                        (int) (hexagone.getBounds().y-20)); 
-
+               
            //DEBUG :  Dessine une grille  : 
                 g2.draw(hexagone);
-
-
+             
              }
          }
          
@@ -202,74 +206,133 @@ public class Panneau2 extends JPanel{
         	
         	 }
          }
-         //surbrillance case
-         if (number != -1) {
-             g2.setColor(Color.red);
-             g2.setStroke(bs3);
-             Polygon focusedHexagon = getHexagon(focusedHexagonLocation.x,
-                     focusedHexagonLocation.y);
-             g2.draw(focusedHexagon);
-         }
+
+   //surbrillance case
+  
+		
+			//surbrillance case attaque : 
+        
+        	 for (int i=0;i<GestionMap.getListeAttaque().size();i++){
+ 	            for (int j=0; j<(GestionMap.getListeAttaque().get(i).size());j++){
+ 		            if (GestionMap.getListeAttaque().get(i).get(j)!=0){
+ 		            	g2.setColor(Color.red);
+ 		                g2.setStroke(bs3);
+ 		            	dimx= (int) (j * side * 1.5 );
+ 		            	dimy= i* (Panneau2.getDimension().height);
+ 		                if(j%2==0) {
+ 		                	dimx= (int) (j * side * 1.5 );
+ 		                	dimy= i* (Panneau2.getDimension().height)
+ 		                            + Panneau2.getDimension().height / 2;
+ 		                }
+ 		                Polygon focusedHexagon = getHexagon(dimx,dimy);
+ 		                g2.draw(focusedHexagon);
+ 		                
+ 	            	}
+ 	            }
+        	 }
+        	//surbrillance case d\E9placement : 
+             for (int i1=0; i1<GestionMap.getListedeplacement().size();i1++){
+                 for (int j=0; j<(GestionMap.getListedeplacement().get(i1).size());j++){
+                 if (GestionMap.getListedeplacement().get(i1).get(j)!=0){
+                	 g2.setColor(Color.blue);
+		                g2.setStroke(bs3);
+		            	dimx= (int) (j * side * 1.5 );
+		            	dimy= i1* (Panneau2.getDimension().height);
+		                if(j%2==0) {
+		                	dimx= (int) (j * side * 1.5 );
+		                	dimy= i1* (Panneau2.getDimension().height)
+		                            + Panneau2.getDimension().height / 2;
+		                }
+		                Polygon focusedHexagon = getHexagon(dimx,dimy);
+		                g2.draw(focusedHexagon);
+		                
+		        		}
+	            	}
+                 }
+             
+			
+			//surbrillance selection :
+			 if (number != -1) {
+	             g2.setColor(Color.black);
+	             g2.setStroke(bs3);
+	             Polygon focusedHexagon = getHexagon(focusedHexagonLocation.x,
+	                     focusedHexagonLocation.y);
+	             g2.draw(focusedHexagon);
+	         }
+			 
+	         //BROUILLARD
+	         for (int row = 0; row < rows; row++) {
+	             for (int column = 1; column < columns; column += 2) {
+	                 //System.out.println("x:"+(int) (column * side * 1.5 )+"y:"+ row * (dimension.height));
+	                 getHexagon((int) (column * side * 1.5), (row * (dimension.height)));
+
+	                 //D�limite un hexagone
+	                 if (mousePosition !=null && hexagone.contains(mousePosition)){
+	                     focusedHexagonLocation.y = row * (dimension.height);
+	                     focusedHexagonLocation.x= (int) (column * side*1.5 );
+	                     number = column * rows + row;
+	                 }
+
+	                 
+	                 Joueur joueur = null; 	
+	                 
+	                 if(GestionMap.getJoueurActuel() == 1)
+	                	 joueur = GestionMap.getJoueur1();
+	                 else if (GestionMap.getJoueurActuel() == 2)
+	                	 joueur = GestionMap.getJoueur2();
+	                 
+	                 //Dessine les images donn�es par la map
+	                 if(joueur.getBrouillard().get(row).get(column)==1){
+	                     drawTile(g2,21,(int)(hexagone.getBounds().x ),
+	                             (int) (hexagone.getBounds().y-20));
+
+	                 }
 
 
 
 
 
+	             }
+	         }
 
 
-        for (int row = 0; row < rows; row++) {
-            for (int column = 1; column < columns; column += 2) {
-                //System.out.println("x:"+(int) (column * side * 1.5 )+"y:"+ row * (dimension.height));
-                getHexagon((int) (column * side * 1.5), (row * (dimension.height)));
+	         for (int row = 0; row < rows; row++) {
+	             for (int column = 0; column < columns; column += 2) {
 
-                //D�limite un hexagone
-                if (mousePosition !=null && hexagone.contains(mousePosition)){
-                    focusedHexagonLocation.y = row * (dimension.height);
-                    focusedHexagonLocation.x= (int) (column * side*1.5 );
-                    number = column * rows + row;
-                }
+	                 getHexagon((int) (column * side * 1.5 ),row * (dimension.height) + dimension.height/ 2
+	                 );
+	                 //D�limite un hexagone :
+	                 if (mousePosition!= null && hexagone.contains(mousePosition)){
+	                     focusedHexagonLocation.y = row * (dimension.height)
+	                             + dimension.height / 2;
+	                     focusedHexagonLocation.x =(int) (column * side * 1.5 );
+	                     number = column * rows + row;
+	                 }
+	                 //Dessine les images donn�es par la map
 
-                //Dessine les images donn�es par la map
-                if(GestionMap.getJoueur1().getBrouillard().get(row).get(column)==1){
-                    drawTile(g2,21,(int)(hexagone.getBounds().x ),
-                            (int) (hexagone.getBounds().y-20));
+	                Joueur joueur = null; 	
+	                
+	                 if(GestionMap.getJoueurActuel() == 1)
+	                	 joueur = GestionMap.getJoueur1();
+	                 else if (GestionMap.getJoueurActuel() == 2)
+	                	 joueur = GestionMap.getJoueur2();
+	                 
+	                 
+	                 if(joueur.getBrouillard().get(row).get(column)==1){
+	                     drawTile(g2,21,(int)(hexagone.getBounds().x ),
+	                             (int) (hexagone.getBounds().y-20));
 
-                }
-
-
-
-
-
-            }
-        }
-
-
-        for (int row = 0; row < rows; row++) {
-            for (int column = 0; column < columns; column += 2) {
-
-                getHexagon((int) (column * side * 1.5 ),row * (dimension.height) + dimension.height/ 2
-                );
-                //D�limite un hexagone :
-                if (mousePosition!= null && hexagone.contains(mousePosition)){
-                    focusedHexagonLocation.y = row * (dimension.height)
-                            + dimension.height / 2;
-                    focusedHexagonLocation.x =(int) (column * side * 1.5 );
-                    number = column * rows + row;
-                }
-                //Dessine les images donn�es par la map
-
-                if(GestionMap.getJoueur1().getBrouillard().get(row).get(column)==1){
-                    drawTile(g2,21,(int)(hexagone.getBounds().x ),
-                            (int) (hexagone.getBounds().y-20));
-
-                }
+	                 }
 
 
 
-            }
-        }
-       
-    }
+	             }
+	         }
+	         //FIN BROUILLARD
+			
+	   }
+    
+	
     //D�finit les coordonn�es des 6 points d'un hexagone
     public Polygon getHexagon(final int x, final int y) {
         hexagone.reset();
@@ -294,5 +357,11 @@ public class Panneau2 extends JPanel{
                 mx*tW, my*tH,  mx*tW+tW, my*tH+tH, this);
         
     }
-    
+    public static Dimension getDimension() {
+  		return dimension;
+  	}
+
+  	public static int getSide() {
+  		return side;
+  	}
 }

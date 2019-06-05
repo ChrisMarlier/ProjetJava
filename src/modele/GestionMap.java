@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 import Unite.*;
@@ -24,6 +25,8 @@ public class GestionMap {
 	static int numeroClic=0;
 	private static int joueurActuel = 1; // !!!!! A CHANGER
 	private static int nbrTourRestant = 0;
+	
+	private static int modeJeu = 2; // 1 IA / 2 2joueurs
 
 
 
@@ -31,26 +34,38 @@ public class GestionMap {
 		//Initialisation et boucle principale du jeu
 		
 		map = new ArrayList<ArrayList<Integer>>();
-		this.chargementMap();
+		this.chargementMap(1);
 		joueur1=new Joueur("joueur1");
 		joueur2=new Joueur("joueur2");
 
 		int i,j;
 		Scanner sc;
 		
-		joueur1.ajouterUnite(new Jeep(0,0));
-		joueur1.ajouterUnite(new Tank(0,18));
-        joueur1.ajouterUnite(new Jeep(6,4));
-        joueur1.ajouterUnite(new Tank(1,0));
-        joueur2.ajouterUnite(new Tank(1,18));
-        joueur2.ajouterUnite(new Tank(2,0));
-        joueur2.ajouterUnite(new Tank(3,0));
-        joueur2.ajouterUnite(new Tank(4,0));
-        joueur2.ajouterUnite(new Tank(5,0));
-        joueur2.ajouterUnite(new Tank(6,0));
+
+
+		joueur1.ajouterUnite(new Jeep(2,1));
+		joueur1.ajouterUnite(new Jeep(3,1));
+		joueur1.ajouterUnite(new Jeep(6,1));
+		joueur1.ajouterUnite(new Jeep(6,3));
+		joueur1.ajouterUnite(new Jeep(7,1));
+        joueur1.ajouterUnite(new Jeep(1,1));
+        joueur1.ajouterUnite(new Tank(4,2));
+        joueur1.ajouterUnite(new Tank(6,6));
+        joueur1.ajouterUnite(new Tank(10,1));
+        joueur1.ajouterUnite(new Tank(9,4));
+        
+        joueur2.ajouterUnite(new Jeep(16,15));
+        joueur2.ajouterUnite(new Jeep(16,16));
+        joueur2.ajouterUnite(new Jeep(15,17));
+        joueur2.ajouterUnite(new Jeep(15,16));
+        joueur2.ajouterUnite(new Tank(9,16));
+        joueur2.ajouterUnite(new Tank(10,16));
+        joueur2.ajouterUnite(new Tank(11,16));
+        joueur2.ajouterUnite(new Tank(11,13));
+        joueur2.ajouterUnite(new Tank(16,10));
+        
         joueur1.initbrouilard();
-        joueur2.getBrouillard();
-		
+        joueur2.initbrouilard();
 
 	}
 	
@@ -70,6 +85,7 @@ public class GestionMap {
 			ennemi = joueur1;
 		}
 		
+		if(modeJeu == 2 || (modeJeu == 1 && joueurActuel ==1)) {
 		//Si le joueur clique sur une de ses unité
 			if( (joueur.piecedanstableau(caseCliquee.getI(), caseCliquee.getJ()) != -1)) {
 				indicePieceSelected=joueur.piecedanstableau(caseCliquee.getI(), caseCliquee.getJ());
@@ -87,11 +103,12 @@ public class GestionMap {
 					Deplacement(joueur, indicePieceSelected, caseCliquee, listedeplacement);
 					//System.out.println(joueur1.getUnites().get(2).getCoordonneeI() + " " + joueur1.getUnites().get(2).getCoordonneeJ());
 					numeroClic=0;
-
 					joueur.calculeB(new Hexagone(joueur.getUnites().get(indicePieceSelected).getCoordonneeI(),
 							joueur.getUnites().get(indicePieceSelected).getCoordonneeJ())
-							,joueur.getUnites().get(indicePieceSelected).getPorteeAtk());
+							,joueur.getUnites().get(indicePieceSelected).getPorteeAtk()+1);
+					effaceListes();
 					indicePieceSelected = -1;
+					
 				}
 				else if(listeAttaque.get(caseCliquee.getJ()).get(caseCliquee.getI()) > 0 && joueur.getPA()>=joueur.getUnites().get(indicePieceSelected).getPtnActionNecessaire()) {
 					System.out.println("A LATAKE");
@@ -106,22 +123,34 @@ public class GestionMap {
 					
 					
 					numeroClic=0;
+					effaceListes();
 					indicePieceSelected = -1;
 				}
 				else
 					System.out.println("Aucun déplacement ou attaque autorisée à cette case");
+				
+
 			}
-		
-		refresh.repaint();
-		refresh2.update();
 			
+			else
+				effaceListes();
+			
+			refresh.repaint();
+			refresh2.update();
+		
+		}
+
+
 			
 		
 	}
 	
-	public void chargementMap() {
+	public void chargementMap(int map) {
 
-		String file = "./Maps/test.txt"; //Chemin de la map e modifier. A CHANGER plus tard
+		String file= "./Maps/test.txt"; 
+		
+		if(map == 1)
+			file = "./Maps/test.txt"; 
 
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			String line;
@@ -135,7 +164,7 @@ public class GestionMap {
 					ListInt.add(Integer.parseInt(ListString.get(i)));
 
 				}
-				//System.out.println(ListInt); //DEBOGAGE
+				System.out.println(ListInt); //DEBOGAGE
 				getMap().add(ListInt); //Et on ajoute la liste a notre map
 			}
 			//System.out.println(getMap());
@@ -165,9 +194,9 @@ public class GestionMap {
 		listDeplacement.get(hexagone.getJ()).add(hexagone.getI(),0);
 		
 		//DEBBOGAGE
-		for(int i=0;i<19;i++){
+		/*for(int i=0;i<19;i++){
 			System.out.println("DepAutorisé:"+listDeplacement.get(i));
-		}
+		}*/
 		
 		return listDeplacement;
 	}
@@ -178,29 +207,21 @@ public class GestionMap {
 		int i = coord.getJ();
 		int j = coord.getI();
 		
-		Scanner sc;
-		//do{
-			/*System.out.println("entrez coodonée case cible:\nI:");
-			sc = new Scanner(System.in);
-			i = sc.nextInt();
-			System.out.println("j:");
-			sc = new Scanner(System.in);
-			j = sc.nextInt();*/
-			//listedeplacement=calculeDeplacementValide(joueur.getUnites().get(indiceC),joueur.getPM());
-		//}while(listedeplacement.get(i).get(j)==0);
+		if(joueur.getPM()-listedeplacement.get(i).get(j) >=0) {
+			joueur.setPM(joueur.getPM()-listedeplacement.get(i).get(j));
+			
+			joueur.getUnites().get(indiceC).setCoordonneeI(coord.getI());//On set l'unité a sa nouvelle position
+			joueur.getUnites().get(indiceC).setCoordonneeJ(coord.getJ());
+			System.out.println("PM restant : "+joueur.getPM());
+		}
 		
-		joueur.setPM(joueur.getPM()-listedeplacement.get(i).get(j));
-		
-		joueur.getUnites().get(indiceC).setCoordonneeI(coord.getI());//On set l'unité a sa nouvelle position
-		joueur.getUnites().get(indiceC).setCoordonneeJ(coord.getJ());
-		System.out.println("PM restant : "+joueur.getPM());
 	}
 
 	private static ArrayList<ArrayList<Integer>> calculeD(ArrayList<ArrayList<Integer>> test, int ptDep, Hexagone hexagone,Unite unite,int pointautiliser){
 		// fonction recursive mettant un a 1 un case du tableau teste si une unite e assez de point de depl	cement pour y aller
 
 		if( ptDep>0 && (joueur1.piecedanstableau(hexagone.getI(),hexagone.getJ())==-1 || joueur1.piecedanstableau(hexagone.getI(),hexagone.getJ())==joueur1.piecedanstableau(unite.getCoordonneeI(),unite.getCoordonneeJ()))
-				&& (joueur2.piecedanstableau(hexagone.getI(),hexagone.getJ())==-1 || joueur1.piecedanstableau(hexagone.getI(),hexagone.getJ())==joueur1.piecedanstableau(unite.getCoordonneeI(),unite.getCoordonneeJ()))){
+				&& (joueur2.piecedanstableau(hexagone.getI(),hexagone.getJ())==-1 || joueur2.piecedanstableau(hexagone.getI(),hexagone.getJ())==joueur2.piecedanstableau(unite.getCoordonneeI(),unite.getCoordonneeJ()))){
 		// premierement on me a 1 la case courante
 
 			if(test.get(hexagone.getJ()).get(hexagone.getI())==0 || test.get(hexagone.getJ()).get(hexagone.getI())>pointautiliser ){
@@ -216,10 +237,10 @@ public class GestionMap {
 
 
 			// puis on remance l'algo sur les hexagone voisin
-			if(hexagone.getI()>0){
+			if(hexagone.getJ()>0){
 				test=calculeD(test, ptDep,hexagone.voisinHaut(),unite,pointautiliser);
 			}
-			if(hexagone.getI()<18){
+			if(hexagone.getJ()<18){
 				test=calculeD(test, ptDep,hexagone.voisinBah(),unite,pointautiliser);
 			}
 
@@ -228,14 +249,14 @@ public class GestionMap {
 			if (hexagone.getJ() > 0 && hexagone.getI() > 0) {
 				test = calculeD(test, ptDep,hexagone.voisinHautGauche(),unite,pointautiliser);
 			}
-			if (hexagone.getJ() < 18 && hexagone.getI() > 0) {
+			if (hexagone.getJ() >0 && hexagone.getI() <18) {
 				test = calculeD(test, ptDep, hexagone.voisinHautdroit(),unite,pointautiliser);
 			}
 
-			if ((hexagone.getJ() > 0 && hexagone.getI() < 18) || (hexagone.getI() == 18)) {
+			if (hexagone.getJ() < 18 && hexagone.getI() > 0) {
 				test = calculeD(test, ptDep,hexagone.voisinBahGauche(),unite,pointautiliser);
 			}
-			if ((hexagone.getJ() < 18 && hexagone.getI() < 18) || (hexagone.getI() == 18 )) {
+			if (hexagone.getJ() < 18 && hexagone.getI() < 18) {
 				test = calculeD(test, ptDep, hexagone.voisinBahDroit(),unite,pointautiliser);
 			}
 		}
@@ -264,9 +285,9 @@ public class GestionMap {
 		listeAttaque.get(hexagone.getJ()).remove(hexagone.getI());
 		listeAttaque.get(hexagone.getJ()).add(hexagone.getI(),0);
 
-		for(int i=0;i<19;i++){
+		/*for(int i=0;i<19;i++){
 			System.out.println("AtkAutorisé: "+listeAttaque.get(i));
-		}
+		}*/
 		return listeAttaque;
 	}
 
@@ -286,28 +307,28 @@ public class GestionMap {
 
 
 			// puis on remance l'algo sur les hexagone voisin
-			if(hexagone.getI()>0){
-				test=calculeA(test, porteAtk,hexagone.voisinHaut(),unite,pointautiliser);
-			}
-			if(hexagone.getI()<18){
-				test=calculeA(test, porteAtk,hexagone.voisinBah(),unite,pointautiliser);
-			}
+						if(hexagone.getJ()>0){
+							test=calculeA(test, porteAtk,hexagone.voisinHaut(),unite,pointautiliser);
+						}
+						if(hexagone.getJ()<18){
+							test=calculeA(test, porteAtk,hexagone.voisinBah(),unite,pointautiliser);
+						}
 
 
-//
-			if (hexagone.getJ() > 0 && hexagone.getI() > 0) {
-				test = calculeA(test, porteAtk,hexagone.voisinHautGauche(),unite,pointautiliser);
-			}
-			if (hexagone.getJ() < 18 && hexagone.getI() > 0) {
-				test = calculeA(test, porteAtk, hexagone.voisinHautdroit(),unite,pointautiliser);
-			}
+			//
+						if (hexagone.getJ() > 0 && hexagone.getI() > 0) {
+							test = calculeA(test, porteAtk,hexagone.voisinHautGauche(),unite,pointautiliser);
+						}
+						if (hexagone.getJ() >0 && hexagone.getI() <18) {
+							test = calculeA(test, porteAtk, hexagone.voisinHautdroit(),unite,pointautiliser);
+						}
 
-			if ((hexagone.getJ() > 0 && hexagone.getI() < 18) || (hexagone.getI() == 18)) {
-				test = calculeA(test, porteAtk,hexagone.voisinBahGauche(),unite,pointautiliser);
-			}
-			if ((hexagone.getJ() < 18 && hexagone.getI() < 18) || (hexagone.getI() == 18 )) {
-				test = calculeA(test, porteAtk, hexagone.voisinBahDroit(),unite,pointautiliser);
-			}
+						if (hexagone.getJ() <18  && hexagone.getI() > 0){
+							test = calculeA(test, porteAtk,hexagone.voisinBahGauche(),unite,pointautiliser);
+						}
+						if (hexagone.getJ() < 18 && hexagone.getI() < 18) {
+							test = calculeA(test, porteAtk, hexagone.voisinBahDroit(),unite,pointautiliser);
+						}
 		}
 		return test;
 	}
@@ -316,9 +337,70 @@ public class GestionMap {
 		//Renvoie le nombre de point de déplacement que coute le numéro de la map envoyé (le numero = le nombre marque dans le fichier map.txt)
 		if(numMap == 1)
 			return 2;
+		else if(numMap == 7)
+			return 1000;
 		else 
 			return 1;
 			
+		
+	}
+	
+	public static void IA() {
+		
+		//Attaque de ce qu'elle peut
+		for(int i=0; i<joueur2.getUnites().size(); i++) {
+			listeAttaque=calculeAtaqueValide(joueur2.getUnites().get(i));
+			
+				for(int j=0; j<listeAttaque.size(); j++) {
+					for(int k=0; k<listeAttaque.get(j).size(); k++) {
+						if(listeAttaque.get(j).get(k) > 0 && joueur2.getPA() - joueur2.getUnites().get(i).getPtnActionNecessaire() >= 0) {
+							//System.out.println("unité " + joueur2.getUnites().get(i).getCoordonneeI() + " " + joueur2.getUnites().get(i).getCoordonneeJ());
+							System.out.println("ATTAQUE EN " + j + " " + k);
+							
+							int indiceEnnemi = joueur1.piecedanstableau(k, j);
+							
+							joueur2.setPA(joueur2.getPA()-joueur2.getUnites().get(i).getPtnActionNecessaire());
+
+							joueur2.getUnites().get(i).attaque(joueur1.getUnites().get(indiceEnnemi));
+							System.out.println(joueur2.getPA());
+							
+							if(joueur1.getUnites().get(indiceEnnemi).getPV()<=0) { //Si l'unité est morte
+								joueur1.supprimerUnite(indiceEnnemi);
+							}
+						}
+					}
+				}
+			
+		}
+		
+		
+		Random rand = new Random();
+		//int nombreAleatoire = rand.nextInt(max - min + 1) + min;
+		int indiceAleat = rand.nextInt((joueur2.getUnites().size()-1) - 0 + 1) + 0;
+		
+		listedeplacement=calculeDeplacementValide(joueur2.getUnites().get(indiceAleat), joueur2.getPM());
+		int deplacementEffectue = 0;
+		
+		for(int i=0; i<listedeplacement.size(); i++) {
+			for(int j=0; j<listedeplacement.get(i).size(); j++) {
+				
+					if(listedeplacement.get(i).get(j) > 0 && deplacementEffectue ==0 && map.get(j).get(i) != 7 ){
+						System.out.println("Déplaccement " +map.get(i).get(j) );
+						System.out.println("aaaaaaa : i : " + i + "j : " + j);
+						caseCliquee.setI(i);
+						caseCliquee.setJ(j);
+						Deplacement(joueur2, indiceAleat, caseCliquee, listedeplacement );
+						deplacementEffectue=1;
+					}
+
+			}
+		}
+		
+		Panneau2 refresh = new Panneau2(GestionMap.getMap().size(),GestionMap.getMap().get(0).size(),16);
+		actionIU refresh2 = new actionIU();
+		
+		passerTour();
+
 		
 	}
 	
@@ -358,6 +440,21 @@ public class GestionMap {
 	}
 	public static int getNbrTourRestant() {
 		return nbrTourRestant;
+	}
+	public static int getModeJeu() {
+		return modeJeu;
+	}
+
+	public static ArrayList<ArrayList<Integer>> getListedeplacement() {
+		return listedeplacement;
+	}
+
+	public static ArrayList<ArrayList<Integer>> getListeAttaque() {
+		return listeAttaque;
+	}
+	public static void effaceListes() {
+		listeAttaque.clear();
+		listedeplacement.clear();
 	}
 
 }
