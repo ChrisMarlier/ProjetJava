@@ -3,18 +3,14 @@ package menu;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import modele.GestionMap;
-import modele.Joueur;
 import visuel.Fenetre;
 import visuel.Panneau;
-
-import java.io.*;
 
 public class BoutonActionListener implements ActionListener {
 
@@ -103,25 +99,7 @@ public class BoutonActionListener implements ActionListener {
 			// TODO Enregistrer(ChargerPartie)
 			System.out.println("Bouton 11 : ChargePartie (Enregistrer)");
 
-			new GestionMap();
-			
-			try {
-				
-				File fichier = new File("saveJ1");
-				ObjectInputStream a = new ObjectInputStream(new FileInputStream(fichier));
-				GestionMap.setJoueur1( (Joueur) a.readObject() );
-				
-				File fichier2 = new File("saveJ2");
-				ObjectInputStream b = new ObjectInputStream(new FileInputStream(fichier2));
-				GestionMap.setJoueur2( (Joueur) b.readObject() );
-				
-				GestionMap.getJoueur1().initbrouilard();
-				GestionMap.getJoueur2().initbrouilard();
-				
-			} catch (Exception e2) {
-				// TODO: handle exception
-			}
-			
+			GestionMap test1 = new GestionMap();
 			// container
 			Runnable gui1 = new Runnable() {
 				public void run() {

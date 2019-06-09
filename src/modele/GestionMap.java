@@ -1,11 +1,6 @@
 package modele;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -23,8 +18,7 @@ import visuel.Panneau2;
 public class GestionMap {
 
 	private static ArrayList<ArrayList<Integer>> map;
-	private static ArrayList<ArrayList<Integer>> map2;
-	private static Joueur joueur1, joueur2,joueursauv;
+	private static Joueur joueur1, joueur2;
 	public static Coord caseCliquee = new Coord();
 	static int indicePieceSelected = -1;
 	static ArrayList<ArrayList<Integer>> listedeplacement= new ArrayList<ArrayList<Integer>>();
@@ -34,7 +28,7 @@ public class GestionMap {
 	private static int joueurActuel = 1; // !!!!! A CHANGER
 	private static int nbrTourRestant = 0;
 	
-	private static int modeJeu = 2; // 1 IA / 2 2joueurs
+	private static int modeJeu = 1; // 1 IA / 2 2joueurs
 
 
 
@@ -59,7 +53,7 @@ public class GestionMap {
 		
 
 
-		joueur1.ajouterUnite(new Jeep(2,1));
+		/*joueur1.ajouterUnite(new Jeep(2,1));
 		joueur1.ajouterUnite(new Jeep(3,1));
 		joueur1.ajouterUnite(new Jeep(6,1));
 		joueur1.ajouterUnite(new Jeep(6,3));
@@ -78,7 +72,11 @@ public class GestionMap {
         joueur2.ajouterUnite(new Tank(10,16));
         joueur2.ajouterUnite(new Tank(11,16));
         joueur2.ajouterUnite(new Tank(11,13));
-        joueur2.ajouterUnite(new Tank(16,10));
+        joueur2.ajouterUnite(new Tank(16,10));*/
+		
+		joueur1.ajouterUnite(new Tank(1,1));
+        joueur2.ajouterUnite(new Tank(2,2));
+
         
         joueur1.initbrouilard();
         joueur2.initbrouilard();
@@ -154,12 +152,19 @@ public class GestionMap {
 			
 			refresh.repaint();
 			refresh2.update();
-		
-		}
-
-
+			
 			
 		
+		}
+		
+		checkFinPartie();
+	}
+	
+	public static void checkFinPartie() {
+		if(joueur1.getUnites().isEmpty())
+			System.out.println("Le joueur 2 à gagné ! Fin de partie !");
+		else if(joueur2.getUnites().isEmpty())
+			System.out.println("Le joueur 1 à gagné ! Fin de partie");
 	}
 	
 	public void chargementMap(int map) {
@@ -415,8 +420,7 @@ public class GestionMap {
 		
 		Panneau2 refresh = new Panneau2(GestionMap.getMap().size(),GestionMap.getMap().get(0).size(),16);
 		actionIU refresh2 = new actionIU();
-		refresh.repaint();
-		refresh2.update();
+		
 		passerTour();
 
 		
@@ -436,26 +440,6 @@ public class GestionMap {
 			System.out.println("C'est au joueur 1 de jouer");
 		}
 		
-	}
-	public static void sauv() {
-		  try
-	        {
-	            FileOutputStream fos = new FileOutputStream("saveJ1");
-	            ObjectOutputStream oos = new ObjectOutputStream(fos);
-	            oos.writeObject(joueur1);
-	            oos.close();
-	            fos.close();
-	            
-	            FileOutputStream fos2 = new FileOutputStream("saveJ2");
-	            ObjectOutputStream oos2 = new ObjectOutputStream(fos2);
-	            oos2.writeObject(joueur2);
-	            oos2.close();
-	            fos2.close();
-	        }
-	        catch (IOException ioe)
-	        {
-	            ioe.printStackTrace();
-	        }
 	}
 
 	public static int getJoueurActuel() {
@@ -496,14 +480,6 @@ public class GestionMap {
 	}
 	public static void setModeJeu(int modeJeu) {
 		GestionMap.modeJeu = modeJeu;
-	}
-
-	public static void setJoueur1(Joueur joueur1) {
-		GestionMap.joueur1 = joueur1;
-	}
-
-	public static void setJoueur2(Joueur joueur2) {
-		GestionMap.joueur2 = joueur2;
 	}
 
 }

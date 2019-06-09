@@ -1,12 +1,6 @@
 package modele;
-
-import java.io.Serializable;
-
-public class Unite implements Serializable{
-    /**
-	 * 
-	 */
-	private int PV;
+public class Unite {
+    private int PV;
     private  int pvMax;
     private  int ptDep;
     private  int ptDepMax;

@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import menu.Jeu;
 import modele.GestionMap;
@@ -18,27 +19,25 @@ public class actionIU implements ActionListener{
 			GestionMap.passerTour();
 			GestionMap.effaceListes();
 			
-			if(GestionMap.getModeJeu() == 1) {
-				System.out.println("C'est à l'ia de jouer");
+			if(GestionMap.getModeJeu() == 1 && !GestionMap.getJoueur1().getUnites().isEmpty() && !GestionMap.getJoueur2().getUnites().isEmpty()) {
 				GestionMap.IA();
 				GestionMap.effaceListes();
-
+				GestionMap.checkFinPartie();
 			}
 			
 			this.update();
 		}
 		
-		if(arg0.getSource() == Panneau.mntmMenu){
+	/*	if(arg0.getSource() == Panneau.mntmMenu){
 			Jeu.instance.setContentPane(Jeu.instance.getMenuPrincipal());
 			Jeu.instance.setBounds(new Rectangle(new Dimension(800,600)));
-			Jeu.instance.dispose();
-			Jeu.instance=null;
-			Jeu jeu = new Jeu("Wargame");
-		} 
+			Jeu.instance.setLocationRelativeTo(null);
+		} */
 		
 		if(arg0.getSource() == Panneau.mntmSauvegarder) {
 			System.out.println("Sauvegarder");
-			GestionMap.sauv();
+	
+			
 		}
 		if(arg0.getSource()== Panneau.mntmQuittere){
 			System.out.println("GoodBye");
