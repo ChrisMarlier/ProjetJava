@@ -11,6 +11,7 @@ import controleur.Coord;
 import controleur.actionIU;
 import menu.FenetreNPartie;
 import menu.FenetreNPartie2;
+import visuel.Fenetre;
 import visuel.Panneau;
 import visuel.Panneau2;
 
@@ -26,7 +27,7 @@ public class GestionMap {
 
 	static int numeroClic=0;
 	private static int joueurActuel = 1; // !!!!! A CHANGER
-	private static int nbrTourRestant = 0;
+	private static int nbrTourRestant = 10;
 	
 	private static int modeJeu = 1; // 1 IA / 2 2joueurs
 
@@ -39,11 +40,11 @@ public class GestionMap {
 		
 		map = new ArrayList<ArrayList<Integer>>();
 		this.chargementMap(1);
-		if(modeJeu==2) {
+		if (modeJeu == 2) {
 		joueur1=new Joueur(FenetreNPartie.titleText2.getText().toString());
 		joueur2=new Joueur(FenetreNPartie.titleText1.getText().toString());
 		}
-		if(modeJeu==1){ //bug ?
+		if(modeJeu == 1) {
 			joueur1=new Joueur(FenetreNPartie2.titleText.getText().toString());
 			joueur2=new Joueur("The Master IA");
 		}
@@ -161,10 +162,19 @@ public class GestionMap {
 	}
 	
 	public static void checkFinPartie() {
-		if(joueur1.getUnites().isEmpty())
-			System.out.println("Le joueur 2 Ã  gagnÃ© ! Fin de partie !");
-		else if(joueur2.getUnites().isEmpty())
-			System.out.println("Le joueur 1 Ã  gagnÃ© ! Fin de partie");
+		actionIU refresh = new actionIU();
+		if(joueur1.getUnites().isEmpty()) {
+			System.out.println("Le joueur 2 a  gagné ! Fin de partie !");
+			Fenetre.Fin();
+			refresh.update2();
+		}
+			
+		else if(joueur2.getUnites().isEmpty()) {
+			System.out.println("Le joueur 1 a  gagné ! Fin de partie");
+			Fenetre.Fin();
+			refresh.update2();
+		}
+			
 	}
 	
 	public void chargementMap(int map) {
@@ -368,7 +378,7 @@ public class GestionMap {
 	}
 	
 	public static void IA() {
-		
+
 		//Attaque de ce qu'elle peut
 		for(int i=0; i<joueur2.getUnites().size(); i++) {
 			listeAttaque=calculeAtaqueValide(joueur2.getUnites().get(i));

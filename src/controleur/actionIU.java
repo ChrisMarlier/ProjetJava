@@ -8,6 +8,8 @@ import java.io.File;
 
 import menu.Jeu;
 import modele.GestionMap;
+import visuel.Fenetre;
+import visuel.FinJeu;
 import visuel.Panneau;
 
 public class actionIU implements ActionListener{
@@ -28,18 +30,28 @@ public class actionIU implements ActionListener{
 			this.update();
 		}
 		
-	/*	if(arg0.getSource() == Panneau.mntmMenu){
+		if(arg0.getSource() == Panneau.mntmMenu){ //BUG ! a modifier
 			Jeu.instance.setContentPane(Jeu.instance.getMenuPrincipal());
 			Jeu.instance.setBounds(new Rectangle(new Dimension(800,600)));
-			Jeu.instance.setLocationRelativeTo(null);
-		} */
+			Jeu.instance.reset();
+			Jeu.instance.dispose();
+			Jeu.instance=null;
+			Jeu Jeu = new Jeu("Wargame");
+		}
 		
 		if(arg0.getSource() == Panneau.mntmSauvegarder) {
 			System.out.println("Sauvegarder");
 	
 			
 		}
-		if(arg0.getSource()== Panneau.mntmQuittere){
+		if(arg0.getSource() == Panneau.mntmQuittere){
+			System.out.println("GoodBye");
+			System.exit(0);
+		}
+		if(arg0.getSource() == FinJeu.btnRetourAuMenu) {
+			//A remplir 
+		}
+		if(arg0.getSource() == FinJeu.btnQuitter) {
 			System.out.println("GoodBye");
 			System.exit(0);
 		}
@@ -84,6 +96,16 @@ public class actionIU implements ActionListener{
 				Panneau.lblNewLabel_9.setText(GestionMap.getJoueur2().getNom());
 			}
 
+	}
+	public void update2() {
+		if (GestionMap.getJoueur1().getUnites().isEmpty()) {
+			FinJeu.lblNewLabel.setText(GestionMap.getJoueur2().getNom());
+			FinJeu.lblNewLabel_1.setText(GestionMap.getJoueur1().getNom());
+		}
+		else {
+			FinJeu.lblNewLabel.setText(GestionMap.getJoueur1().getNom());
+			FinJeu.lblNewLabel_1.setText(GestionMap.getJoueur2().getNom());
+		}
 	}
 
 }
