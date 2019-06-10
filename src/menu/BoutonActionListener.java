@@ -77,8 +77,9 @@ public class BoutonActionListener implements ActionListener {
 		case 9:
 			// TODO Enregistrer(ChargerPartie)
 			System.out.println("Bouton 9 : IA");
-			new GestionMap();
 			GestionMap.setModeJeu(1);
+			new GestionMap();
+			
 			// container
 			Runnable gui = new Runnable() {
 				public void run() {
@@ -119,8 +120,9 @@ public class BoutonActionListener implements ActionListener {
 			break;
 		case 13: 
 			System.out.println("Bouton 13 : multijoueurs");
-			new GestionMap();
 			GestionMap.setModeJeu(2);
+			new GestionMap();
+			
 
 			// container
 			Runnable gui2 = new Runnable() {
