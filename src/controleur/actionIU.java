@@ -29,14 +29,18 @@ public class actionIU implements ActionListener{
 			
 			this.update();
 		}
-		
-		if(arg0.getSource() == Panneau.mntmMenu){ //BUG ! a modifier
+	
+		if(arg0.getSource() == Panneau.mntmMenu){ 
+			Jeu jeu = new Jeu("WarGame");
+			
+			
 			Jeu.instance.setContentPane(Jeu.instance.getMenuPrincipal());
 			Jeu.instance.setBounds(new Rectangle(new Dimension(800,600)));
 			Jeu.instance.reset();
 			Jeu.instance.dispose();
 			Jeu.instance=null;
 			Jeu Jeu = new Jeu("Wargame");
+			
 		}
 		
 		if(arg0.getSource() == Panneau.mntmSauvegarder) {
@@ -47,9 +51,6 @@ public class actionIU implements ActionListener{
 		if(arg0.getSource() == Panneau.mntmQuittere){
 			System.out.println("GoodBye");
 			System.exit(0);
-		}
-		if(arg0.getSource() == FinJeu.btnRetourAuMenu) {
-			//A remplir 
 		}
 		if(arg0.getSource() == FinJeu.btnQuitter) {
 			System.out.println("GoodBye");

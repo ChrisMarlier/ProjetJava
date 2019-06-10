@@ -1,5 +1,6 @@
 package menu;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -12,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import visuel.FinJeu;
 
 public class Jeu extends JFrame {
 
@@ -60,7 +63,8 @@ public class Jeu extends JFrame {
 		
 	}
 
-	private void initCanvas() {
+
+	public void initCanvas() {
 		Dimension d = new Dimension(800, 700);
 		setAutoRequestFocus(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

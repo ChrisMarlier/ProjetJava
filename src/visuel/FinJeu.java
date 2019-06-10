@@ -12,17 +12,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class FinJeu extends JPanel {
-	public static JButton btnRetourAuMenu = new JButton("Retour au menu");
 	public static JButton btnQuitter = new JButton("Quitter");
 	public static JLabel lblNewLabel = new JLabel(""); //Gagnant
 	public static JLabel lblNewLabel_1 = new JLabel(""); //perdant
 	public FinJeu() {
 		SpringLayout springLayout = new SpringLayout();
+		springLayout.putConstraint(SpringLayout.NORTH, btnQuitter, 155, SpringLayout.SOUTH, lblNewLabel_1);
+		springLayout.putConstraint(SpringLayout.EAST, btnQuitter, -443, SpringLayout.EAST, this);
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_1, 201, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_1, -514, SpringLayout.EAST, this);
 		setLayout(springLayout);
 		
 		JLabel lblFinDuJeu = new JLabel("Fin du jeu");
+		springLayout.putConstraint(SpringLayout.WEST, btnQuitter, 0, SpringLayout.WEST, lblFinDuJeu);
 		springLayout.putConstraint(SpringLayout.NORTH, lblFinDuJeu, 51, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, lblFinDuJeu, 332, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, lblFinDuJeu, 523, SpringLayout.WEST, this);
@@ -48,17 +50,6 @@ public class FinJeu extends JPanel {
 		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, 0, SpringLayout.SOUTH, lblLePerdantEst);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.ITALIC, 13));
 		add(lblNewLabel_1);
-		
-
-		btnRetourAuMenu.addActionListener(new actionIU());
-		springLayout.putConstraint(SpringLayout.WEST, btnRetourAuMenu, 276, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnRetourAuMenu, -232, SpringLayout.SOUTH, this);
-		add(btnRetourAuMenu);
-		
-		
-		springLayout.putConstraint(SpringLayout.NORTH, btnQuitter, 0, SpringLayout.NORTH, btnRetourAuMenu);
-		springLayout.putConstraint(SpringLayout.WEST, btnQuitter, 7, SpringLayout.EAST, btnRetourAuMenu);
-		springLayout.putConstraint(SpringLayout.EAST, btnQuitter, 132, SpringLayout.EAST, btnRetourAuMenu);
 		btnQuitter.addActionListener(new actionIU());
 		add(btnQuitter);
 

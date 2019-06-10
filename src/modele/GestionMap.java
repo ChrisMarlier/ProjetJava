@@ -54,7 +54,7 @@ public class GestionMap {
 		
 
 
-		/*joueur1.ajouterUnite(new Jeep(2,1));
+		joueur1.ajouterUnite(new Jeep(2,1));
 		joueur1.ajouterUnite(new Jeep(3,1));
 		joueur1.ajouterUnite(new Jeep(6,1));
 		joueur1.ajouterUnite(new Jeep(6,3));
@@ -73,10 +73,9 @@ public class GestionMap {
         joueur2.ajouterUnite(new Tank(10,16));
         joueur2.ajouterUnite(new Tank(11,16));
         joueur2.ajouterUnite(new Tank(11,13));
-        joueur2.ajouterUnite(new Tank(16,10));*/
+        joueur2.ajouterUnite(new Tank(16,10));
 		
-		joueur1.ajouterUnite(new Tank(1,1));
-        joueur2.ajouterUnite(new Tank(2,2));
+
 
         
         joueur1.initbrouilard();
